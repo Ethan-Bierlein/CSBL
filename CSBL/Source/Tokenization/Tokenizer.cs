@@ -27,6 +27,22 @@ namespace CSBL.Tokenization
             this.TokenDefinitions = tokenDefinitions.ToList();
         }
 
+        /// <summary>
+        /// Tokenize the provided input string into a new list of output
+        /// tokens. The tokenizer works in three stages. 
+        /// 
+        /// 1. In stage one, the list of token definitions is iterated over, 
+        ///    and a sorted dictionary of regex matches and match indices is 
+        ///    built. 
+        /// 
+        /// 2. In the second stage, the sorted dictionary is sorted based on 
+        ///    its keys, which represent match indices, and a list of tokens 
+        ///    is built.  
+        /// 
+        /// 3. Finally, in stage three any invalid tokens within the string 
+        ///    are detected and reported to the user.
+        /// </summary>
+        /// <returns>A list of output tokens.</returns>
         public List<Token> Tokenize()
         {
             SortedDictionary<int, Token> indexedTokens = new SortedDictionary<int, Token>() { };
