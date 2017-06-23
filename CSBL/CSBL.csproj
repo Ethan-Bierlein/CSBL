@@ -50,13 +50,15 @@
     <Compile Include="Source\Tokenization\TokenDefinition.cs" />
     <Compile Include="Source\Tokenization\Tokenizer.cs" />
     <Compile Include="Source\Tokenization\TokenType.cs" />
+    <Compile Include="Source\Transformation\TransformedToken.cs" />
+    <Compile Include="Source\Transformation\TransformedTokenTypes.cs" />
+    <Compile Include="Source\Transformation\Transformer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Source\Interpretation\" />
-    <Folder Include="Source\Transformation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
