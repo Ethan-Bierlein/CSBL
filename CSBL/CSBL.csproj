@@ -46,6 +46,10 @@
   <ItemGroup>
     <Compile Include="Source\EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Reporting\Error.cs" />
+    <Compile Include="Source\Reporting\Errors.cs" />
+    <Compile Include="Source\Reporting\ErrorStage.cs" />
+    <Compile Include="Source\Reporting\ErrorType.cs" />
     <Compile Include="Source\Tokenization\Token.cs" />
     <Compile Include="Source\Tokenization\TokenDefinition.cs" />
     <Compile Include="Source\Tokenization\Tokenizer.cs" />

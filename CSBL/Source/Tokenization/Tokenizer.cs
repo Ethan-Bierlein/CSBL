@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using CSBL.Reporting;
 
 namespace CSBL.Tokenization
 {
@@ -29,18 +30,8 @@ namespace CSBL.Tokenization
 
         /// <summary>
         /// Tokenize the provided input string into a new list of output
-        /// tokens. The tokenizer works in three stages. 
-        /// 
-        /// 1. In stage one, the list of token definitions is iterated over, 
-        ///    and a sorted dictionary of regex matches and match indices is 
-        ///    built. 
-        /// 
-        /// 2. In the second stage, the sorted dictionary is sorted based on 
-        ///    its keys, which represent match indices, and a list of tokens 
-        ///    is built.  
-        /// 
-        /// 3. Finally, in stage three any invalid tokens within the string 
-        ///    are detected and reported to the user.
+        /// tokens. The tokenizer works in three stages, matching, generating
+        /// and validating.
         /// </summary>
         /// <returns>A list of output tokens.</returns>
         public List<Token> Tokenize()
@@ -68,6 +59,7 @@ namespace CSBL.Tokenization
                 outputTokens.Add(keyValuePair.Value);
             }
 
+            bool invalidTokenEncountered = false;
             List<string> lineSplitInputString = this.InputString.Split('\n').ToList();
             for(int lineIndex = 0; lineIndex < lineSplitInputString.Count; lineIndex++)
             {
@@ -84,6 +76,8 @@ namespace CSBL.Tokenization
                     {
                         string invalidToken = "";
                         int lineCopyIndexIncrements = 0;
+                        invalidTokenEncountered = true;
+
                         while(!Regex.IsMatch(lineCopy[lineCopyIndex].ToString(), "\\s"))
                         {
                             invalidToken += lineCopy[lineCopyIndex];
@@ -91,12 +85,18 @@ namespace CSBL.Tokenization
                             lineCopyIndexIncrements++;
                         }
 
-                        Console.WriteLine("Unknown token '{0}' at line {1}, at column {2}.", invalidToken, lineIndex, lineCopyIndex - lineCopyIndexIncrements);
+                        //Console.WriteLine("Unknown token '{0}' at line {1}, at column {2}.", invalidToken, lineIndex, lineCopyIndex - lineCopyIndexIncrements);
+                        Errors.InvalidToken.Report(invalidToken, lineIndex, lineCopyIndex - lineCopyIndexIncrements);
                         continue;
                     }
 
                     lineCopyIndex++;
                 }
+            }
+
+            if(invalidTokenEncountered)
+            {
+                return null;
             }
 
             this.OutputTokens = outputTokens; 
