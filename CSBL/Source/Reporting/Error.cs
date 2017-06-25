@@ -4,9 +4,9 @@ namespace CSBL.Reporting
 {
     public class Error
     {
-        public ErrorStage Stage { get; set; }
-        public ErrorType Type { get; set; }
-        public string Message { get; set; }
+        public ErrorStage Stage { get; private set; }
+        public ErrorType Type { get; private set; }
+        public string Message { get; private set; }
 
         /// <summary>
         /// Constructor for the Error class.

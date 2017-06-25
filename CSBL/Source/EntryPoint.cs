@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CSBL.Tokenization;
 
@@ -13,7 +14,13 @@ namespace CSBL
         public static void Main(string[] args)
         {
             Tokenizer tokenizer = new Tokenizer(
-                @"[+] [-] [*] [/] [<=] [<] [>=] [>] [==] [!=] [|] [^] [&] [~] [<<] [>>] [&&] [||] fugg xD",
+                @" 
+                [+] fugg xD
+                [-] [*] [/] [<=] 
+                [<] [>=] [>] [==] [!=] 
+                [|] [^] 
+                [&] [~] [<<] [>>] [&&] 
+                [||]",
                 new TokenDefinition(TokenType.CodeBlockOpen, new Regex(@"\(")),
                 new TokenDefinition(TokenType.CodeBlockClose, new Regex(@"\)")),
 
@@ -32,7 +39,14 @@ namespace CSBL
             );
 
             Console.ReadLine();
-            tokenizer.Tokenize();
+            List<Token> tokens = tokenizer.Tokenize();
+            if(tokens != null)
+            {
+                foreach(Token token in tokenizer.Tokenize())
+                {
+                    Console.WriteLine("[TOKEN ({0},{1}) -> {2}] = '{3}'", token.Position.Line, token.Position.Column, token.Type, token.Value);
+                }
+            }
             Console.ReadLine();
         }
     }

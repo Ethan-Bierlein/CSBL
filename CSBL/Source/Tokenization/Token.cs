@@ -7,16 +7,19 @@ namespace CSBL.Tokenization
     /// </summary>
     public class Token
     {
+        public TokenPosition Position { get; set; }
         public TokenType Type { get; set; }
         public string Value { get; set; }
 
         /// <summary>
         /// Constructor for the Token class.
         /// </summary>
+        /// <param name="position">The position of the token.</param>
         /// <param name="type">The type of the token.</param>
         /// <param name="value">The value of the token.</param>
-        public Token(TokenType type, string value)
+        public Token(TokenPosition position, TokenType type, string value)
         {
+            this.Position = position;
             this.Type = type;
             this.Value = value;
         }

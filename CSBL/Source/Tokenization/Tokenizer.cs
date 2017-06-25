@@ -23,7 +23,7 @@ namespace CSBL.Tokenization
         /// <param name="tokenDefinitions">The array of all token definitions.</param>
         public Tokenizer(string inputString, params TokenDefinition[] tokenDefinitions)
         {
-            this.InputString = inputString;
+            this.InputString = inputString + "\n ";
             this.OutputTokens = new List<Token>() { };
             this.TokenDefinitions = tokenDefinitions.ToList();
         }
@@ -48,7 +48,28 @@ namespace CSBL.Tokenization
                 {
                     if(!indexedTokens.ContainsKey(match.Index))
                     {
-                        indexedTokens.Add(match.Index, new Token(tokenDefinition.Type, match.Value));
+                        int tokenLine = 1;
+                        int tokenColumn = 1;
+
+                        for(int i = 0; i < this.InputString.Length; i++)
+                        {
+                            if(i == match.Index)
+                            {
+                                break;
+                            }
+
+                            if(this.InputString[i] == '\n')
+                            {
+                                tokenLine++;
+                                tokenColumn = 1;
+                            }
+                            else
+                            {
+                                tokenColumn++;
+                            }
+                        }
+
+                        indexedTokens.Add(match.Index, new Token(new TokenPosition(tokenLine, tokenColumn), tokenDefinition.Type, match.Value));
                     }
                 }
             }
@@ -85,7 +106,6 @@ namespace CSBL.Tokenization
                             lineCopyIndexIncrements++;
                         }
 
-                        //Console.WriteLine("Unknown token '{0}' at line {1}, at column {2}.", invalidToken, lineIndex, lineCopyIndex - lineCopyIndexIncrements);
                         Errors.InvalidToken.Report(invalidToken, lineIndex, lineCopyIndex - lineCopyIndexIncrements);
                         continue;
                     }

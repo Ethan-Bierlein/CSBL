@@ -53,6 +53,7 @@
     <Compile Include="Source\Tokenization\Token.cs" />
     <Compile Include="Source\Tokenization\TokenDefinition.cs" />
     <Compile Include="Source\Tokenization\Tokenizer.cs" />
+    <Compile Include="Source\Tokenization\TokenPosition.cs" />
     <Compile Include="Source\Tokenization\TokenType.cs" />
     <Compile Include="Source\Transformation\TransformedToken.cs" />
     <Compile Include="Source\Transformation\TransformedTokenTypes.cs" />
