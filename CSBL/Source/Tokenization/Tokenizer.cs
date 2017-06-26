@@ -87,7 +87,12 @@ namespace CSBL.Tokenization
                 string lineCopy = lineSplitInputString[lineIndex] + "  ";
                 foreach(Token outputToken in outputTokens)
                 {
-                    lineCopy = lineCopy.Replace(outputToken.Value, new string(' ', outputToken.Value.Length));
+                    if(outputToken.Position.Line - 1 == lineIndex)
+                    {
+                        lineCopy = lineCopy
+                            .Remove(outputToken.Position.Column - 1, outputToken.Value.Length)
+                            .Insert(outputToken.Position.Column - 1, new string(' ', outputToken.Value.Length));
+                    }
                 }
 
                 int lineCopyIndex = 0;

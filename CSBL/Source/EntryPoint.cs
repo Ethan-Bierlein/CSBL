@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CSBL.Tokenization;
+using CSBL.Transformation;
 
 namespace CSBL
 {
@@ -14,13 +15,7 @@ namespace CSBL
         public static void Main(string[] args)
         {
             Tokenizer tokenizer = new Tokenizer(
-                @" 
-                [+] fugg xD
-                [-] [*] [/] [<=] 
-                [<] [>=] [>] [==] [!=] 
-                [|] [^] 
-                [&] [~] [<<] [>>] [&&] 
-                [||]",
+                @"'na' 16 {build-repeated-string} ' ' 'Batman!' {concatenate} [print]",
                 new TokenDefinition(TokenType.CodeBlockOpen, new Regex(@"\(")),
                 new TokenDefinition(TokenType.CodeBlockClose, new Regex(@"\)")),
 
@@ -35,16 +30,42 @@ namespace CSBL
 
                 new TokenDefinition(TokenType.CallOperator, new Regex(@"\[(\<\<|\<\=|\<|\>\>|\>\=|\>|\=\=|\!\=|\&\&|\|\||\||\^|\&|\~|\-\>|\+|\-|\*|\/|)\]")),
                 new TokenDefinition(TokenType.CallFunction, new Regex(@"\[[a-zA-Z0-9_\-]+\]")),
-                new TokenDefinition(TokenType.CallCustomFunction, new Regex(@"{@[a-zA-Z0-9_\-]+}"))
+                new TokenDefinition(TokenType.CallCustomFunction, new Regex(@"{[a-zA-Z0-9_\-]+}"))
             );
 
             Console.ReadLine();
             List<Token> tokens = tokenizer.Tokenize();
             if(tokens != null)
             {
-                foreach(Token token in tokenizer.Tokenize())
+                Console.WriteLine(":: TOKENS ::");
+                foreach(Token token in tokens)
                 {
-                    Console.WriteLine("[TOKEN ({0},{1}) -> {2}] = '{3}'", token.Position.Line, token.Position.Column, token.Type, token.Value);
+                    Console.Write(
+                        "[TOKEN ({0},{1}) -> {2}] = '{3}'", 
+                        token.Position.Line, 
+                        token.Position.Column, 
+                        token.Type, token.Value
+                    );
+                    Console.ReadLine();
+                }
+
+                Transformer transformer = new Transformer(tokens);
+                List<TransformedToken> transformedTokens = transformer.Transform();
+
+                if(transformedTokens != null)
+                {
+                    Console.WriteLine("\n:: TRANSFORMED TOKENS ::");
+                    foreach(TransformedToken transformedToken in transformedTokens)
+                    {
+                        Console.Write(
+                            "[TOKEN ({0},{1}) -> {2}] = ('{3}')",
+                            transformedToken.Position.Line,
+                            transformedToken.Position.Column,
+                            transformedToken.Type,
+                            string.Join("' , '", transformedToken.Data)
+                        );
+                        Console.ReadLine();
+                    }
                 }
             }
             Console.ReadLine();

@@ -39,6 +39,7 @@ namespace CSBL.Transformation
                                 TransformedTokenType.CodeBlockOpen
                             )
                         );
+                        currentTokenIndex++;
                         break;
 
                     case TokenType.CodeBlockClose:
@@ -48,10 +49,12 @@ namespace CSBL.Transformation
                                 TransformedTokenType.CodeBlockClose
                             )
                         );
+                        currentTokenIndex++;
                         break;
 
                     case TokenType.Name:
                         // TODO: Implement.
+                        currentTokenIndex++;
                         break;
 
                     case TokenType.Type:
@@ -62,10 +65,12 @@ namespace CSBL.Transformation
                                 this.InputTokens[currentTokenIndex].Value.Trim('<').Trim('>')
                             )
                         );
+                        currentTokenIndex++;
                         break;
 
                     case TokenType.TypeNameSeparator:
                         // TODO: Implement
+                        currentTokenIndex++;
                         break;
 
                     case TokenType.NumberLiteral:
@@ -76,24 +81,28 @@ namespace CSBL.Transformation
                                 Convert.ToSingle(this.InputTokens[currentTokenIndex].Value)
                             )
                         );
+                        currentTokenIndex++;
                         break;
 
                     case TokenType.StringLiteral:
                         transformedTokens.Add(
                             new TransformedToken(
                                 this.InputTokens[currentTokenIndex].Position,
-                                TransformedTokenType.String, 
-                                this.InputTokens[currentTokenIndex].Value.Trim('"')
+                                TransformedTokenType.String,
+                                this.InputTokens[currentTokenIndex].Value.Trim('"').Trim('\'')
                             )
                         );
+                        currentTokenIndex++;
                         break;
 
                     case TokenType.ArrayOpenLiteral:
                         // TODO: Implement.
+                        currentTokenIndex++;
                         break;
 
                     case TokenType.ArrayCloseLiteral:
                         // TODO: Implement.
+                        currentTokenIndex++;
                         break;
 
                     case TokenType.CallOperator:
@@ -104,6 +113,7 @@ namespace CSBL.Transformation
                                 this.InputTokens[currentTokenIndex].Value.Trim('[').Trim(']')
                             )
                         );
+                        currentTokenIndex++;
                         break;
 
                     case TokenType.CallFunction:
@@ -114,6 +124,7 @@ namespace CSBL.Transformation
                                 this.InputTokens[currentTokenIndex].Value.Trim('[').Trim(']')
                             )
                         );
+                        currentTokenIndex++;
                         break;
 
                     case TokenType.CallCustomFunction:
@@ -121,13 +132,15 @@ namespace CSBL.Transformation
                             new TransformedToken(
                                 this.InputTokens[currentTokenIndex].Position,
                                 TransformedTokenType.CallCustomFunction,
-                                this.InputTokens[currentTokenIndex].Value.Trim('[').Trim(']')
+                                this.InputTokens[currentTokenIndex].Value.Trim('{').Trim('}')
                             )
                         );
+                        currentTokenIndex++;
                         break;
 
                     default:
                         // TODO: Throw error.
+                        currentTokenIndex++;
                         break;
                 }
             }
