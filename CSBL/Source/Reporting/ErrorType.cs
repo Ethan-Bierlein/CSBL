@@ -9,5 +9,6 @@ namespace CSBL.Reporting
     public enum ErrorType
     {
         InvalidToken,
+        UnknownToken,
     }
 }

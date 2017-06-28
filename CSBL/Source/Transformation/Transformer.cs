@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CSBL.Reporting;
 using CSBL.Tokenization;
 
 namespace CSBL.Transformation
@@ -139,7 +140,11 @@ namespace CSBL.Transformation
                         break;
 
                     default:
-                        // TODO: Throw error.
+                        Errors.UnknownToken.Report(
+                            this.InputTokens[currentTokenIndex].Value,
+                            this.InputTokens[currentTokenIndex].Position.Line,
+                            this.InputTokens[currentTokenIndex].Position.Column
+                        );
                         currentTokenIndex++;
                         break;
                 }
