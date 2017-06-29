@@ -18,7 +18,7 @@ namespace CSBL
             Tokenizer tokenizer = new Tokenizer(
                 @"
                 (
-                    'na' @na-count {build-repeated-string} ' ' 'Batman!' {concatenate} [print]
+                    '[na]' @na-count {build-repeated-string} ' ' 'Batman!' {concatenate} [print]
                 ) @batman @na-count::<number> [fn]
 
                 (
@@ -27,21 +27,21 @@ namespace CSBL
 
                 [[ 'a' 'b' 'c' 'd' 'e' ]] {join-array}
                 ",
-                new TokenDefinition(TokenType.CodeBlockOpen, new Regex(@"\(")),
-                new TokenDefinition(TokenType.CodeBlockClose, new Regex(@"\)")),
+                new TokenDefinition(TokenType.CodeBlockOpen, new Regex("\\((?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
+                new TokenDefinition(TokenType.CodeBlockClose, new Regex("\\)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
 
-                new TokenDefinition(TokenType.Type, new Regex(@"<[a-zA-Z0-9_\-]+>")),
-                new TokenDefinition(TokenType.Name, new Regex(@"@[a-zA-Z0-9_\-]+")),
-                new TokenDefinition(TokenType.TypeNameSeparator, new Regex(@"::")),
+                new TokenDefinition(TokenType.Type, new Regex("<[a-zA-Z0-9_\\-]+>(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
+                new TokenDefinition(TokenType.Name, new Regex("@[a-zA-Z0-9_\\-]+(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
+                new TokenDefinition(TokenType.TypeNameSeparator, new Regex("::(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
 
-                new TokenDefinition(TokenType.NumberLiteral, new Regex(@"\b-{0,1}[0-9]+(\.[0-9]*){0,1}\b")),
                 new TokenDefinition(TokenType.StringLiteral, new Regex("(\"[^\"]+\")|('[^']+')")),
-                new TokenDefinition(TokenType.ArrayOpenLiteral, new Regex(@"\[\[")),
-                new TokenDefinition(TokenType.ArrayCloseLiteral, new Regex(@"\]\]")),
+                new TokenDefinition(TokenType.NumberLiteral, new Regex("\b-{0,1}[0-9]+(\\.[0-9]*){0,1}\b(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
+                new TokenDefinition(TokenType.ArrayOpenLiteral, new Regex("\\[\\[(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
+                new TokenDefinition(TokenType.ArrayCloseLiteral, new Regex("\\]\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
 
-                new TokenDefinition(TokenType.CallOperator, new Regex(@"\[(\<\<|\<\=|\<|\>\>|\>\=|\>|\=\=|\!\=|\&\&|\|\||\||\^|\&|\~|\-\>|\+|\-|\*|\/|)\]")),
-                new TokenDefinition(TokenType.CallFunction, new Regex(@"\[[a-zA-Z0-9_\-]+\]")),
-                new TokenDefinition(TokenType.CallCustomFunction, new Regex(@"{[a-zA-Z0-9_\-]+}"))
+                new TokenDefinition(TokenType.CallOperator, new Regex("\\[(\\<\\<|\\<\\=|\\<|\\>\\>|\\>\\=|\\>|\\=\\=|\\!\\=|\\&\\&|\\|\\||\\||\\^|\\&|\\~|\\-\\>|\\+|\\-|\\*|\\/|)\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
+                new TokenDefinition(TokenType.CallFunction, new Regex("\\[[a-zA-Z0-9_\\-]+\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
+                new TokenDefinition(TokenType.CallCustomFunction, new Regex("{[a-zA-Z0-9_\\-]+}(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"))
             );
 
             Console.ReadLine();
@@ -62,7 +62,6 @@ namespace CSBL
 
                 Transformer transformer = new Transformer(tokens);
                 List<TransformedToken> transformedTokens = transformer.Transform();
-
                 if(transformedTokens != null)
                 {
                     Console.WriteLine("\n:: TRANSFORMED TOKENS ::");
