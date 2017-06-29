@@ -28,6 +28,7 @@ namespace CSBL.Transformation
         {
             List<TransformedToken> transformedTokens = new List<TransformedToken>() { };
             int currentTokenIndex = 0;
+            bool errorEncountered = false;
 
             while(currentTokenIndex < this.InputTokens.Count)
             {
@@ -54,8 +55,32 @@ namespace CSBL.Transformation
                         break;
 
                     case TokenType.Name:
-                        // TODO: Implement.
-                        currentTokenIndex++;
+                        if(
+                            this.InputTokens[currentTokenIndex + 1].Type == TokenType.TypeNameSeparator && 
+                            this.InputTokens[currentTokenIndex + 2].Type == TokenType.Type &&
+                            currentTokenIndex <= this.InputTokens.Count - 3
+                        )
+                        {
+                            transformedTokens.Add(
+                                new TransformedToken(
+                                    this.InputTokens[currentTokenIndex].Position,
+                                    TransformedTokenType.TypedName,
+                                    this.InputTokens[currentTokenIndex + 2].Value.Trim('<').Trim('>')
+                                )
+                            );
+                            currentTokenIndex += 3;
+                        }
+                        else
+                        {
+                            transformedTokens.Add(
+                                new TransformedToken(
+                                    this.InputTokens[currentTokenIndex].Position,
+                                    TransformedTokenType.UntypedName,
+                                    this.InputTokens[currentTokenIndex].Value.Trim('@')
+                                )
+                            );
+                            currentTokenIndex++;
+                        }
                         break;
 
                     case TokenType.Type:
@@ -70,7 +95,11 @@ namespace CSBL.Transformation
                         break;
 
                     case TokenType.TypeNameSeparator:
-                        // TODO: Implement
+                        errorEncountered = true;
+                        Errors.MisplacedTypeSeparator.Report(
+                            this.InputTokens[currentTokenIndex].Position.Line,
+                            this.InputTokens[currentTokenIndex].Position.Column
+                        );
                         currentTokenIndex++;
                         break;
 
@@ -140,6 +169,7 @@ namespace CSBL.Transformation
                         break;
 
                     default:
+                        errorEncountered = true;
                         Errors.UnknownToken.Report(
                             this.InputTokens[currentTokenIndex].Value,
                             this.InputTokens[currentTokenIndex].Position.Line,
@@ -148,6 +178,11 @@ namespace CSBL.Transformation
                         currentTokenIndex++;
                         break;
                 }
+            }
+
+            if(errorEncountered)
+            {
+                return null;
             }
 
             this.OutputTokens = transformedTokens;
