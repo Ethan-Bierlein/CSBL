@@ -65,6 +65,7 @@ namespace CSBL.Transformation
                                 new TransformedToken(
                                     this.InputTokens[currentTokenIndex].Position,
                                     TransformedTokenType.TypedName,
+                                    this.InputTokens[currentTokenIndex].Value.Trim('@'),
                                     this.InputTokens[currentTokenIndex + 2].Value.Trim('<').Trim('>')
                                 )
                             );
@@ -126,12 +127,107 @@ namespace CSBL.Transformation
                         break;
 
                     case TokenType.ArrayOpenLiteral:
-                        // TODO: Implement.
+                        List<TransformedToken> arrayLiteralContents = new List<TransformedToken>() { };
+                        TokenPosition arrayStartPosition = this.InputTokens[currentTokenIndex].Position;
+                        currentTokenIndex++;
+
+                        while(this.InputTokens[currentTokenIndex].Type != TokenType.ArrayCloseLiteral)
+                        {
+                            if(
+                                currentTokenIndex == this.InputTokens.Count - 1 && 
+                                this.InputTokens[currentTokenIndex].Type != TokenType.ArrayCloseLiteral
+                            )
+                            {
+                                errorEncountered = true;
+                                Errors.MissingArrayEnd.Report(
+                                    arrayStartPosition.Line,
+                                    arrayStartPosition.Column
+                                );
+                                break;
+                            }
+
+                            if(
+                                this.InputTokens[currentTokenIndex].Type == TokenType.Type ||
+                                this.InputTokens[currentTokenIndex].Type == TokenType.Name ||
+                                this.InputTokens[currentTokenIndex].Type == TokenType.NumberLiteral ||
+                                this.InputTokens[currentTokenIndex].Type == TokenType.StringLiteral
+                            )
+                            {
+                                switch(this.InputTokens[currentTokenIndex].Type)
+                                {
+                                    case TokenType.Type:
+                                        arrayLiteralContents.Add(
+                                            new TransformedToken(
+                                                this.InputTokens[currentTokenIndex].Position,
+                                                TransformedTokenType.Type,
+                                                this.InputTokens[currentTokenIndex].Value.Trim('<').Trim('>')
+                                            )
+                                        );
+                                        currentTokenIndex++;
+                                        break;
+
+                                    case TokenType.Name:
+                                        arrayLiteralContents.Add(
+                                            new TransformedToken(
+                                                this.InputTokens[currentTokenIndex].Position,
+                                                TransformedTokenType.UntypedName,
+                                                this.InputTokens[currentTokenIndex].Value.Trim('@')
+                                            )
+                                        );
+                                        currentTokenIndex++;
+                                        break;
+
+                                    case TokenType.NumberLiteral:
+                                        arrayLiteralContents.Add(
+                                            new TransformedToken(
+                                                this.InputTokens[currentTokenIndex].Position,
+                                                TransformedTokenType.Number,
+                                                Convert.ToSingle(this.InputTokens[currentTokenIndex].Value)
+                                            )
+                                        );
+                                        currentTokenIndex++;
+                                        break;
+
+                                    case TokenType.StringLiteral:
+                                        arrayLiteralContents.Add(
+                                            new TransformedToken(
+                                                this.InputTokens[currentTokenIndex].Position,
+                                                TransformedTokenType.String,
+                                                this.InputTokens[currentTokenIndex].Value.Trim('"').Trim('\'')
+                                            )
+                                        );
+                                        currentTokenIndex++;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                errorEncountered = true;
+                                Errors.UnknownToken.Report(
+                                    this.InputTokens[currentTokenIndex].Value,
+                                    this.InputTokens[currentTokenIndex].Position.Line,
+                                    this.InputTokens[currentTokenIndex].Position.Column
+                                );
+                            }
+                        }
+
+                        transformedTokens.Add(
+                            new TransformedToken(
+                                arrayStartPosition,
+                                TransformedTokenType.Array,
+                                arrayLiteralContents
+                            )
+                        );
+
                         currentTokenIndex++;
                         break;
 
                     case TokenType.ArrayCloseLiteral:
-                        // TODO: Implement.
+                        errorEncountered = true;
+                        Errors.MisplacedArrayEnd.Report(
+                            this.InputTokens[currentTokenIndex].Position.Line,
+                            this.InputTokens[currentTokenIndex].Position.Column
+                        );
                         currentTokenIndex++;
                         break;
 

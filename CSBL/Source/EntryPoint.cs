@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CSBL.Tokenization;
@@ -15,7 +16,17 @@ namespace CSBL
         public static void Main(string[] args)
         {
             Tokenizer tokenizer = new Tokenizer(
-                @"'na' 16 {build-repeated-string} ' ' 'Batman!' {concatenate} [print]",
+                @"
+                (
+                    'na' @na-count {build-repeated-string} ' ' 'Batman!' {concatenate} [print]
+                ) @batman @na-count::<number> [fn]
+
+                (
+                    @array ' ' {join}
+                ) @join-array @array::<array> [fn]
+
+                [[ 'a' 'b' 'c' 'd' 'e' ]] {join-array}
+                ",
                 new TokenDefinition(TokenType.CodeBlockOpen, new Regex(@"\(")),
                 new TokenDefinition(TokenType.CodeBlockClose, new Regex(@"\)")),
 
@@ -62,7 +73,14 @@ namespace CSBL
                             transformedToken.Position.Line,
                             transformedToken.Position.Column,
                             transformedToken.Type,
-                            string.Join("' , '", transformedToken.Data)
+                            string.Join(
+                                "' , '",
+                                transformedToken.Data.Length > 0
+                                    ? transformedToken.Data[0].GetType() == typeof(List<TransformedToken>) 
+                                        ? new string[] { string.Join("' , '", (transformedToken.Data[0] as List<TransformedToken>).Select(t => t.Data[0])) }
+                                        : transformedToken.Data
+                                    : new string[] { }
+                            )
                         );
                         Console.ReadLine();
                     }

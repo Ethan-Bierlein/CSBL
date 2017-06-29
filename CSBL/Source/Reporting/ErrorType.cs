@@ -10,6 +10,8 @@ namespace CSBL.Reporting
     {
         InvalidToken,
         UnknownToken,
-        MisplacedTypeSeparator
+        MisplacedTypeSeparator,
+        MisplacedArrayEnd,
+        MissingArrayEnd,
     }
 }
