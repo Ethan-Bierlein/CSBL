@@ -14,6 +14,8 @@ namespace CSBL.Reporting
         MisplacedArrayEnd,
         MissingArrayEnd,
         
-        UnknownFunction
+        UnknownFunction,
+        UnknownOperator,
+        IncompatibleOperatorTypes
     }
 }

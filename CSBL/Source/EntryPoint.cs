@@ -6,6 +6,7 @@ using CSBL.Tokenization;
 using CSBL.Transformation;
 using CSBL.Interpretation;
 using CSBL.Interpretation.Functions;
+using CSBL.Interpretation.Operators;
 
 namespace CSBL
 {
@@ -41,8 +42,8 @@ namespace CSBL
                 -- 16 {batman} [print]
                 -- [[ 'a' 'b' 'c' 'd' 'e' ]] {join-array} [print]
 
-                1 [print]
-                'This is a test string please ignore.' [print]
+                5 2 [-] [print]
+                'Na' 16 [*] ' Batman!' [+] [print]
                 ",
                 new Regex(@"\-\-.*"),
                 new TokenDefinition(TokenType.CodeBlockOpen, new Regex("\\((?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
@@ -50,6 +51,7 @@ namespace CSBL
                 new TokenDefinition(TokenType.Type, new Regex("<[a-zA-Z0-9_\\-]+>(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.Name, new Regex("@[a-zA-Z0-9_\\-]+(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.TypeNameSeparator, new Regex("::(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
+                new TokenDefinition(TokenType.BoolLiteral, new Regex("\b(true|false)\b")),
                 new TokenDefinition(TokenType.StringLiteral, new Regex("(\"[^\"]+\")|('[^']+')")),
                 new TokenDefinition(TokenType.NumberLiteral, new Regex("((-|\\+?)((\\d+\\.\\d+)|(\\.\\d+)|(\\d+\\.)|(\\d+)))(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.ArrayOpenLiteral, new Regex("\\[\\[(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
@@ -108,6 +110,13 @@ namespace CSBL
                         new Dictionary<string, FunctionBase>()
                         {
                             { "print", new FunctionPRINT() }
+                        },
+                        new Dictionary<string, OperatorBase>()
+                        {
+                            { "+", new OperatorADD() },
+                            { "-", new OperatorSUB() },
+                            { "*", new OperatorMUL() },
+                            { "/", new OperatorDIV() }
                         }
                     );
                     interpreter.Interpret();

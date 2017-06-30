@@ -12,6 +12,7 @@ namespace CSBL.Tokenization
         Type,
         Name,
         TypeNameSeparator,
+        BoolLiteral,
         NumberLiteral,
         StringLiteral,
         ArrayOpenLiteral,

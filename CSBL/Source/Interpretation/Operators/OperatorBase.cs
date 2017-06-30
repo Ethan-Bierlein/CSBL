@@ -1,28 +1,28 @@
 ﻿using System;
 
-namespace CSBL.Interpretation.Functions
+namespace CSBL.Interpretation.Operators
 {
     /// <summary>
-    /// This class serves as the base for functions within CSBL.
+    /// This class serves as the base for operators within CSBL.
     /// </summary>
-    public class FunctionBase
+    public class OperatorBase
     {
         public string Name { get; set; }
 
         /// <summary>
-        /// Constructor for the FunctionBase class.
+        /// Constructor for the OperatorBase class.
         /// </summary>
-        /// <param name="name">The name of the function.</param>
-        public FunctionBase(string name)
+        /// <param name="name">The name of the operator.</param>
+        public OperatorBase(string name)
         {
             this.Name = name;
         }
 
         /// <summary>
-        /// Execute the function.
+        /// Execute the operator.
         /// </summary>
         /// <param name="interpreter">A reference to the current interpreter.</param>
-        /// <param name="intepreterEnvironment">A reference to the current interpreter environment.</param>
+        /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public virtual void Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         { }
     }

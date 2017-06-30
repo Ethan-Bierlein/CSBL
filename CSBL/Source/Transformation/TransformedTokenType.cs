@@ -12,9 +12,10 @@ namespace CSBL.Transformation
         Type,
         TypedName,
         UntypedName,
-        Array,
+        Bool,
         String,
         Number,
+        Array,
         CallOperator,
         CallFunction,
         CallCustomFunction

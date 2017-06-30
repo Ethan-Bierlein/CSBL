@@ -54,6 +54,11 @@
     <Compile Include="Source\Interpretation\Functions\FunctionWHILE.cs" />
     <Compile Include="Source\Interpretation\Interpreter.cs" />
     <Compile Include="Source\Interpretation\InterpreterEnvironment.cs" />
+    <Compile Include="Source\Interpretation\Operators\OperatorADD.cs" />
+    <Compile Include="Source\Interpretation\Operators\OperatorBase.cs" />
+    <Compile Include="Source\Interpretation\Operators\OperatorDIV.cs" />
+    <Compile Include="Source\Interpretation\Operators\OperatorMUL.cs" />
+    <Compile Include="Source\Interpretation\Operators\OperatorSUB.cs" />
     <Compile Include="Source\Reporting\Error.cs" />
     <Compile Include="Source\Reporting\Errors.cs" />
     <Compile Include="Source\Reporting\ErrorStage.cs" />
@@ -70,9 +75,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Source\Interpretation\Operators\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
