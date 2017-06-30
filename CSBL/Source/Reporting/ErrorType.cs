@@ -13,5 +13,7 @@ namespace CSBL.Reporting
         MisplacedTypeSeparator,
         MisplacedArrayEnd,
         MissingArrayEnd,
+        
+        UnknownFunction
     }
 }

@@ -12,5 +12,7 @@ namespace CSBL.Reporting
         public static Error MisplacedTypeSeparator = new Error(ErrorStage.Transformation, ErrorType.MisplacedTypeSeparator, "Misplaced separator at line {1}, column {2}.");
         public static Error MisplacedArrayEnd = new Error(ErrorStage.Transformation, ErrorType.MisplacedArrayEnd, "Misplaced end at line {1}, column {2}.");
         public static Error MissingArrayEnd = new Error(ErrorStage.Transformation, ErrorType.MissingArrayEnd, "Array close for array at line {1}, columnn {2} not found.");
+
+        public static Error UnknownFunction = new Error(ErrorStage.Interpretation, ErrorType.UnknownFunction, "Unknown function '{0} at line {1}, column {2}.");
     }
 }

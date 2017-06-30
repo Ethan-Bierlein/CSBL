@@ -10,7 +10,7 @@ namespace CSBL.Reporting
     {
         Tokenization,
         Transformation,
-        PreEvaluation,
-        Evaluation
+        PreInterpretation,
+        Interpretation
     }
 }

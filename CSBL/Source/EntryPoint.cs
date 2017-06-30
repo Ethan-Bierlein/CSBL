@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CSBL.Tokenization;
 using CSBL.Transformation;
+using CSBL.Interpretation;
+using CSBL.Interpretation.Functions;
 
 namespace CSBL
 {
@@ -20,24 +22,27 @@ namespace CSBL
                 -- This function is used to generate the most famous line from the
                 -- introduction song of the 1966 Batman TV show.
                 -- @na-count - The number of 'na's to generate.
-                (
-                    '[na]' @na-count {build-repeated-string} ' ' 'Batman!' {concatenate}
-                ) @batman @na-count::<number> [fn]
+                -- (
+                --    '[na]' @na-count {build-repeated-string} ' ' 'Batman!' {concatenate}
+                -- ) @batman @na-count::<number> [fn]
 
 
                 -- This function is used to join a provided array of values that may
                 -- or may not be strings and join them together with a delimeter.
                 -- @array     - The array to join together.
                 -- @delimeter - The delimeter to join on.
-                (
-                    @array {to-string} {map} @delimeter {join-to-string}
-                ) @join-array @array::<array> @delimeter::<string> [fn]
+                -- (
+                --    @array {to-string} {map} @delimeter {join-to-string}
+                -- ) @join-array @array::<array> @delimeter::<string> [fn]
 
 
                 -- Call both the {batman} and the {join-array} function and print the
                 -- results of both.
-                16 {batman} [print]
-                [[ 'a' 'b' 'c' 'd' 'e' ]] {join-array} [print]
+                -- 16 {batman} [print]
+                -- [[ 'a' 'b' 'c' 'd' 'e' ]] {join-array} [print]
+
+                1 [print]
+                '2' [print]
                 ",
                 new Regex(@"\-\-.*"),
                 new TokenDefinition(TokenType.CodeBlockOpen, new Regex("\\((?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
@@ -58,6 +63,7 @@ namespace CSBL
             List<Token> tokens = tokenizer.Tokenize();
             if(tokens != null)
             {
+                /*
                 Console.WriteLine(":: TOKENS ::");
                 foreach(Token token in tokens)
                 {
@@ -69,11 +75,13 @@ namespace CSBL
                     );
                     Console.ReadLine();
                 }
+                */
 
                 Transformer transformer = new Transformer(tokens);
                 List<TransformedToken> transformedTokens = transformer.Transform();
                 if(transformedTokens != null)
                 {
+                    /*
                     Console.WriteLine("\n:: TRANSFORMED TOKENS ::");
                     foreach(TransformedToken transformedToken in transformedTokens)
                     {
@@ -93,8 +101,19 @@ namespace CSBL
                         );
                         Console.ReadLine();
                     }
+                    */
+
+                    Interpreter interpreter = new Interpreter(
+                        transformedTokens,
+                        new Dictionary<string, FunctionBase>()
+                        {
+                            { "print", new FunctionPRINT() }
+                        }
+                    );
+                    interpreter.Interpret();
                 }
             }
+
             Console.ReadLine();
         }
     }
