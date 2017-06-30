@@ -20,30 +20,12 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 @"
-                -- This function is used to generate the most famous line from the
-                -- introduction song of the 1966 Batman TV show.
-                -- @na-count - The number of 'na's to generate.
-                -- (
-                --    '[na]' @na-count {build-repeated-string} ' ' 'Batman!' {concatenate}
-                -- ) @batman @na-count::<number> [fn]
-
-
-                -- This function is used to join a provided array of values that may
-                -- or may not be strings and join them together with a delimeter.
-                -- @array     - The array to join together.
-                -- @delimeter - The delimeter to join on.
-                -- (
-                --    @array {to-string} {map} @delimeter {join-to-string}
-                -- ) @join-array @array::<array> @delimeter::<string> [fn]
-
-
-                -- Call both the {batman} and the {join-array} function and print the
-                -- results of both.
-                -- 16 {batman} [print]
-                -- [[ 'a' 'b' 'c' 'd' 'e' ]] {join-array} [print]
-
-                5 2 [-] [print]
-                'Na' 16 [*] ' Batman!' [+] [print]
+                1 2 [<] [print]
+                1 2 [<=] [print]
+                1 2 [>] [print]
+                1 2 [>=] [print]
+                1 2 [==] [print]
+                1 2 [!=] [print]
                 ",
                 new Regex(@"\-\-.*"),
                 new TokenDefinition(TokenType.CodeBlockOpen, new Regex("\\((?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
@@ -65,46 +47,10 @@ namespace CSBL
             List<Token> tokens = tokenizer.Tokenize();
             if(tokens != null)
             {
-                /*
-                Console.WriteLine(":: TOKENS ::");
-                foreach(Token token in tokens)
-                {
-                    Console.Write(
-                        "[TOKEN ({0},{1}) -> {2}] = '{3}'", 
-                        token.Position.Line, 
-                        token.Position.Column, 
-                        token.Type, token.Value
-                    );
-                    Console.ReadLine();
-                }
-                */
-
                 Transformer transformer = new Transformer(tokens);
                 List<TransformedToken> transformedTokens = transformer.Transform();
                 if(transformedTokens != null)
                 {
-                    /*
-                    Console.WriteLine("\n:: TRANSFORMED TOKENS ::");
-                    foreach(TransformedToken transformedToken in transformedTokens)
-                    {
-                        Console.Write(
-                            "[TOKEN ({0},{1}) -> {2}] = ('{3}')",
-                            transformedToken.Position.Line,
-                            transformedToken.Position.Column,
-                            transformedToken.Type,
-                            string.Join(
-                                "' , '",
-                                transformedToken.Data.Length > 0
-                                    ? transformedToken.Data[0].GetType() == typeof(List<TransformedToken>) 
-                                        ? new string[] { string.Join("' , '", (transformedToken.Data[0] as List<TransformedToken>).Select(t => t.Data[0])) }
-                                        : transformedToken.Data
-                                    : new string[] { }
-                            )
-                        );
-                        Console.ReadLine();
-                    }
-                    */
-
                     Interpreter interpreter = new Interpreter(
                         transformedTokens,
                         new Dictionary<string, FunctionBase>()
@@ -116,7 +62,13 @@ namespace CSBL
                             { "+", new OperatorADD() },
                             { "-", new OperatorSUB() },
                             { "*", new OperatorMUL() },
-                            { "/", new OperatorDIV() }
+                            { "/", new OperatorDIV() },
+                            { "<", new OperatorLT() },
+                            { "<=", new OperatorLTE() },
+                            { ">", new OperatorGT() },
+                            { ">=", new OperatorGTE() },
+                            { "==", new OperatorEQ() },
+                            { "!=", new OperatorNEQ() }
                         }
                     );
                     interpreter.Interpret();

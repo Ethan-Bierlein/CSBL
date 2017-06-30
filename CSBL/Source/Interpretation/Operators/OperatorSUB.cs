@@ -43,7 +43,7 @@ namespace CSBL.Interpretation.Operators
                 Errors.IncompatibleOperatorTypes.Report(
                     a.Type,
                     b.Type,
-                    '-',
+                    "-",
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
                 );

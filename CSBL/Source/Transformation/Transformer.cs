@@ -104,6 +104,16 @@ namespace CSBL.Transformation
                         currentTokenIndex++;
                         break;
 
+                    case TokenType.BoolLiteral:
+                        transformedTokens.Add(
+                            new TransformedToken(
+                                this.InputTokens[currentTokenIndex].Position,
+                                TransformedTokenType.Bool,
+                                Convert.ToBoolean(this.InputTokens[currentTokenIndex].Value)
+                            )
+                        );
+                        break;
+
                     case TokenType.NumberLiteral:
                         transformedTokens.Add(
                             new TransformedToken(

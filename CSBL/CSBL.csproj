@@ -57,7 +57,13 @@
     <Compile Include="Source\Interpretation\Operators\OperatorADD.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorBase.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorDIV.cs" />
+    <Compile Include="Source\Interpretation\Operators\OperatorEQ.cs" />
+    <Compile Include="Source\Interpretation\Operators\OperatorGT.cs" />
+    <Compile Include="Source\Interpretation\Operators\OperatorGTE.cs" />
+    <Compile Include="Source\Interpretation\Operators\OperatorLT.cs" />
+    <Compile Include="Source\Interpretation\Operators\OperatorLTE.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorMUL.cs" />
+    <Compile Include="Source\Interpretation\Operators\OperatorNEQ.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorSUB.cs" />
     <Compile Include="Source\Reporting\Error.cs" />
     <Compile Include="Source\Reporting\Errors.cs" />

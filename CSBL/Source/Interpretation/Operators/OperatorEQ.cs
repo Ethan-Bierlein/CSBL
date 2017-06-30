@@ -8,13 +8,13 @@ namespace CSBL.Interpretation.Operators
     /// This class is a subclass of the OperatorBase class and represents
     /// the [+] operator.
     /// </summary>
-    public class OperatorDIV : OperatorBase
+    public class OperatorEQ : OperatorBase
     {
         /// <summary>
         /// Constructor for the OperatorADD class.
         /// </summary>
-        public OperatorDIV()
-            : base("/")
+        public OperatorEQ()
+            : base("==")
         { }
 
         /// <summary>
@@ -27,27 +27,13 @@ namespace CSBL.Interpretation.Operators
             TransformedToken b = interpreterEnvironment.ValueStack.Pop();
             TransformedToken a = interpreterEnvironment.ValueStack.Pop();
 
-            if(a.Type == TransformedTokenType.Number && b.Type == TransformedTokenType.Number)
-            {
-                interpreterEnvironment.ValueStack.Push(
-                    new TransformedToken(
-                        a.Position,
-                        TransformedTokenType.Number,
-                        a.Data[0] / b.Data[0]
-                    )
-                );
-            }
-
-            else
-            {
-                Errors.IncompatibleOperatorTypes.Report(
-                    a.Type,
-                    b.Type,
-                    "/",
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
-                );
-            }
+            interpreterEnvironment.ValueStack.Push(
+                new TransformedToken(
+                    a.Position,
+                    TransformedTokenType.Bool,
+                    a.Data == b.Data
+                )
+            );
         }
     }
 }
