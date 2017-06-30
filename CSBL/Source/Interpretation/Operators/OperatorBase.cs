@@ -23,7 +23,9 @@ namespace CSBL.Interpretation.Operators
         /// </summary>
         /// <param name="interpreter">A reference to the current interpreter.</param>
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
-        public virtual void Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
-        { }
+        public virtual bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
+        {
+            return true;
+        }
     }
 }

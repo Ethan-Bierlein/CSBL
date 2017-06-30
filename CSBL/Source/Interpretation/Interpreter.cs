@@ -33,6 +33,11 @@ namespace CSBL.Interpretation
             this.Environment = new InterpreterEnvironment();
         }
 
+        public void PreInterpret()
+        {
+
+        }
+
         public void Interpret()
         {
             while(this.Environment.CurrentTokenIndex < this.InputTokens.Count)
@@ -55,7 +60,11 @@ namespace CSBL.Interpretation
                         {
                             if(this.Operators.ContainsKey(currentToken.Data[0]))
                             {
-                                this.Operators[currentToken.Data[0]].Execute(this, this.Environment);
+                                bool success = this.Operators[currentToken.Data[0]].Execute(this, this.Environment);
+                                if(!success)
+                                {
+                                    return;
+                                }
                             }
                             else
                             {
@@ -75,7 +84,11 @@ namespace CSBL.Interpretation
                         {
                             if(this.Functions.ContainsKey(currentToken.Data[0]))
                             {
-                                this.Functions[currentToken.Data[0]].Execute(this, this.Environment);
+                                bool success = this.Functions[currentToken.Data[0]].Execute(this, this.Environment);
+                                if(!success)
+                                {
+                                    return;
+                                }
                             }
                             else
                             {
@@ -94,7 +107,7 @@ namespace CSBL.Interpretation
                         break;
 
                     case TransformedTokenType.CallCustomFunction:
-                        // TODO: Implement:
+                        // TODO: Implement.
                         break;
 
                     default:

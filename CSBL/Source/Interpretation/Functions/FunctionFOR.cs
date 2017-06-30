@@ -21,9 +21,9 @@ namespace CSBL.Interpretation.Functions
         /// </summary>
         /// <param name="interpreter">A reference to the current interpreter.</param>
         /// <param name="intepreterEnvironment">A reference to the current interpreter environment.</param>
-        public override void Execute(Interpreter interpreter, InterpreterEnvironment intepreterEnvironment)
+        public override bool Execute(Interpreter interpreter, InterpreterEnvironment intepreterEnvironment)
         {
-
+            return false;
         }
     }
 }

@@ -24,6 +24,10 @@ namespace CSBL.Transformation
             this.OutputTokens = new List<TransformedToken>() { };
         }
 
+        /// <summary>
+        /// Transform the list of input tokens into a list of transformed tokens.
+        /// </summary>
+        /// <returns>A list of transformed tokens.</returns>
         public List<TransformedToken> Transform()
         {
             List<TransformedToken> transformedTokens = new List<TransformedToken>() { };

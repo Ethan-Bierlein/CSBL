@@ -20,12 +20,6 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 @"
-                1 2 [<] true [&&] [print]
-                1 2 [<=] [print]
-                1 2 [>] [print]
-                1 2 [>=] [print]
-                1 2 [==] [print]
-                1 2 [!=] [print]
                 ",
                 new Regex(@"\-\-.*"),
                 new TokenDefinition(TokenType.CodeBlockOpen, new Regex("\\((?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
@@ -55,7 +49,11 @@ namespace CSBL
                         transformedTokens,
                         new Dictionary<string, FunctionBase>()
                         {
-                            { "print", new FunctionPRINT() }
+                            { "print", new FunctionPRINT() },
+                            { "fn", new FunctionFN() },
+                            { "if", new FunctionIF() },
+                            { "for", new FunctionFOR() },
+                            { "while", new FunctionWHILE() }
                         },
                         new Dictionary<string, OperatorBase>()
                         {
@@ -73,6 +71,7 @@ namespace CSBL
                             { "||", new OperatorBOR() }
                         }
                     );
+                    interpreter.PreInterpret();
                     interpreter.Interpret();
                 }
             }

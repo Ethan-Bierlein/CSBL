@@ -22,7 +22,7 @@ namespace CSBL.Interpretation.Operators
         /// </summary>
         /// <param name="interpreter">A reference to the current interpreter.</param>
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
-        public override void Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
+        public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
             TransformedToken b = interpreterEnvironment.ValueStack.Pop();
             TransformedToken a = interpreterEnvironment.ValueStack.Pop();
@@ -34,6 +34,8 @@ namespace CSBL.Interpretation.Operators
                     a.Data == b.Data
                 )
             );
+
+            return true;
         }
     }
 }
