@@ -47,7 +47,11 @@
     <Compile Include="Source\EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionBase.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionFN.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionFOR.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionIF.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionPRINT.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionWHILE.cs" />
     <Compile Include="Source\Interpretation\Interpreter.cs" />
     <Compile Include="Source\Interpretation\InterpreterEnvironment.cs" />
     <Compile Include="Source\Reporting\Error.cs" />

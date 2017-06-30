@@ -5,15 +5,15 @@ namespace CSBL.Interpretation.Functions
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [print] function.
+    /// the [if] function.
     /// </summary>
-    public class FunctionPRINT : FunctionBase
+    public class FunctionIF : FunctionBase
     {
         /// <summary>
-        /// Constructor for the FunctionPRINT class.
+        /// Constructor for the FunctionIF class.
         /// </summary>
-        public FunctionPRINT()
-            : base("print")
+        public FunctionIF()
+            : base("if")
         { }
 
         /// <summary>
@@ -21,10 +21,9 @@ namespace CSBL.Interpretation.Functions
         /// </summary>
         /// <param name="interpreter">A reference to the current interpreter.</param>
         /// <param name="intepreterEnvironment">A reference to the current interpreter environment.</param>
-        public override void Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
+        public override void Execute(Interpreter interpreter, InterpreterEnvironment intepreterEnvironment)
         {
-            Console.WriteLine(string.Join(" ", interpreterEnvironment.ValueStack.Pop().Data));
-            interpreterEnvironment.CurrentTokenIndex++;
+
         }
     }
 }

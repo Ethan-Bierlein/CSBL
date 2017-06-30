@@ -42,7 +42,7 @@ namespace CSBL
                 -- [[ 'a' 'b' 'c' 'd' 'e' ]] {join-array} [print]
 
                 1 [print]
-                '2' [print]
+                'This is a test string please ignore.' [print]
                 ",
                 new Regex(@"\-\-.*"),
                 new TokenDefinition(TokenType.CodeBlockOpen, new Regex("\\((?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
