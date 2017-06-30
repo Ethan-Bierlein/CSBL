@@ -25,6 +25,56 @@ namespace CSBL.Transformation
         }
 
         /// <summary>
+        /// Add a token to the list of transformed token.
+        /// </summary>
+        /// <param name="transformedTokens">A reference to the current list of transformed tokens.</param>
+        /// <param name="tokenPosition">The position of the token to add.</param>
+        /// <param name="tokenType">The type of the token to add.</param>
+        /// <param name="tokenData">The data of the token to add.</param>
+        private void AddToken(
+            ref List<TransformedToken> transformedTokens,
+            TokenPosition tokenPosition,
+            TransformedTokenType tokenType,
+            params dynamic[] tokenData
+        )
+        {
+            transformedTokens.Add(
+                new TransformedToken(
+                    tokenPosition,
+                    tokenType,
+                    tokenData
+                )
+            );
+        }
+
+        /// <summary>
+        /// Add a token to the list of transformed tokens and increment the 
+        /// current token index.
+        /// </summary>
+        /// <param name="transformedTokens">A reference to the current list of transformed tokens.</param>
+        /// <param name="currentTokenIndex">A reference to the current token index.</param>
+        /// <param name="tokenPosition">The position of the token to add.</param>
+        /// <param name="tokenType">The type of the token to add.</param>
+        /// <param name="tokenData">The data of the token to add.</param>
+        private void AddTokenAndIncrement(
+            ref List<TransformedToken> transformedTokens,
+            ref int currentTokenIndex,
+            TokenPosition tokenPosition, 
+            TransformedTokenType tokenType, 
+            params dynamic[] tokenData
+        )
+        {
+            currentTokenIndex++;
+            transformedTokens.Add(
+                new TransformedToken(
+                    tokenPosition,
+                    tokenType,
+                    tokenData
+                )
+            );
+        }
+
+        /// <summary>
         /// Transform the list of input tokens into a list of transformed tokens.
         /// </summary>
         /// <returns>A list of transformed tokens.</returns>
@@ -39,23 +89,21 @@ namespace CSBL.Transformation
                 switch(this.InputTokens[currentTokenIndex].Type)
                 {
                     case TokenType.CodeBlockOpen:
-                        transformedTokens.Add(
-                            new TransformedToken(
-                                this.InputTokens[currentTokenIndex].Position, 
-                                TransformedTokenType.CodeBlockOpen
-                            )
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens, 
+                            ref currentTokenIndex, 
+                            this.InputTokens[currentTokenIndex].Position, 
+                            TransformedTokenType.CodeBlockOpen
                         );
-                        currentTokenIndex++;
                         break;
 
                     case TokenType.CodeBlockClose:
-                        transformedTokens.Add(
-                            new TransformedToken(
-                                this.InputTokens[currentTokenIndex].Position,
-                                TransformedTokenType.CodeBlockClose
-                            )
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens,
+                            ref currentTokenIndex,
+                            this.InputTokens[currentTokenIndex].Position,
+                            TransformedTokenType.CodeBlockClose
                         );
-                        currentTokenIndex++;
                         break;
 
                     case TokenType.Name:
@@ -65,38 +113,35 @@ namespace CSBL.Transformation
                             currentTokenIndex <= this.InputTokens.Count - 3
                         )
                         {
-                            transformedTokens.Add(
-                                new TransformedToken(
-                                    this.InputTokens[currentTokenIndex].Position,
-                                    TransformedTokenType.TypedName,
-                                    this.InputTokens[currentTokenIndex].Value.Trim('@'),
-                                    this.InputTokens[currentTokenIndex + 2].Value.Trim('<').Trim('>')
-                                )
+                            this.AddToken(
+                                ref transformedTokens,
+                                this.InputTokens[currentTokenIndex].Position,
+                                TransformedTokenType.TypedName,
+                                this.InputTokens[currentTokenIndex].Value.Trim('@'),
+                                this.InputTokens[currentTokenIndex + 2].Value.Trim('<').Trim('>')
                             );
                             currentTokenIndex += 3;
                         }
                         else
                         {
-                            transformedTokens.Add(
-                                new TransformedToken(
-                                    this.InputTokens[currentTokenIndex].Position,
-                                    TransformedTokenType.UntypedName,
-                                    this.InputTokens[currentTokenIndex].Value.Trim('@')
-                                )
+                            this.AddTokenAndIncrement(
+                                ref transformedTokens,
+                                ref currentTokenIndex,
+                                this.InputTokens[currentTokenIndex].Position,
+                                TransformedTokenType.UntypedName,
+                                this.InputTokens[currentTokenIndex].Value.Trim('@')
                             );
-                            currentTokenIndex++;
                         }
                         break;
 
                     case TokenType.Type:
-                        transformedTokens.Add(
-                            new TransformedToken(
-                                this.InputTokens[currentTokenIndex].Position,
-                                TransformedTokenType.Type, 
-                                this.InputTokens[currentTokenIndex].Value.Trim('<').Trim('>')
-                            )
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens,
+                            ref currentTokenIndex,
+                            this.InputTokens[currentTokenIndex].Position,
+                            TransformedTokenType.Type, 
+                            this.InputTokens[currentTokenIndex].Value.Trim('<').Trim('>')
                         );
-                        currentTokenIndex++;
                         break;
 
                     case TokenType.TypeNameSeparator:
@@ -109,36 +154,33 @@ namespace CSBL.Transformation
                         break;
 
                     case TokenType.BoolLiteral:
-                        transformedTokens.Add(
-                            new TransformedToken(
-                                this.InputTokens[currentTokenIndex].Position,
-                                TransformedTokenType.Bool,
-                                this.InputTokens[currentTokenIndex].Value == "true" ? true : false
-                            )
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens,
+                            ref currentTokenIndex,
+                            this.InputTokens[currentTokenIndex].Position,
+                            TransformedTokenType.Bool,
+                            this.InputTokens[currentTokenIndex].Value == "true" ? true : false
                         );
-                        currentTokenIndex++;
                         break;
 
                     case TokenType.NumberLiteral:
-                        transformedTokens.Add(
-                            new TransformedToken(
-                                this.InputTokens[currentTokenIndex].Position,
-                                TransformedTokenType.Number, 
-                                Convert.ToSingle(this.InputTokens[currentTokenIndex].Value)
-                            )
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens,
+                            ref currentTokenIndex,
+                            this.InputTokens[currentTokenIndex].Position,
+                            TransformedTokenType.Number, 
+                            Convert.ToSingle(this.InputTokens[currentTokenIndex].Value)
                         );
-                        currentTokenIndex++;
                         break;
 
                     case TokenType.StringLiteral:
-                        transformedTokens.Add(
-                            new TransformedToken(
-                                this.InputTokens[currentTokenIndex].Position,
-                                TransformedTokenType.String,
-                                this.InputTokens[currentTokenIndex].Value.Trim('"').Trim('\'')
-                            )
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens,
+                            ref currentTokenIndex,
+                            this.InputTokens[currentTokenIndex].Position,
+                            TransformedTokenType.String,
+                            this.InputTokens[currentTokenIndex].Value.Trim('"').Trim('\'')
                         );
-                        currentTokenIndex++;
                         break;
 
                     case TokenType.ArrayOpenLiteral:
@@ -238,15 +280,13 @@ namespace CSBL.Transformation
                             }
                         }
 
-                        transformedTokens.Add(
-                            new TransformedToken(
-                                arrayStartPosition,
-                                TransformedTokenType.Array,
-                                arrayLiteralContents
-                            )
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens,
+                            ref currentTokenIndex,
+                            arrayStartPosition,
+                            TransformedTokenType.Array,
+                            arrayLiteralContents
                         );
-
-                        currentTokenIndex++;
                         break;
 
                     case TokenType.ArrayCloseLiteral:
@@ -259,36 +299,33 @@ namespace CSBL.Transformation
                         break;
 
                     case TokenType.CallOperator:
-                        transformedTokens.Add(
-                            new TransformedToken(
-                                this.InputTokens[currentTokenIndex].Position,
-                                TransformedTokenType.CallOperator, 
-                                this.InputTokens[currentTokenIndex].Value.Trim('[').Trim(']')
-                            )
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens,
+                            ref currentTokenIndex,
+                            this.InputTokens[currentTokenIndex].Position,
+                            TransformedTokenType.CallOperator, 
+                            this.InputTokens[currentTokenIndex].Value.Trim('[').Trim(']')
                         );
-                        currentTokenIndex++;
                         break;
 
                     case TokenType.CallFunction:
-                        transformedTokens.Add(
-                            new TransformedToken(
-                                this.InputTokens[currentTokenIndex].Position,
-                                TransformedTokenType.CallFunction,
-                                this.InputTokens[currentTokenIndex].Value.Trim('[').Trim(']')
-                            )
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens,
+                            ref currentTokenIndex,
+                            this.InputTokens[currentTokenIndex].Position,
+                            TransformedTokenType.CallFunction,
+                            this.InputTokens[currentTokenIndex].Value.Trim('[').Trim(']')
                         );
-                        currentTokenIndex++;
                         break;
 
                     case TokenType.CallCustomFunction:
-                        transformedTokens.Add(
-                            new TransformedToken(
-                                this.InputTokens[currentTokenIndex].Position,
-                                TransformedTokenType.CallCustomFunction,
-                                this.InputTokens[currentTokenIndex].Value.Trim('{').Trim('}')
-                            )
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens,
+                            ref currentTokenIndex,
+                            this.InputTokens[currentTokenIndex].Position,
+                            TransformedTokenType.CallCustomFunction,
+                            this.InputTokens[currentTokenIndex].Value.Trim('{').Trim('}')
                         );
-                        currentTokenIndex++;
                         break;
 
                     default:
