@@ -6,12 +6,12 @@ namespace CSBL.Interpretation.Operators
 {
     /// <summary>
     /// This class is a subclass of the OperatorBase class and represents
-    /// the [+] operator.
+    /// the [/] operator.
     /// </summary>
     public class OperatorDIV : OperatorBase
     {
         /// <summary>
-        /// Constructor for the OperatorADD class.
+        /// Constructor for the OperatorDIV class.
         /// </summary>
         public OperatorDIV()
             : base("/")

@@ -109,9 +109,10 @@ namespace CSBL.Transformation
                             new TransformedToken(
                                 this.InputTokens[currentTokenIndex].Position,
                                 TransformedTokenType.Bool,
-                                Convert.ToBoolean(this.InputTokens[currentTokenIndex].Value)
+                                this.InputTokens[currentTokenIndex].Value == "true" ? true : false
                             )
                         );
+                        currentTokenIndex++;
                         break;
 
                     case TokenType.NumberLiteral:
@@ -159,6 +160,7 @@ namespace CSBL.Transformation
                             if(
                                 this.InputTokens[currentTokenIndex].Type == TokenType.Type ||
                                 this.InputTokens[currentTokenIndex].Type == TokenType.Name ||
+                                this.InputTokens[currentTokenIndex].Type == TokenType.BoolLiteral ||
                                 this.InputTokens[currentTokenIndex].Type == TokenType.NumberLiteral ||
                                 this.InputTokens[currentTokenIndex].Type == TokenType.StringLiteral
                             )
@@ -182,6 +184,17 @@ namespace CSBL.Transformation
                                                 this.InputTokens[currentTokenIndex].Position,
                                                 TransformedTokenType.UntypedName,
                                                 this.InputTokens[currentTokenIndex].Value.Trim('@')
+                                            )
+                                        );
+                                        currentTokenIndex++;
+                                        break;
+
+                                    case TokenType.BoolLiteral:
+                                        arrayLiteralContents.Add(
+                                            new TransformedToken(
+                                                this.InputTokens[currentTokenIndex].Position,
+                                                TransformedTokenType.Bool,
+                                                this.InputTokens[currentTokenIndex].Value == "true" ? true : false
                                             )
                                         );
                                         currentTokenIndex++;

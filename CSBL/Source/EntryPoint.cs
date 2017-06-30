@@ -20,7 +20,7 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 @"
-                1 2 [<] [print]
+                1 2 [<] true [&&] [print]
                 1 2 [<=] [print]
                 1 2 [>] [print]
                 1 2 [>=] [print]
@@ -33,7 +33,7 @@ namespace CSBL
                 new TokenDefinition(TokenType.Type, new Regex("<[a-zA-Z0-9_\\-]+>(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.Name, new Regex("@[a-zA-Z0-9_\\-]+(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.TypeNameSeparator, new Regex("::(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
-                new TokenDefinition(TokenType.BoolLiteral, new Regex("\b(true|false)\b")),
+                new TokenDefinition(TokenType.BoolLiteral, new Regex("(true|false)")),
                 new TokenDefinition(TokenType.StringLiteral, new Regex("(\"[^\"]+\")|('[^']+')")),
                 new TokenDefinition(TokenType.NumberLiteral, new Regex("((-|\\+?)((\\d+\\.\\d+)|(\\.\\d+)|(\\d+\\.)|(\\d+)))(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.ArrayOpenLiteral, new Regex("\\[\\[(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
@@ -68,7 +68,9 @@ namespace CSBL
                             { ">", new OperatorGT() },
                             { ">=", new OperatorGTE() },
                             { "==", new OperatorEQ() },
-                            { "!=", new OperatorNEQ() }
+                            { "!=", new OperatorNEQ() },
+                            { "&&", new OperatorBAND() },
+                            { "||", new OperatorBOR() }
                         }
                     );
                     interpreter.Interpret();

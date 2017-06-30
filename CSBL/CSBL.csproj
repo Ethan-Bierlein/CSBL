@@ -55,7 +55,9 @@
     <Compile Include="Source\Interpretation\Interpreter.cs" />
     <Compile Include="Source\Interpretation\InterpreterEnvironment.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorADD.cs" />
+    <Compile Include="Source\Interpretation\Operators\OperatorBAND.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorBase.cs" />
+    <Compile Include="Source\Interpretation\Operators\OperatorBOR.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorDIV.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorEQ.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorGT.cs" />

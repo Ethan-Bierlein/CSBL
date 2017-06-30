@@ -6,12 +6,12 @@ namespace CSBL.Interpretation.Operators
 {
     /// <summary>
     /// This class is a subclass of the OperatorBase class and represents
-    /// the [+] operator.
+    /// the [&lt;] operator.
     /// </summary>
     public class OperatorLT : OperatorBase
     {
         /// <summary>
-        /// Constructor for the OperatorADD class.
+        /// Constructor for the OperatorLT class.
         /// </summary>
         public OperatorLT()
             : base("<")

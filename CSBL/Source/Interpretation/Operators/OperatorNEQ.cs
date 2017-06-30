@@ -6,12 +6,12 @@ namespace CSBL.Interpretation.Operators
 {
     /// <summary>
     /// This class is a subclass of the OperatorBase class and represents
-    /// the [+] operator.
+    /// the [!=] operator.
     /// </summary>
     public class OperatorNEQ : OperatorBase
     {
         /// <summary>
-        /// Constructor for the OperatorADD class.
+        /// Constructor for the OperatorNE class.
         /// </summary>
         public OperatorNEQ()
             : base("!=")
