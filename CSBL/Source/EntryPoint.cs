@@ -20,15 +20,78 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 @"
+                '' [print] 
+                ':: ADD ::' [print]
+                3 4 [+] [print]
+                2 2 [+] [print]
+                'a' 'b' [+] [print]
+                'b' 'c' [+] [print]
+
+                '' [print]
+                ':: SUB ::' [print]
+                2 2 [-] [print]
+                3 4 [-] [print]
+
+                '' [print]
+                ':: MUL ::' [print]
+                5 3 [*] [print]
+                2 2 [*] [print]
+                'a' 3 [*] [print]
+                'b' 4 [*] [print]
+
+                '' [print]
+                ':: DIV ::' [print]
+                9 3 [/] [print]
+                4 2 [/] [print]
+
+                '' [print]
+                ':: LT ::' [print]
+                1 1 [<] [print]
+                5 9 [<] [print]
+
+                '' [print]
+                ':: LTE ::' [print]
+                2 2 [<=] [print]
+                4 9 [<=] [print]
+
+                '' [print]
+                ':: GT ::' [print]
+                3 2 [>] [print]
+                5 2 [>] [print]
+
+                '' [print]
+                ':: GTE ::' [print]
+                3 3 [>=] [print]
+                1 0 [>=] [print]
+
+                '' [print]
+                ':: EQ ::' [print]
+                9 9 [==] [print]
+                1 1 [==] [print]
+                
+                '' [print]
+                ':: NEQ ::' [print]
+                8 7 [!=] [print]
+                1 1 [!=] [print]
+
+                '' [print]
+                ':: B-AND ::' [print]
+                true true [&&] [print]
+                false true [&&] [print]
+
+                '' [print]
+                ':: B-OR ::' [print]
+                true false [||] [print]
+                false false [||] [print]
                 ",
-                new Regex(@"\-\-.*"),
+                new Regex("\\-\\-.*(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"),
                 new TokenDefinition(TokenType.CodeBlockOpen, new Regex("\\((?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.CodeBlockClose, new Regex("\\)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.Type, new Regex("<[a-zA-Z0-9_\\-]+>(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.Name, new Regex("@[a-zA-Z0-9_\\-]+(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.TypeNameSeparator, new Regex("::(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.BoolLiteral, new Regex("(true|false)")),
-                new TokenDefinition(TokenType.StringLiteral, new Regex("(\"[^\"]+\")|('[^']+')")),
+                new TokenDefinition(TokenType.StringLiteral, new Regex("(\"[^\"]*\")|('[^']*')")),
                 new TokenDefinition(TokenType.NumberLiteral, new Regex("((-|\\+?)((\\d+\\.\\d+)|(\\.\\d+)|(\\d+\\.)|(\\d+)))(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.ArrayOpenLiteral, new Regex("\\[\\[(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.ArrayCloseLiteral, new Regex("\\]\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
