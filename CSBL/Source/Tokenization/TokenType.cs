@@ -9,17 +9,13 @@ namespace CSBL.Tokenization
     {
         CodeBlockOpen,
         CodeBlockClose,
-
         Type,
         Name,
         TypeNameSeparator,
-
         NumberLiteral,
         StringLiteral,
         ArrayOpenLiteral,
         ArrayCloseLiteral,
-        ArrayValueSeparator,
-
         CallOperator,
         CallFunction,
         CallCustomFunction

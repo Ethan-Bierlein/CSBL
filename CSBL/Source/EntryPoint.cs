@@ -17,28 +17,38 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 @"
+                -- This function is used to generate the most famous line from the
+                -- introduction song of the 1966 Batman TV show.
+                -- @na-count - The number of 'na's to generate.
                 (
-                    '[na]' @na-count {build-repeated-string} ' ' 'Batman!' {concatenate} [print]
+                    '[na]' @na-count {build-repeated-string} ' ' 'Batman!' {concatenate}
                 ) @batman @na-count::<number> [fn]
 
-                (
-                    @array ' ' {join}
-                ) @join-array @array::<array> [fn]
 
-                [[ 'a' 'b' 'c' 'd' 'e' ]] {join-array}
+                -- This function is used to join a provided array of values that may
+                -- or may not be strings and join them together with a delimeter.
+                -- @array     - The array to join together.
+                -- @delimeter - The delimeter to join on.
+                (
+                    @array {to-string} {map} @delimeter {join-to-string}
+                ) @join-array @array::<array> @delimeter::<string> [fn]
+
+
+                -- Call both the {batman} and the {join-array} function and print the
+                -- results of both.
+                16 {batman} [print]
+                [[ 'a' 'b' 'c' 'd' 'e' ]] {join-array} [print]
                 ",
+                new Regex(@"\-\-.*"),
                 new TokenDefinition(TokenType.CodeBlockOpen, new Regex("\\((?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.CodeBlockClose, new Regex("\\)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
-
                 new TokenDefinition(TokenType.Type, new Regex("<[a-zA-Z0-9_\\-]+>(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.Name, new Regex("@[a-zA-Z0-9_\\-]+(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.TypeNameSeparator, new Regex("::(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
-
                 new TokenDefinition(TokenType.StringLiteral, new Regex("(\"[^\"]+\")|('[^']+')")),
-                new TokenDefinition(TokenType.NumberLiteral, new Regex("\b-{0,1}[0-9]+(\\.[0-9]*){0,1}\b(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
+                new TokenDefinition(TokenType.NumberLiteral, new Regex("((-|\\+?)((\\d+\\.\\d+)|(\\.\\d+)|(\\d+\\.)|(\\d+)))(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.ArrayOpenLiteral, new Regex("\\[\\[(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.ArrayCloseLiteral, new Regex("\\]\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
-
                 new TokenDefinition(TokenType.CallOperator, new Regex("\\[(\\<\\<|\\<\\=|\\<|\\>\\>|\\>\\=|\\>|\\=\\=|\\!\\=|\\&\\&|\\|\\||\\||\\^|\\&|\\~|\\-\\>|\\+|\\-|\\*|\\/|)\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.CallFunction, new Regex("\\[[a-zA-Z0-9_\\-]+\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.CallCustomFunction, new Regex("{[a-zA-Z0-9_\\-]+}(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"))

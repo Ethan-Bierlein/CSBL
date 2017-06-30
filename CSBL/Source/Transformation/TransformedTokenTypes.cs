@@ -9,15 +9,12 @@ namespace CSBL.Transformation
     {
         CodeBlockOpen,
         CodeBlockClose,
-
         Type,
         TypedName,
         UntypedName,
-
         Array,
         String,
         Number,
-
         CallOperator,
         CallFunction,
         CallCustomFunction

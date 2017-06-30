@@ -15,17 +15,20 @@ namespace CSBL.Tokenization
         public string InputString { get; private set; }
         public List<Token> OutputTokens { get; private set; }
         public List<TokenDefinition> TokenDefinitions { get; private set; }
+        public Regex CommentRegexDefinition { get; private set; }
 
         /// <summary>
         /// Constructor for the Tokenizer class.
         /// </summary>
         /// <param name="inputString">The input string to tokenize.</param>
+        /// <param name="commentRegexDefinition">The regex definition of what constitutes a comment.</param>
         /// <param name="tokenDefinitions">The array of all token definitions.</param>
-        public Tokenizer(string inputString, params TokenDefinition[] tokenDefinitions)
+        public Tokenizer(string inputString, Regex commentRegexDefinition, params TokenDefinition[] tokenDefinitions)
         {
             this.InputString = inputString + "\n ";
             this.OutputTokens = new List<Token>() { };
             this.TokenDefinitions = tokenDefinitions.ToList();
+            this.CommentRegexDefinition = commentRegexDefinition;
         }
 
         /// <summary>
@@ -38,6 +41,7 @@ namespace CSBL.Tokenization
         {
             SortedDictionary<int, Token> indexedTokens = new SortedDictionary<int, Token>() { };
             List<Token> outputTokens = new List<Token>() { };
+            this.InputString = this.CommentRegexDefinition.Replace(this.InputString, "");
 
             foreach(TokenDefinition tokenDefinition in this.TokenDefinitions)
             {
