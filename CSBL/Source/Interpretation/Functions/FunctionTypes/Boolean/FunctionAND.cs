@@ -5,20 +5,20 @@ using CSBL.Transformation;
 namespace CSBL.Interpretation.Functions.FunctionTypes.Boolean
 {
     /// <summary>
-    /// This class is a subclass of the OperatorBase class and represents
-    /// the [&&] operator.
+    /// This class is a subclass of the FunctionBase class and represents
+    /// the [&&] function.
     /// </summary>
     public class FunctionAND : FunctionBase
     {
         /// <summary>
-        /// Constructor for the OperatorBAND class.
+        /// Constructor for the FunctionAND class.
         /// </summary>
         public FunctionAND()
             : base("&&")
         { }
 
         /// <summary>
-        /// Execute the operator.
+        /// Execute the function.
         /// </summary>
         /// <param name="interpreter">A reference to the current interpreter.</param>
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>

@@ -2,19 +2,19 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Functions.FunctionTypes.Comparison
+namespace CSBL.Interpretation.Functions.FunctionTypes.IO
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [==] function.
+    /// the [in] function.
     /// </summary>
-    public class FunctionEQ : FunctionBase
+    public class FunctionIN : FunctionBase
     {
         /// <summary>
-        /// Constructor for the FunctionEQ class.
+        /// Constructor for the FunctionOUT class.
         /// </summary>
-        public FunctionEQ()
-            : base("==")
+        public FunctionIN()
+            : base("in")
         { }
 
         /// <summary>
@@ -24,17 +24,6 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Comparison
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            TransformedToken b = interpreterEnvironment.ValueStack.Pop();
-            TransformedToken a = interpreterEnvironment.ValueStack.Pop();
-
-            interpreterEnvironment.ValueStack.Push(
-                new TransformedToken(
-                    a.Position,
-                    TransformedTokenType.Bool,
-                    a.Data == b.Data
-                )
-            );
-
             return true;
         }
     }

@@ -5,20 +5,20 @@ using CSBL.Transformation;
 namespace CSBL.Interpretation.Functions.FunctionTypes.Comparison
 {
     /// <summary>
-    /// This class is a subclass of the OperatorBase class and represents
-    /// the [&lt;=] operator.
+    /// This class is a subclass of the FunctionBase class and represents
+    /// the [&lt;=] function.
     /// </summary>
     public class FunctionLTE : FunctionBase
     {
         /// <summary>
-        /// Constructor for the OperatorLTE class.
+        /// Constructor for the FunctionLTE class.
         /// </summary>
         public FunctionLTE()
             : base("<=")
         { }
 
         /// <summary>
-        /// Execute the operator.
+        /// Execute the function.
         /// </summary>
         /// <param name="interpreter">A reference to the current interpreter.</param>
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>

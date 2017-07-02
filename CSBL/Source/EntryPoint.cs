@@ -6,6 +6,7 @@ using CSBL.Tokenization;
 using CSBL.Transformation;
 using CSBL.Interpretation;
 using CSBL.Interpretation.Functions;
+using CSBL.Interpretation.Functions.FunctionTypes.IO;
 using CSBL.Interpretation.Functions.FunctionTypes.Math;
 using CSBL.Interpretation.Functions.FunctionTypes.Boolean;
 using CSBL.Interpretation.Functions.FunctionTypes.Comparison;
@@ -22,7 +23,7 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 @"
-                -- This is a test comment. --
+                1 [out]
                 ",
                 new Regex("(\\-\\-(.|\n)*\\-\\-)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"),
                 new TokenDefinition(TokenType.BoolLiteral, new Regex("(true|false)")),
@@ -57,7 +58,10 @@ namespace CSBL
                             { "!=", new FunctionNEQ() },
 
                             { "&&", new FunctionAND() },
-                            { "||", new FunctionOR() }
+                            { "||", new FunctionOR() },
+
+                            { "in", new FunctionIN() },
+                            { "out", new FunctionOUT() }
                         }
                     );
                     interpreter.PreInterpret();

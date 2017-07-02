@@ -5,20 +5,20 @@ using CSBL.Transformation;
 namespace CSBL.Interpretation.Functions.FunctionTypes.Math
 {
     /// <summary>
-    /// This class is a subclass of the OperatorBase class and represents
-    /// the [+] operator.
+    /// This class is a subclass of the FunctionBase class and represents
+    /// the [+] function.
     /// </summary>
     public class FunctionADD : FunctionBase
     {
         /// <summary>
-        /// Constructor for the OperatorADD class.
+        /// Constructor for the FunctionADD class.
         /// </summary>
         public FunctionADD()
             : base("+")
         { }
 
         /// <summary>
-        /// Execute the operator.
+        /// Execute the function.
         /// </summary>
         /// <param name="interpreter">A reference to the current interpreter.</param>
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>

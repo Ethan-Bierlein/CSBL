@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="Source\EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionTypes\IO\FunctionIN.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionTypes\IO\FunctionOUT.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Math\FunctionPOW.cs" />
     <Compile Include="Source\Interpretation\Interpreter.cs" />
     <Compile Include="Source\Interpretation\InterpreterEnvironment.cs" />
