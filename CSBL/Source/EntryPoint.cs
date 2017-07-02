@@ -22,9 +22,10 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 @"
-                '--' [print]
+                -- This is a test comment. --
+                '-- --' [print]
                 ",
-                new Regex("(\\-\\-.*\\-\\-)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"),
+                new Regex("(\\-\\-(.|\n)*\\-\\-)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"),
                 new TokenDefinition(TokenType.CodeBlockOpen, new Regex("\\((?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.CodeBlockClose, new Regex("\\)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.Name, new Regex("@[a-zA-Z0-9_\\-]+(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
@@ -47,10 +48,7 @@ namespace CSBL
                         transformedTokens,
                         new Dictionary<string, FunctionBase>()
                         {
-                            { "print", new FunctionPRINT() },
-                            { "if", new FunctionIF() },
-                            { "for", new FunctionFOR() },
-                            { "while", new FunctionWHILE() }
+                            { "print", new FunctionPRINT() }
                         },
                         new Dictionary<string, OperatorBase>()
                         {
