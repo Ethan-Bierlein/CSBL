@@ -10,17 +10,8 @@ namespace CSBL.Reporting
     {
         InvalidToken,
         UnknownToken,
-        MisplacedTypeSeparator,
-        MisplacedArrayEnd,
-        MissingArrayEnd,
         UnknownFunction,
         UnknownOperator,
-        UnknownCustomFunction,
-        UnexpectedToken,
-        RuntimeUnbalancedParentheses,
-        InvalidArrayIndex,
         IncompatibleOperatorTypes,
-        DuplicateFunctionParameter,
-        MissingFunctionBody,
     }
 }
