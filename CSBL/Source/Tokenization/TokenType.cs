@@ -15,8 +15,6 @@ namespace CSBL.Tokenization
         BoolLiteral,
         NumberLiteral,
         StringLiteral,
-        ArrayOpenLiteral,
-        ArrayCloseLiteral,
         CallOperator,
         CallFunction,
     }
