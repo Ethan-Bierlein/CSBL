@@ -15,6 +15,10 @@ namespace CSBL.Reporting
         MissingArrayEnd,
         UnknownFunction,
         UnknownOperator,
+        UnknownCustomFunction,
+        UnexpectedToken,
+        RuntimeUnbalancedParentheses,
+        InvalidArrayIndex,
         IncompatibleOperatorTypes
     }
 }

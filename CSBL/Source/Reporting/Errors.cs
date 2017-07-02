@@ -14,6 +14,10 @@ namespace CSBL.Reporting
         public static Error MissingArrayEnd = new Error(ErrorStage.Transformation, ErrorType.MissingArrayEnd, "Array close for array at line {1}, columnn {2} not found.");
         public static Error UnknownFunction = new Error(ErrorStage.Interpretation, ErrorType.UnknownFunction, "Unknown function '{0}' at line {1}, column {2}.");
         public static Error UnknownOperator = new Error(ErrorStage.Interpretation, ErrorType.UnknownOperator, "Unknown operator '{0}' at line {1}, column {2}.");
+        public static Error UnknownCustomFunction = new Error(ErrorStage.Interpretation, ErrorType.UnknownCustomFunction, "Unknown custom function '{0}' at line {1}, column {2}.");
+        public static Error UnexpectedToken = new Error(ErrorStage.Interpretation, ErrorType.UnexpectedToken, "Unexpected token '{0}' at line {1}, column {2}.");
+        public static Error RuntimeUnbalancedParentheses = new Error(ErrorStage.Interpretation, ErrorType.RuntimeUnbalancedParentheses, "Unbalanced parentheses at line {1}, column {2}.");
         public static Error IncompatibleOperatorTypes = new Error(ErrorStage.Interpretation, ErrorType.IncompatibleOperatorTypes, "Incompatible types '{0}' and '{1}' for operator '{2}' at line {3}, column {4}.");
+        public static Error InvalidArrayIndex = new Error(ErrorStage.Interpretation, ErrorType.InvalidArrayIndex, "Invalid array index '{0}' at line {1}, column {2}.");
     }
 }

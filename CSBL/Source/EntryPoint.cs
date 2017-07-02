@@ -22,69 +22,7 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 @"
-                '' [print] 
-                ':: ADD ::' [print]
-                3 4 [+] [print]
-                2 2 [+] [print]
-                'a' 'b' [+] [print]
-                'b' 'c' [+] [print]
-
-                '' [print]
-                ':: SUB ::' [print]
-                2 2 [-] [print]
-                3 4 [-] [print]
-
-                '' [print]
-                ':: MUL ::' [print]
-                5 3 [*] [print]
-                2 2 [*] [print]
-                'a' 3 [*] [print]
-                'b' 4 [*] [print]
-
-                '' [print]
-                ':: DIV ::' [print]
-                9 3 [/] [print]
-                4 2 [/] [print]
-
-                '' [print]
-                ':: LT ::' [print]
-                1 1 [<] [print]
-                5 9 [<] [print]
-
-                '' [print]
-                ':: LTE ::' [print]
-                2 2 [<=] [print]
-                4 9 [<=] [print]
-
-                '' [print]
-                ':: GT ::' [print]
-                3 2 [>] [print]
-                5 2 [>] [print]
-
-                '' [print]
-                ':: GTE ::' [print]
-                3 3 [>=] [print]
-                1 0 [>=] [print]
-
-                '' [print]
-                ':: EQ ::' [print]
-                9 9 [==] [print]
-                1 1 [==] [print]
-                
-                '' [print]
-                ':: NEQ ::' [print]
-                8 7 [!=] [print]
-                1 1 [!=] [print]
-
-                '' [print]
-                ':: B-AND ::' [print]
-                true true [&&] [print]
-                false true [&&] [print]
-
-                '' [print]
-                ':: B-OR ::' [print]
-                true false [||] [print]
-                false false [||] [print]
+                [[ @f ]] 0 [->] [print]
                 ",
                 new Regex("\\-\\-.*(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"),
                 new TokenDefinition(TokenType.CodeBlockOpen, new Regex("\\((?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
@@ -116,6 +54,7 @@ namespace CSBL
                         {
                             { "print", new FunctionPRINT() },
                             { "fn", new FunctionFN() },
+                            { "ret", new FunctionRET() },
                             { "if", new FunctionIF() },
                             { "for", new FunctionFOR() },
                             { "while", new FunctionWHILE() }
@@ -133,7 +72,8 @@ namespace CSBL
                             { "==", new OperatorEQ() },
                             { "!=", new OperatorNEQ() },
                             { "&&", new OperatorBAND() },
-                            { "||", new OperatorBOR() }
+                            { "||", new OperatorBOR() },
+                            { "->", new OperatorGET() }
                         }
                     );
                     interpreter.PreInterpret();

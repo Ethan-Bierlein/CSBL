@@ -107,7 +107,18 @@ namespace CSBL.Interpretation
                         break;
 
                     case TransformedTokenType.CallCustomFunction:
-                        // TODO: Implement.
+                        if(this.Environment.FunctionDefinitions.ContainsKey(this.InputTokens[this.Environment.CurrentTokenIndex].Data[0]))
+                        {
+                            this.Environment.CallStack.Push(this.Environment.CurrentTokenIndex);
+                        }
+                        else
+                        {
+                            Errors.UnknownCustomFunction.Report(
+                                this.InputTokens[this.Environment.CurrentTokenIndex].Data[0],
+                                this.InputTokens[this.Environment.CurrentTokenIndex].Position.Line,
+                                this.InputTokens[this.Environment.CurrentTokenIndex].Position.Column
+                            );
+                        }
                         break;
 
                     default:
