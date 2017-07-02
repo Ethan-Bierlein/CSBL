@@ -107,50 +107,13 @@ namespace CSBL.Transformation
                         break;
 
                     case TokenType.Name:
-                        if(
-                            this.InputTokens[currentTokenIndex + 1].Type == TokenType.TypeNameSeparator && 
-                            this.InputTokens[currentTokenIndex + 2].Type == TokenType.Type &&
-                            currentTokenIndex <= this.InputTokens.Count - 3
-                        )
-                        {
-                            this.AddToken(
-                                ref transformedTokens,
-                                this.InputTokens[currentTokenIndex].Position,
-                                TransformedTokenType.TypedName,
-                                this.InputTokens[currentTokenIndex].Value.Trim('@'),
-                                this.InputTokens[currentTokenIndex + 2].Value.Trim('<').Trim('>')
-                            );
-                            currentTokenIndex += 3;
-                        }
-                        else
-                        {
-                            this.AddTokenAndIncrement(
-                                ref transformedTokens,
-                                ref currentTokenIndex,
-                                this.InputTokens[currentTokenIndex].Position,
-                                TransformedTokenType.UntypedName,
-                                this.InputTokens[currentTokenIndex].Value.Trim('@')
-                            );
-                        }
-                        break;
-
-                    case TokenType.Type:
                         this.AddTokenAndIncrement(
                             ref transformedTokens,
                             ref currentTokenIndex,
                             this.InputTokens[currentTokenIndex].Position,
-                            TransformedTokenType.Type, 
-                            this.InputTokens[currentTokenIndex].Value.Trim('<').Trim('>')
+                            TransformedTokenType.UntypedName,
+                            this.InputTokens[currentTokenIndex].Value.Trim('@')
                         );
-                        break;
-
-                    case TokenType.TypeNameSeparator:
-                        errorEncountered = true;
-                        Errors.MisplacedTypeSeparator.Report(
-                            this.InputTokens[currentTokenIndex].Position.Line,
-                            this.InputTokens[currentTokenIndex].Position.Column
-                        );
-                        currentTokenIndex++;
                         break;
 
                     case TokenType.BoolLiteral:
