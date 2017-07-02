@@ -2,18 +2,18 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Operators.OperatorTypes
+namespace CSBL.Interpretation.Functions.FunctionTypes.Comparison
 {
     /// <summary>
     /// This class is a subclass of the OperatorBase class and represents
     /// the [==] operator.
     /// </summary>
-    public class OperatorEQ : OperatorBase
+    public class FunctionEQ : FunctionBase
     {
         /// <summary>
         /// Constructor for the OperatorEQ class.
         /// </summary>
-        public OperatorEQ()
+        public FunctionEQ()
             : base("==")
         { }
 

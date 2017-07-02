@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace CSBL.Interpretation.Operators
+namespace CSBL.Interpretation.Functions
 {
     /// <summary>
     /// This class serves as the base for operators within CSBL.
     /// </summary>
-    public class OperatorBase
+    public class FunctionBase
     {
         public string Name { get; set; }
 
@@ -13,7 +13,7 @@ namespace CSBL.Interpretation.Operators
         /// Constructor for the OperatorBase class.
         /// </summary>
         /// <param name="name">The name of the operator.</param>
-        public OperatorBase(string name)
+        public FunctionBase(string name)
         {
             this.Name = name;
         }

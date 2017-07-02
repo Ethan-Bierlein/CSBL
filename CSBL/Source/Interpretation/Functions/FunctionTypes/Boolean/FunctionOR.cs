@@ -2,19 +2,19 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Operators.OperatorTypes
+namespace CSBL.Interpretation.Functions.FunctionTypes.Boolean
 {
     /// <summary>
     /// This class is a subclass of the OperatorBase class and represents
-    /// the [-] operator.
+    /// the [||] operator.
     /// </summary>
-    public class OperatorSUB : OperatorBase
+    public class FunctionOR : FunctionBase
     {
         /// <summary>
-        /// Constructor for the OperatorSUB class.
+        /// Constructor for the OperatorBOR class.
         /// </summary>
-        public OperatorSUB()
-            : base("-")
+        public FunctionOR()
+            : base("||")
         { }
 
         /// <summary>
@@ -27,13 +27,13 @@ namespace CSBL.Interpretation.Operators.OperatorTypes
             TransformedToken b = interpreterEnvironment.ValueStack.Pop();
             TransformedToken a = interpreterEnvironment.ValueStack.Pop();
 
-            if(a.Type == TransformedTokenType.Number && b.Type == TransformedTokenType.Number)
+            if(a.Type == TransformedTokenType.Bool && b.Type == TransformedTokenType.Bool)
             {
                 interpreterEnvironment.ValueStack.Push(
                     new TransformedToken(
                         a.Position,
-                        TransformedTokenType.Number,
-                        a.Data[0] - b.Data[0]
+                        TransformedTokenType.Bool,
+                        a.Data[0] || b.Data[0]
                     )
                 );
                 return true;
@@ -44,7 +44,7 @@ namespace CSBL.Interpretation.Operators.OperatorTypes
                 Errors.IncompatibleOperatorTypes.Report(
                     a.Type,
                     b.Type,
-                    "-",
+                    "||",
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
                 );

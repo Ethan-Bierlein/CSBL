@@ -2,19 +2,19 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Operators.OperatorTypes
+namespace CSBL.Interpretation.Functions.FunctionTypes.Comparison
 {
     /// <summary>
     /// This class is a subclass of the OperatorBase class and represents
-    /// the [&lt;] operator.
+    /// the [&lt;=] operator.
     /// </summary>
-    public class OperatorLT : OperatorBase
+    public class FunctionLTE : FunctionBase
     {
         /// <summary>
-        /// Constructor for the OperatorLT class.
+        /// Constructor for the OperatorLTE class.
         /// </summary>
-        public OperatorLT()
-            : base("<")
+        public FunctionLTE()
+            : base("<=")
         { }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace CSBL.Interpretation.Operators.OperatorTypes
                     new TransformedToken(
                         a.Position,
                         TransformedTokenType.Bool,
-                        a.Data[0] < b.Data[0]
+                        a.Data[0] <= b.Data[0]
                     )
                 );
                 return true;
@@ -44,7 +44,7 @@ namespace CSBL.Interpretation.Operators.OperatorTypes
                 Errors.IncompatibleOperatorTypes.Report(
                     a.Type,
                     b.Type,
-                    "<",
+                    "<=",
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
                 );

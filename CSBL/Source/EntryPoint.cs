@@ -5,8 +5,10 @@ using System.Text.RegularExpressions;
 using CSBL.Tokenization;
 using CSBL.Transformation;
 using CSBL.Interpretation;
-using CSBL.Interpretation.Operators;
-using CSBL.Interpretation.Operators.OperatorTypes;
+using CSBL.Interpretation.Functions;
+using CSBL.Interpretation.Functions.FunctionTypes.Math;
+using CSBL.Interpretation.Functions.FunctionTypes.Boolean;
+using CSBL.Interpretation.Functions.FunctionTypes.Comparison;
 
 namespace CSBL
 {
@@ -39,20 +41,23 @@ namespace CSBL
                 {
                     Interpreter interpreter = new Interpreter(
                         transformedTokens,
-                        new Dictionary<string, OperatorBase>()
+                        new Dictionary<string, FunctionBase>()
                         {
-                            { "+", new OperatorADD() },
-                            { "-", new OperatorSUB() },
-                            { "*", new OperatorMUL() },
-                            { "/", new OperatorDIV() },
-                            { "<", new OperatorLT() },
-                            { "<=", new OperatorLTE() },
-                            { ">", new OperatorGT() },
-                            { ">=", new OperatorGTE() },
-                            { "==", new OperatorEQ() },
-                            { "!=", new OperatorNEQ() },
-                            { "&&", new OperatorBAND() },
-                            { "||", new OperatorBOR() },
+                            { "+", new FunctionADD() },
+                            { "-", new FunctionSUB() },
+                            { "*", new FunctionMUL() },
+                            { "/", new FunctionDIV() },
+                            { "**", new FunctionPOW() },
+
+                            { "<", new FunctionLT() },
+                            { "<=", new FunctionLTE() },
+                            { ">", new FunctionGT() },
+                            { ">=", new FunctionGTE() },
+                            { "==", new FunctionEQ() },
+                            { "!=", new FunctionNEQ() },
+
+                            { "&&", new FunctionAND() },
+                            { "||", new FunctionOR() }
                         }
                     );
                     interpreter.PreInterpret();

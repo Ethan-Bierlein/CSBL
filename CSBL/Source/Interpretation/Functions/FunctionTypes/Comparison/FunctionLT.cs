@@ -2,19 +2,19 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Operators.OperatorTypes
+namespace CSBL.Interpretation.Functions.FunctionTypes.Comparison
 {
     /// <summary>
     /// This class is a subclass of the OperatorBase class and represents
-    /// the [&&] operator.
+    /// the [&lt;] operator.
     /// </summary>
-    public class OperatorBAND : OperatorBase
+    public class FunctionLT : FunctionBase
     {
         /// <summary>
-        /// Constructor for the OperatorBAND class.
+        /// Constructor for the OperatorLT class.
         /// </summary>
-        public OperatorBAND()
-            : base("&&")
+        public FunctionLT()
+            : base("<")
         { }
 
         /// <summary>
@@ -27,13 +27,13 @@ namespace CSBL.Interpretation.Operators.OperatorTypes
             TransformedToken b = interpreterEnvironment.ValueStack.Pop();
             TransformedToken a = interpreterEnvironment.ValueStack.Pop();
 
-            if(a.Type == TransformedTokenType.Bool && b.Type == TransformedTokenType.Bool)
+            if(a.Type == TransformedTokenType.Number && b.Type == TransformedTokenType.Number)
             {
                 interpreterEnvironment.ValueStack.Push(
                     new TransformedToken(
                         a.Position,
                         TransformedTokenType.Bool,
-                        a.Data[0] && b.Data[0]
+                        a.Data[0] < b.Data[0]
                     )
                 );
                 return true;
@@ -44,7 +44,7 @@ namespace CSBL.Interpretation.Operators.OperatorTypes
                 Errors.IncompatibleOperatorTypes.Report(
                     a.Type,
                     b.Type,
-                    "&&",
+                    "<",
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
                 );

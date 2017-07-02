@@ -2,18 +2,18 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Operators.OperatorTypes
+namespace CSBL.Interpretation.Functions.FunctionTypes.Comparison
 {
     /// <summary>
     /// This class is a subclass of the OperatorBase class and represents
     /// the [!=] operator.
     /// </summary>
-    public class OperatorNEQ : OperatorBase
+    public class FunctionNEQ : FunctionBase
     {
         /// <summary>
         /// Constructor for the OperatorNE class.
         /// </summary>
-        public OperatorNEQ()
+        public FunctionNEQ()
             : base("!=")
         { }
 

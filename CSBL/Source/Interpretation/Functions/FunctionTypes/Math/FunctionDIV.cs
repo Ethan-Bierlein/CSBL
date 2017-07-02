@@ -2,19 +2,19 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Operators.OperatorTypes
+namespace CSBL.Interpretation.Functions.FunctionTypes.Math
 {
     /// <summary>
     /// This class is a subclass of the OperatorBase class and represents
-    /// the [+] operator.
+    /// the [/] operator.
     /// </summary>
-    public class OperatorADD : OperatorBase
+    public class FunctionDIV : FunctionBase
     {
         /// <summary>
-        /// Constructor for the OperatorADD class.
+        /// Constructor for the OperatorDIV class.
         /// </summary>
-        public OperatorADD()
-            : base("+")
+        public FunctionDIV()
+            : base("/")
         { }
 
         /// <summary>
@@ -31,21 +31,9 @@ namespace CSBL.Interpretation.Operators.OperatorTypes
             {
                 interpreterEnvironment.ValueStack.Push(
                     new TransformedToken(
-                        a.Position, 
-                        TransformedTokenType.Number, 
-                        a.Data[0] + b.Data[0]
-                    )
-                );
-                return true;
-            }
-
-            else if(a.Type == TransformedTokenType.String && b.Type == TransformedTokenType.String)
-            {
-                interpreterEnvironment.ValueStack.Push(
-                    new TransformedToken(
                         a.Position,
-                        TransformedTokenType.String,
-                        a.Data[0] + b.Data[0]
+                        TransformedTokenType.Number,
+                        a.Data[0] / b.Data[0]
                     )
                 );
                 return true;
@@ -56,7 +44,7 @@ namespace CSBL.Interpretation.Operators.OperatorTypes
                 Errors.IncompatibleOperatorTypes.Report(
                     a.Type,
                     b.Type,
-                    "+",
+                    "/",
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
                 );
