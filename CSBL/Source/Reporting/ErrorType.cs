@@ -19,6 +19,8 @@ namespace CSBL.Reporting
         UnexpectedToken,
         RuntimeUnbalancedParentheses,
         InvalidArrayIndex,
-        IncompatibleOperatorTypes
+        IncompatibleOperatorTypes,
+        DuplicateFunctionParameter,
+        MissingFunctionBody,
     }
 }

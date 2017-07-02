@@ -89,6 +89,7 @@ namespace CSBL.Interpretation
                                 {
                                     return;
                                 }
+                                this.Environment.CurrentTokenIndex++;
                             }
                             else
                             {
@@ -103,21 +104,6 @@ namespace CSBL.Interpretation
                         else
                         {
                             this.Environment.CurrentTokenIndex++;
-                        }
-                        break;
-
-                    case TransformedTokenType.CallCustomFunction:
-                        if(this.Environment.FunctionDefinitions.ContainsKey(this.InputTokens[this.Environment.CurrentTokenIndex].Data[0]))
-                        {
-                            this.Environment.CallStack.Push(this.Environment.CurrentTokenIndex);
-                        }
-                        else
-                        {
-                            Errors.UnknownCustomFunction.Report(
-                                this.InputTokens[this.Environment.CurrentTokenIndex].Data[0],
-                                this.InputTokens[this.Environment.CurrentTokenIndex].Position.Line,
-                                this.InputTokens[this.Environment.CurrentTokenIndex].Position.Column
-                            );
                         }
                         break;
 

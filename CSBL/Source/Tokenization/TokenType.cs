@@ -19,6 +19,5 @@ namespace CSBL.Tokenization
         ArrayCloseLiteral,
         CallOperator,
         CallFunction,
-        CallCustomFunction
     }
 }

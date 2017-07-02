@@ -318,16 +318,6 @@ namespace CSBL.Transformation
                         );
                         break;
 
-                    case TokenType.CallCustomFunction:
-                        this.AddTokenAndIncrement(
-                            ref transformedTokens,
-                            ref currentTokenIndex,
-                            this.InputTokens[currentTokenIndex].Position,
-                            TransformedTokenType.CallCustomFunction,
-                            this.InputTokens[currentTokenIndex].Value.Trim('{').Trim('}')
-                        );
-                        break;
-
                     default:
                         errorEncountered = true;
                         Errors.UnknownToken.Report(

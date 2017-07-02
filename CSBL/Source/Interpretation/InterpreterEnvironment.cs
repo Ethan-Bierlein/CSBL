@@ -15,8 +15,6 @@ namespace CSBL.Interpretation
         public Stack<TransformedToken> OpenParenthesesStack { get; set; }
         public Stack<TransformedToken> CloseParenthesesStack { get; set; }
         public Stack<TransformedToken> ValueStack { get; set; }
-        public Stack<int> CallStack { get; set; }
-        public Dictionary<string, CustomFunction> FunctionDefinitions { get; set; }
 
         /// <summary>
         /// Constructor for the InterpreterEnvironment class.
@@ -27,8 +25,6 @@ namespace CSBL.Interpretation
             this.OpenParenthesesStack = new Stack<TransformedToken>() { };
             this.CloseParenthesesStack = new Stack<TransformedToken>() { };
             this.ValueStack = new Stack<TransformedToken>() { };
-            this.CallStack = new Stack<int>() { };
-            this.FunctionDefinitions = new Dictionary<string, CustomFunction>() { };
         }
     }
 }

@@ -22,7 +22,7 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 @"
-                [[ @f ]] 0 [->] [print]
+                'fffffwew' [print]
                 ",
                 new Regex("\\-\\-.*(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"),
                 new TokenDefinition(TokenType.CodeBlockOpen, new Regex("\\((?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
@@ -36,8 +36,7 @@ namespace CSBL
                 new TokenDefinition(TokenType.ArrayOpenLiteral, new Regex("\\[\\[(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.ArrayCloseLiteral, new Regex("\\]\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.CallOperator, new Regex("\\[(\\<\\<|\\<\\=|\\<|\\>\\>|\\>\\=|\\>|\\=\\=|\\!\\=|\\&\\&|\\|\\||\\||\\^|\\&|\\~|\\-\\>|\\+|\\-|\\*|\\/|)\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
-                new TokenDefinition(TokenType.CallFunction, new Regex("\\[[a-zA-Z0-9_\\-]+\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
-                new TokenDefinition(TokenType.CallCustomFunction, new Regex("{[a-zA-Z0-9_\\-]+}(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"))
+                new TokenDefinition(TokenType.CallFunction, new Regex("\\[[a-zA-Z0-9_\\-]+\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"))
             );
 
             Console.ReadLine();
@@ -53,8 +52,6 @@ namespace CSBL
                         new Dictionary<string, FunctionBase>()
                         {
                             { "print", new FunctionPRINT() },
-                            { "fn", new FunctionFN() },
-                            { "ret", new FunctionRET() },
                             { "if", new FunctionIF() },
                             { "for", new FunctionFOR() },
                             { "while", new FunctionWHILE() }
@@ -78,10 +75,10 @@ namespace CSBL
                     );
                     interpreter.PreInterpret();
                     interpreter.Interpret();
+
+                    Console.ReadLine();
                 }
             }
-
-            Console.ReadLine();
         }
     }
 }
