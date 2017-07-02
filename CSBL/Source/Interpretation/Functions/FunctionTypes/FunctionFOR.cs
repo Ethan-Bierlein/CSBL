@@ -1,19 +1,19 @@
 ﻿using System;
 using CSBL.Reporting;
 
-namespace CSBL.Interpretation.Functions
+namespace CSBL.Interpretation.Functions.FunctionTypes
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [fn] function.
+    /// the [for] function.
     /// </summary>
-    public class FunctionFN : FunctionBase
+    public class FunctionFOR : FunctionBase
     {
         /// <summary>
-        /// Constructor for the FunctionFN class.
+        /// Constructor for the FunctionFOR class.
         /// </summary>
-        public FunctionFN()
-            : base("fn")
+        public FunctionFOR()
+            : base("for")
         { }
 
         /// <summary>

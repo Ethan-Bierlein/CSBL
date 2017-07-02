@@ -7,6 +7,8 @@ using CSBL.Transformation;
 using CSBL.Interpretation;
 using CSBL.Interpretation.Functions;
 using CSBL.Interpretation.Operators;
+using CSBL.Interpretation.Functions.FunctionTypes;
+using CSBL.Interpretation.Operators.OperatorTypes;
 
 namespace CSBL
 {

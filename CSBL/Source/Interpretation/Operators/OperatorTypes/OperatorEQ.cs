@@ -2,7 +2,7 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Operators
+namespace CSBL.Interpretation.Operators.OperatorTypes
 {
     /// <summary>
     /// This class is a subclass of the OperatorBase class and represents

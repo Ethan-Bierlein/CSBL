@@ -2,19 +2,19 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Operators
+namespace CSBL.Interpretation.Operators.OperatorTypes
 {
     /// <summary>
     /// This class is a subclass of the OperatorBase class and represents
-    /// the [&&] operator.
+    /// the [||] operator.
     /// </summary>
-    public class OperatorBAND : OperatorBase
+    public class OperatorBOR : OperatorBase
     {
         /// <summary>
-        /// Constructor for the OperatorBAND class.
+        /// Constructor for the OperatorBOR class.
         /// </summary>
-        public OperatorBAND()
-            : base("&&")
+        public OperatorBOR()
+            : base("||")
         { }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace CSBL.Interpretation.Operators
                     new TransformedToken(
                         a.Position,
                         TransformedTokenType.Bool,
-                        a.Data[0] && b.Data[0]
+                        a.Data[0] || b.Data[0]
                     )
                 );
                 return true;
@@ -44,7 +44,7 @@ namespace CSBL.Interpretation.Operators
                 Errors.IncompatibleOperatorTypes.Report(
                     a.Type,
                     b.Type,
-                    "&&",
+                    "||",
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
                 );

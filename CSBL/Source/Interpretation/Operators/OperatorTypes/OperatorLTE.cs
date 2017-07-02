@@ -2,19 +2,19 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Operators
+namespace CSBL.Interpretation.Operators.OperatorTypes
 {
     /// <summary>
     /// This class is a subclass of the OperatorBase class and represents
-    /// the [-] operator.
+    /// the [&lt;=] operator.
     /// </summary>
-    public class OperatorSUB : OperatorBase
+    public class OperatorLTE : OperatorBase
     {
         /// <summary>
-        /// Constructor for the OperatorSUB class.
+        /// Constructor for the OperatorLTE class.
         /// </summary>
-        public OperatorSUB()
-            : base("-")
+        public OperatorLTE()
+            : base("<=")
         { }
 
         /// <summary>
@@ -32,8 +32,8 @@ namespace CSBL.Interpretation.Operators
                 interpreterEnvironment.ValueStack.Push(
                     new TransformedToken(
                         a.Position,
-                        TransformedTokenType.Number,
-                        a.Data[0] - b.Data[0]
+                        TransformedTokenType.Bool,
+                        a.Data[0] <= b.Data[0]
                     )
                 );
                 return true;
@@ -44,7 +44,7 @@ namespace CSBL.Interpretation.Operators
                 Errors.IncompatibleOperatorTypes.Report(
                     a.Type,
                     b.Type,
-                    "-",
+                    "<=",
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
                 );

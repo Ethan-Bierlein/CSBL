@@ -1,7 +1,7 @@
 ﻿using System;
 using CSBL.Reporting;
 
-namespace CSBL.Interpretation.Functions
+namespace CSBL.Interpretation.Functions.FunctionTypes
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents

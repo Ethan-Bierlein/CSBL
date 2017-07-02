@@ -2,19 +2,19 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Operators
+namespace CSBL.Interpretation.Operators.OperatorTypes
 {
     /// <summary>
     /// This class is a subclass of the OperatorBase class and represents
-    /// the [||] operator.
+    /// the [/] operator.
     /// </summary>
-    public class OperatorBOR : OperatorBase
+    public class OperatorDIV : OperatorBase
     {
         /// <summary>
-        /// Constructor for the OperatorBOR class.
+        /// Constructor for the OperatorDIV class.
         /// </summary>
-        public OperatorBOR()
-            : base("||")
+        public OperatorDIV()
+            : base("/")
         { }
 
         /// <summary>
@@ -27,13 +27,13 @@ namespace CSBL.Interpretation.Operators
             TransformedToken b = interpreterEnvironment.ValueStack.Pop();
             TransformedToken a = interpreterEnvironment.ValueStack.Pop();
 
-            if(a.Type == TransformedTokenType.Bool && b.Type == TransformedTokenType.Bool)
+            if(a.Type == TransformedTokenType.Number && b.Type == TransformedTokenType.Number)
             {
                 interpreterEnvironment.ValueStack.Push(
                     new TransformedToken(
                         a.Position,
-                        TransformedTokenType.Bool,
-                        a.Data[0] || b.Data[0]
+                        TransformedTokenType.Number,
+                        a.Data[0] / b.Data[0]
                     )
                 );
                 return true;
@@ -44,7 +44,7 @@ namespace CSBL.Interpretation.Operators
                 Errors.IncompatibleOperatorTypes.Report(
                     a.Type,
                     b.Type,
-                    "||",
+                    "/",
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
                 );
