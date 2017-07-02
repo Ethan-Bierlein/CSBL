@@ -88,34 +88,6 @@ namespace CSBL.Transformation
             {
                 switch(this.InputTokens[currentTokenIndex].Type)
                 {
-                    case TokenType.CodeBlockOpen:
-                        this.AddTokenAndIncrement(
-                            ref transformedTokens, 
-                            ref currentTokenIndex, 
-                            this.InputTokens[currentTokenIndex].Position, 
-                            TransformedTokenType.CodeBlockOpen
-                        );
-                        break;
-
-                    case TokenType.CodeBlockClose:
-                        this.AddTokenAndIncrement(
-                            ref transformedTokens,
-                            ref currentTokenIndex,
-                            this.InputTokens[currentTokenIndex].Position,
-                            TransformedTokenType.CodeBlockClose
-                        );
-                        break;
-
-                    case TokenType.Name:
-                        this.AddTokenAndIncrement(
-                            ref transformedTokens,
-                            ref currentTokenIndex,
-                            this.InputTokens[currentTokenIndex].Position,
-                            TransformedTokenType.UntypedName,
-                            this.InputTokens[currentTokenIndex].Value.Trim('@')
-                        );
-                        break;
-
                     case TokenType.BoolLiteral:
                         this.AddTokenAndIncrement(
                             ref transformedTokens,
@@ -143,16 +115,6 @@ namespace CSBL.Transformation
                             this.InputTokens[currentTokenIndex].Position,
                             TransformedTokenType.String,
                             this.InputTokens[currentTokenIndex].Value.Trim('"').Trim('\'')
-                        );
-                        break;
-
-                    case TokenType.CallOperator:
-                        this.AddTokenAndIncrement(
-                            ref transformedTokens,
-                            ref currentTokenIndex,
-                            this.InputTokens[currentTokenIndex].Position,
-                            TransformedTokenType.CallOperator, 
-                            this.InputTokens[currentTokenIndex].Value.Trim('[').Trim(']')
                         );
                         break;
 

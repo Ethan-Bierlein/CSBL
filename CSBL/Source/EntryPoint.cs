@@ -5,9 +5,7 @@ using System.Text.RegularExpressions;
 using CSBL.Tokenization;
 using CSBL.Transformation;
 using CSBL.Interpretation;
-using CSBL.Interpretation.Functions;
 using CSBL.Interpretation.Operators;
-using CSBL.Interpretation.Functions.FunctionTypes;
 using CSBL.Interpretation.Operators.OperatorTypes;
 
 namespace CSBL
@@ -23,17 +21,12 @@ namespace CSBL
             Tokenizer tokenizer = new Tokenizer(
                 @"
                 -- This is a test comment. --
-                '-- --' [print]
                 ",
                 new Regex("(\\-\\-(.|\n)*\\-\\-)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"),
-                new TokenDefinition(TokenType.CodeBlockOpen, new Regex("\\((?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
-                new TokenDefinition(TokenType.CodeBlockClose, new Regex("\\)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
-                new TokenDefinition(TokenType.Name, new Regex("@[a-zA-Z0-9_\\-]+(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.BoolLiteral, new Regex("(true|false)")),
                 new TokenDefinition(TokenType.StringLiteral, new Regex("(\"[^\"]*\")|('[^']*')")),
                 new TokenDefinition(TokenType.NumberLiteral, new Regex("((-|\\+?)((\\d+\\.\\d+)|(\\.\\d+)|(\\d+\\.)|(\\d+)))(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
-                new TokenDefinition(TokenType.CallOperator, new Regex("\\[(\\<\\<|\\<\\=|\\<|\\>\\>|\\>\\=|\\>|\\=\\=|\\!\\=|\\&\\&|\\|\\||\\||\\^|\\&|\\~|\\-\\>|\\+|\\-|\\*|\\/|)\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
-                new TokenDefinition(TokenType.CallFunction, new Regex("\\[[a-zA-Z0-9_\\-]+\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"))
+                new TokenDefinition(TokenType.CallFunction, new Regex("\\[[^\\[\\]]+\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"))
             );
 
             Console.ReadLine();
@@ -46,10 +39,6 @@ namespace CSBL
                 {
                     Interpreter interpreter = new Interpreter(
                         transformedTokens,
-                        new Dictionary<string, FunctionBase>()
-                        {
-                            { "print", new FunctionPRINT() }
-                        },
                         new Dictionary<string, OperatorBase>()
                         {
                             { "+", new OperatorADD() },

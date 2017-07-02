@@ -12,8 +12,6 @@ namespace CSBL.Interpretation
     public class InterpreterEnvironment
     {
         public int CurrentTokenIndex { get; set; }
-        public Stack<TransformedToken> OpenParenthesesStack { get; set; }
-        public Stack<TransformedToken> CloseParenthesesStack { get; set; }
         public Stack<TransformedToken> ValueStack { get; set; }
 
         /// <summary>
@@ -22,8 +20,6 @@ namespace CSBL.Interpretation
         public InterpreterEnvironment()
         {
             this.CurrentTokenIndex = 0;
-            this.OpenParenthesesStack = new Stack<TransformedToken>() { };
-            this.CloseParenthesesStack = new Stack<TransformedToken>() { };
             this.ValueStack = new Stack<TransformedToken>() { };
         }
     }

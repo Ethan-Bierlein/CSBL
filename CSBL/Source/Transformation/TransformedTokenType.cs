@@ -7,16 +7,9 @@ namespace CSBL.Transformation
     /// </summary>
     public enum TransformedTokenType
     {
-        CodeBlockOpen,
-        CodeBlockClose,
-        Type,
-        TypedName,
-        UntypedName,
         Bool,
         String,
         Number,
-        Array,
-        CallOperator,
         CallFunction,
         CallCustomFunction
     }

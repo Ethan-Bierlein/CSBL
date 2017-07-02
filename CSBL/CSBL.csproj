@@ -46,8 +46,6 @@
   <ItemGroup>
     <Compile Include="Source\EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\Interpretation\Functions\FunctionBase.cs" />
-    <Compile Include="Source\Interpretation\Functions\FunctionTypes\FunctionPRINT.cs" />
     <Compile Include="Source\Interpretation\Interpreter.cs" />
     <Compile Include="Source\Interpretation\InterpreterEnvironment.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorTypes\OperatorADD.cs" />

@@ -11,7 +11,6 @@ namespace CSBL.Reporting
         InvalidToken,
         UnknownToken,
         UnknownFunction,
-        UnknownOperator,
         IncompatibleOperatorTypes,
     }
 }

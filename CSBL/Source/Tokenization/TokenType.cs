@@ -7,13 +7,9 @@ namespace CSBL.Tokenization
     /// </summary>
     public enum TokenType
     {
-        CodeBlockOpen,
-        CodeBlockClose,
-        Name,
         BoolLiteral,
         NumberLiteral,
         StringLiteral,
-        CallOperator,
         CallFunction,
     }
 }
