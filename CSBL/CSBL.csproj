@@ -59,7 +59,6 @@
     <Compile Include="Source\Interpretation\Operators\OperatorTypes\OperatorBOR.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorTypes\OperatorDIV.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorTypes\OperatorEQ.cs" />
-    <Compile Include="Source\Interpretation\Operators\OperatorTypes\OperatorGET.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorTypes\OperatorGT.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorTypes\OperatorGTE.cs" />
     <Compile Include="Source\Interpretation\Operators\OperatorTypes\OperatorLT.cs" />

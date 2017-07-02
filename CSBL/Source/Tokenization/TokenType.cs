@@ -9,9 +9,7 @@ namespace CSBL.Tokenization
     {
         CodeBlockOpen,
         CodeBlockClose,
-        Type,
         Name,
-        TypeNameSeparator,
         BoolLiteral,
         NumberLiteral,
         StringLiteral,
