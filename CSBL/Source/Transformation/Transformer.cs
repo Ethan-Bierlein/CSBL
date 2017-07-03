@@ -128,6 +128,26 @@ namespace CSBL.Transformation
                         );
                         break;
 
+                    case TokenType.LabelDefinition:
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens,
+                            ref currentTokenIndex,
+                            this.InputTokens[currentTokenIndex].Position,
+                            TransformedTokenType.LabelDefinition,
+                            this.InputTokens[currentTokenIndex].Value.Trim('{').Trim('}')
+                        );
+                        break;
+
+                    case TokenType.LabelUsage:
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens,
+                            ref currentTokenIndex,
+                            this.InputTokens[currentTokenIndex].Position,
+                            TransformedTokenType.LabelUsage,
+                            this.InputTokens[currentTokenIndex].Value.Trim('(').Trim(')')
+                        );
+                        break;
+
                     default:
                         errorEncountered = true;
                         Errors.UnknownToken.Report(
@@ -145,6 +165,7 @@ namespace CSBL.Transformation
                 return null;
             }
 
+            transformedTokens.Add(new TransformedToken(new TokenPosition(0, 0), TransformedTokenType.LabelDefinition, "FILE-END"));
             this.OutputTokens = transformedTokens;
             return transformedTokens;
         }

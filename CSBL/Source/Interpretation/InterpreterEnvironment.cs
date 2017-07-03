@@ -13,6 +13,8 @@ namespace CSBL.Interpretation
     {
         public int CurrentTokenIndex { get; set; }
         public Stack<TransformedToken> ValueStack { get; set; }
+        public Stack<int> CallStack { get; set; }
+        public Dictionary<string, int> DefinedLabels { get; set; }
 
         /// <summary>
         /// Constructor for the InterpreterEnvironment class.
@@ -21,6 +23,8 @@ namespace CSBL.Interpretation
         {
             this.CurrentTokenIndex = 0;
             this.ValueStack = new Stack<TransformedToken>() { };
+            this.CallStack = new Stack<int>() { };
+            this.DefinedLabels = new Dictionary<string, int>() { };
         }
     }
 }

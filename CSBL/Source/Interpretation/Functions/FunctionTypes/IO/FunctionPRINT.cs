@@ -6,15 +6,15 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.IO
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [out] function.
+    /// the [print] function.
     /// </summary>
-    public class FunctionOUT : FunctionBase
+    public class FunctionPRINT : FunctionBase
     {
         /// <summary>
-        /// Constructor for the FunctionOUT class.
+        /// Constructor for the FunctionPRINT class.
         /// </summary>
-        public FunctionOUT()
-            : base("out")
+        public FunctionPRINT()
+            : base("print")
         { }
 
         /// <summary>

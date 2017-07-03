@@ -11,5 +11,7 @@ namespace CSBL.Tokenization
         NumberLiteral,
         StringLiteral,
         CallFunction,
+        LabelDefinition,
+        LabelUsage,
     }
 }

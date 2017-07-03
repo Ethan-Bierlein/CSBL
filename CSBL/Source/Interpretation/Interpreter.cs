@@ -29,11 +29,33 @@ namespace CSBL.Interpretation
             this.Environment = new InterpreterEnvironment();
         }
 
-        public void PreInterpret()
+        /// <summary>
+        /// Iterate over the list of transforemd tokens generated from the token list generated
+        /// by the tokenizer and generate a list of 
+        /// </summary>
+        public bool PreInterpret()
         {
+            Dictionary<string, int> definedLabels = new Dictionary<string, int>() { };
+            for(int i = 0; i < this.InputTokens.Count; i++)
+            {
+                TransformedToken currentToken = this.InputTokens[i];
+                if(currentToken.Type == TransformedTokenType.LabelDefinition)
+                {
+                    if(!definedLabels.ContainsKey(currentToken.Data[0]))
+                    {
+                        definedLabels.Add(currentToken.Data[0], i);
+                    }
+                }
+            }
 
+            this.Environment.DefinedLabels = definedLabels;
+            return true;
         }
 
+        /// <summary>
+        /// Iterate over the list of transformed tokens generated from the token list generated
+        /// by the tokenizer and produce a result.
+        /// </summary>
         public void Interpret()
         {
             while(this.Environment.CurrentTokenIndex < this.InputTokens.Count)
@@ -59,6 +81,10 @@ namespace CSBL.Interpretation
                             );
                             return;
                         }
+                        this.Environment.CurrentTokenIndex++;
+                        break;
+
+                    case TransformedTokenType.LabelDefinition:
                         this.Environment.CurrentTokenIndex++;
                         break;
 
