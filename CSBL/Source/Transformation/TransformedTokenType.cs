@@ -12,6 +12,7 @@ namespace CSBL.Transformation
         Number,
         CallFunction,
         LabelDefinition,
-        LabelUsage
+        LabelUsage,
+        Name
     }
 }

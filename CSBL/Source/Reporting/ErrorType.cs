@@ -11,7 +11,6 @@ namespace CSBL.Reporting
         ExitTokenizer,
         ExitTransformer,
         ExitInterpreter,
-
         InvalidToken,
         UnknownToken,
         UnknownLabel,
@@ -19,5 +18,8 @@ namespace CSBL.Reporting
         IncompatibleOperatorTypes,
         EmptyCallStack,
         InvalidValue,
+        InvalidName,
+        RedefinedName,
+        UndefinedName
     }
 }

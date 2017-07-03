@@ -13,5 +13,6 @@ namespace CSBL.Tokenization
         CallFunction,
         LabelDefinition,
         LabelUsage,
+        Name,
     }
 }

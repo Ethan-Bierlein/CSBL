@@ -24,15 +24,10 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 @"
-                (test-fn-1) [call]
-                (test-fn-2) [call]
-                (test-fn-3) [call]
-                
-                [exit]
+                @<test-value-one> 10 11 [+] [set]
+                @<test-value-one> [get] [print]            
 
-                {test-fn-1} 'test-fn-1 called' [print] [ret]
-                {test-fn-2} 'test-fn-2 called' [print] [ret]
-                {test-fn-3} 'test-fn-3 called' [print] [ret]
+                [exit]
                 ",
                 new Regex("(\\-\\-(.|\n)*\\-\\-)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"),
                 new TokenDefinition(TokenType.BoolLiteral, new Regex("(true|false)(?=(?:[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\))[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\)))*[^'\"{}\\(\\)]*\\Z)")),
@@ -40,7 +35,8 @@ namespace CSBL
                 new TokenDefinition(TokenType.NumberLiteral, new Regex("((-|\\+?)((\\d+\\.\\d+)|(\\.\\d+)|(\\d+\\.)|(\\d+)))(?=(?:[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\))[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\)))*[^'\"{}\\(\\)]*\\Z)")),
                 new TokenDefinition(TokenType.CallFunction, new Regex("\\[[^\\[\\]]+\\](?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
                 new TokenDefinition(TokenType.LabelDefinition, new Regex("{[a-zA-Z0-9_\\-]+}(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
-                new TokenDefinition(TokenType.LabelUsage, new Regex("\\([a-zA-Z0-9_\\-]+\\)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"))
+                new TokenDefinition(TokenType.LabelUsage, new Regex("\\([a-zA-Z0-9_\\-]+\\)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)")),
+                new TokenDefinition(TokenType.Name, new Regex("@<[a-zA-Z0-9_\\-]+>(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"))
             );
 
             List<Token> tokens = tokenizer.Tokenize();
@@ -73,6 +69,8 @@ namespace CSBL
                             { "in", new FunctionIN() },
                             { "print", new FunctionPRINT() },
 
+                            { "set", new FunctionSET() },
+                            { "get", new FunctionGET() },
                             { "call", new FunctionCALL() },
                             { "ret", new FunctionRET() },
                             { "exit", new FunctionEXIT() }

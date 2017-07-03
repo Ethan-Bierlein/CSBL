@@ -148,6 +148,16 @@ namespace CSBL.Transformation
                         );
                         break;
 
+                    case TokenType.Name:
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens,
+                            ref currentTokenIndex,
+                            this.InputTokens[currentTokenIndex].Position,
+                            TransformedTokenType.Name,
+                            this.InputTokens[currentTokenIndex].Value.Trim('@').Trim('<').Trim('>')
+                        );
+                        break;
+
                     default:
                         errorEncountered = true;
                         Errors.UnknownToken.Report(
