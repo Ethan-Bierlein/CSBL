@@ -25,8 +25,9 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 @"
-                1 true (increment) [call-if] [print]
-                2 false (increment) [call-if] [print]                
+                1 (increment) [call] [print]
+                2 (increment) [call] [print]
+                16 (generate-batman) [call] [print]              
 
                 [exit]
 
@@ -34,6 +35,12 @@ namespace CSBL
                     @<value-to-increment> [set]
                     @<value-to-increment> [get] 1 [+]
                     @<value-to-increment> [del]
+                    [ret]
+
+                {generate-batman}
+                    @<na-count> [set]
+                    'Na' @<na-count> [get] [*] ' Batman!' [+]
+                    @<na-count> [del]
                     [ret]
                 ",
                 new Regex("(\\-\\-(.|\n)*\\-\\-)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"),

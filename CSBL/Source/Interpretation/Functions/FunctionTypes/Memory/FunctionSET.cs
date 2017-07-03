@@ -36,17 +36,12 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
                 if(!interpreterEnvironment.DefinedValues.ContainsKey(name.Data[0]))
                 {
                     interpreterEnvironment.DefinedValues.Add(name.Data[0], nameValue);
-                    return true;
                 }
                 else
                 {
-                    Errors.RedefinedName.Report(
-                        name.Data[0],
-                        name.Position.Line,
-                        name.Position.Column
-                    );
-                    return false;
+                    interpreterEnvironment.DefinedValues[name.Data[0]] = nameValue.Data[0];
                 }
+                return true;
             }
             else
             {
