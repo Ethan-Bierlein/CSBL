@@ -2,7 +2,7 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Functions.FunctionTypes.IO
+namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
@@ -25,34 +25,22 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.IO
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
             TransformedToken nameValue = interpreterEnvironment.ValueStack.Pop();
-            TransformedToken name = interpreterEnvironment.ValueStack.Pop();
+            TransformedToken name = interpreterEnvironment.NameStack.Pop();
 
-            if(name.Type == TransformedTokenType.Name)
+            if(
+                nameValue.Type == TransformedTokenType.Bool ||
+                nameValue.Type == TransformedTokenType.String ||
+                nameValue.Type == TransformedTokenType.Number
+            )
             {
-                if(
-                    nameValue.Type == TransformedTokenType.Bool ||
-                    nameValue.Type == TransformedTokenType.String ||
-                    nameValue.Type == TransformedTokenType.Number
-                )
+                if(!interpreterEnvironment.DefinedValues.ContainsKey(name.Data[0]))
                 {
-                    if(!interpreterEnvironment.DefinedValues.ContainsKey(name.Data[0]))
-                    {
-                        interpreterEnvironment.DefinedValues.Add(name.Data[0], nameValue);
-                        return true;
-                    }
-                    else
-                    {
-                        Errors.RedefinedName.Report(
-                            name.Data[0],
-                            name.Position.Line,
-                            name.Position.Column
-                        );
-                        return false;
-                    }
+                    interpreterEnvironment.DefinedValues.Add(name.Data[0], nameValue);
+                    return true;
                 }
                 else
                 {
-                    Errors.InvalidValue.Report(
+                    Errors.RedefinedName.Report(
                         name.Data[0],
                         name.Position.Line,
                         name.Position.Column
@@ -62,7 +50,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.IO
             }
             else
             {
-                Errors.InvalidName.Report(
+                Errors.InvalidValue.Report(
                     name.Data[0],
                     name.Position.Line,
                     name.Position.Column

@@ -88,6 +88,16 @@ namespace CSBL.Interpretation
                         this.Environment.CurrentTokenIndex++;
                         break;
 
+                    case TransformedTokenType.LabelUsage:
+                        this.Environment.LabelStack.Push(currentToken);
+                        this.Environment.CurrentTokenIndex++;
+                        break;
+
+                    case TransformedTokenType.Name:
+                        this.Environment.NameStack.Push(currentToken);
+                        this.Environment.CurrentTokenIndex++;
+                        break;
+
                     default:
                         this.Environment.ValueStack.Push(currentToken);
                         this.Environment.CurrentTokenIndex++;

@@ -2,7 +2,7 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Functions.FunctionTypes.IO
+namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
@@ -24,27 +24,15 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.IO
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            TransformedToken nameValueToGet = interpreterEnvironment.ValueStack.Pop();
-            if(nameValueToGet.Type == TransformedTokenType.Name)
+            TransformedToken nameValueToGet = interpreterEnvironment.NameStack.Pop();
+            if(interpreterEnvironment.DefinedValues.ContainsKey(nameValueToGet.Data[0]))
             {
-                if(interpreterEnvironment.DefinedValues.ContainsKey(nameValueToGet.Data[0]))
-                {
-                    interpreterEnvironment.ValueStack.Push(interpreterEnvironment.DefinedValues[nameValueToGet.Data[0]]);
-                    return true;
-                }
-                else
-                {
-                    Errors.UndefinedName.Report(
-                        nameValueToGet.Data[0],
-                        nameValueToGet.Position.Line,
-                        nameValueToGet.Position.Column
-                    );
-                    return false;
-                }
+                interpreterEnvironment.ValueStack.Push(interpreterEnvironment.DefinedValues[nameValueToGet.Data[0]]);
+                return true;
             }
             else
             {
-                Errors.InvalidName.Report(
+                Errors.UndefinedName.Report(
                     nameValueToGet.Data[0],
                     nameValueToGet.Position.Line,
                     nameValueToGet.Position.Column

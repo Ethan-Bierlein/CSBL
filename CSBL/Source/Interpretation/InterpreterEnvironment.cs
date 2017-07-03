@@ -13,6 +13,8 @@ namespace CSBL.Interpretation
     {
         public int CurrentTokenIndex { get; set; }
         public Stack<TransformedToken> ValueStack { get; set; }
+        public Stack<TransformedToken> LabelStack { get; set; }
+        public Stack<TransformedToken> NameStack { get; set; }
         public Stack<int> CallStack { get; set; }
         public Dictionary<string, int> DefinedLabels { get; set; }
         public Dictionary<string, TransformedToken> DefinedValues { get; set; }
@@ -24,6 +26,8 @@ namespace CSBL.Interpretation
         {
             this.CurrentTokenIndex = 0;
             this.ValueStack = new Stack<TransformedToken>() { };
+            this.LabelStack = new Stack<TransformedToken>() { };
+            this.NameStack = new Stack<TransformedToken>() { };
             this.CallStack = new Stack<int>() { };
             this.DefinedLabels = new Dictionary<string, int>() { };
             this.DefinedValues = new Dictionary<string, TransformedToken>() { };

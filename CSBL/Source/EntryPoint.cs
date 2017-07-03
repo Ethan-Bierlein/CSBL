@@ -9,6 +9,7 @@ using CSBL.Interpretation.Functions;
 using CSBL.Interpretation.Functions.FunctionTypes.IO;
 using CSBL.Interpretation.Functions.FunctionTypes.Flow;
 using CSBL.Interpretation.Functions.FunctionTypes.Math;
+using CSBL.Interpretation.Functions.FunctionTypes.Memory;
 using CSBL.Interpretation.Functions.FunctionTypes.Boolean;
 using CSBL.Interpretation.Functions.FunctionTypes.Comparison;
 
@@ -24,10 +25,16 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 @"
-                @<test-value-one> 10 11 [+] [set]
-                @<test-value-one> [get] [print]            
+                1 (increment) [call] [print]
+                2 (increment) [call] [print]                
 
                 [exit]
+
+                {increment} 
+                    @<value-to-increment> [set]
+                    @<value-to-increment> [get] 1 [+]
+                    @<value-to-increment> [del]
+                    [ret]
                 ",
                 new Regex("(\\-\\-(.|\n)*\\-\\-)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"),
                 new TokenDefinition(TokenType.BoolLiteral, new Regex("(true|false)(?=(?:[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\))[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\)))*[^'\"{}\\(\\)]*\\Z)")),
@@ -71,6 +78,11 @@ namespace CSBL
 
                             { "set", new FunctionSET() },
                             { "get", new FunctionGET() },
+                            { "del", new FunctionDEL() },
+                            { "popval", new FunctionPOPVAL() },
+                            { "poplbl", new FunctionPOPLBL() },
+                            { "popname", new FunctionPOPNAME() },
+
                             { "call", new FunctionCALL() },
                             { "ret", new FunctionRET() },
                             { "exit", new FunctionEXIT() }

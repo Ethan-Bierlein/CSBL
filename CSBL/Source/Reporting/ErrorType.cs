@@ -18,8 +18,8 @@ namespace CSBL.Reporting
         IncompatibleOperatorTypes,
         EmptyCallStack,
         InvalidValue,
-        InvalidName,
         RedefinedName,
-        UndefinedName
+        UndefinedName,
+        EmptyStack
     }
 }

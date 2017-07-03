@@ -24,7 +24,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Flow
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            TransformedToken label = interpreterEnvironment.ValueStack.Pop();
+            TransformedToken label = interpreterEnvironment.LabelStack.Pop();
             if(label.Type == TransformedTokenType.LabelUsage)
             {
                 if(interpreterEnvironment.DefinedLabels.ContainsKey(label.Data[0]))
