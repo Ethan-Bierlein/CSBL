@@ -6,15 +6,15 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [popval] function.
+    /// the [del] function.
     /// </summary>
-    public class FunctionPOPVAL : FunctionBase
+    public class FunctionDEL : FunctionBase
     {
         /// <summary>
-        /// Constructor for the FunctionPOPVAL class.
+        /// Constructor for the FunctionSET class.
         /// </summary>
-        public FunctionPOPVAL()
-            : base("pop-val")
+        public FunctionDEL()
+            : base("del")
         { }
 
         /// <summary>
@@ -24,17 +24,18 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            if(interpreterEnvironment.ValueStack.Count > 0)
+            TransformedToken nameToDelete = interpreterEnvironment.NameStack.Pop();
+            if(interpreterEnvironment.DefinedValues.ContainsKey(nameToDelete.Data[0]))
             {
-                interpreterEnvironment.ValueStack.Pop();
+                interpreterEnvironment.DefinedValues.Remove(nameToDelete.Data[0]);
                 return true;
             }
             else
             {
-                Errors.EmptyStack.Report(
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0],
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                Errors.UndefinedName.Report(
+                    nameToDelete.Data[0],
+                    nameToDelete.Position.Line,
+                    nameToDelete.Position.Column
                 );
                 return false;
             }

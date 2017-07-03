@@ -14,7 +14,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
         /// Constructor for the FunctionPOPLBL class.
         /// </summary>
         public FunctionPOPLBL()
-            : base("poplbl")
+            : base("pop-lbl")
         { }
 
         /// <summary>

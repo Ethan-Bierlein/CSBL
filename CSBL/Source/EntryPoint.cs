@@ -79,9 +79,9 @@ namespace CSBL
                             { "set", new FunctionSET() },
                             { "get", new FunctionGET() },
                             { "del", new FunctionDEL() },
-                            { "popval", new FunctionPOPVAL() },
-                            { "poplbl", new FunctionPOPLBL() },
-                            { "popname", new FunctionPOPNAME() },
+                            { "pop-val", new FunctionPOPVAL() },
+                            { "pop-lbl", new FunctionPOPLBL() },
+                            { "pop-name", new FunctionPOPNAME() },
 
                             { "call", new FunctionCALL() },
                             { "ret", new FunctionRET() },

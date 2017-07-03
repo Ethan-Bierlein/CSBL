@@ -14,7 +14,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
         /// Constructor for the FunctionPOPNAME class.
         /// </summary>
         public FunctionPOPNAME()
-            : base("popname")
+            : base("pop-name")
         { }
 
         /// <summary>
