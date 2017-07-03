@@ -6,7 +6,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [poplbl] function.
+    /// the [pop-lbl] function.
     /// </summary>
     public class FunctionPOPLBL : FunctionBase
     {

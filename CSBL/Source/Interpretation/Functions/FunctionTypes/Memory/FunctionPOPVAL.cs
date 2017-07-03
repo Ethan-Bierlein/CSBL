@@ -6,7 +6,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [popval] function.
+    /// the [pop-val] function.
     /// </summary>
     public class FunctionPOPVAL : FunctionBase
     {

@@ -25,8 +25,8 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 @"
-                1 (increment) [call] [print]
-                2 (increment) [call] [print]                
+                1 true (increment) [call-if] [print]
+                2 false (increment) [call-if] [print]                
 
                 [exit]
 
@@ -82,7 +82,9 @@ namespace CSBL
                             { "pop-val", new FunctionPOPVAL() },
                             { "pop-lbl", new FunctionPOPLBL() },
                             { "pop-name", new FunctionPOPNAME() },
+                            { "pop-call", new FunctionPOPCALL() },
 
+                            { "call-if", new FunctionCALLIF() },
                             { "call", new FunctionCALL() },
                             { "ret", new FunctionRET() },
                             { "exit", new FunctionEXIT() }

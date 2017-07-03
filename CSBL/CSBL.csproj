@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Source\EntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionTypes\Flow\FunctionCALLIF.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Flow\FunctionEXIT.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Flow\FunctionCALL.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Flow\FunctionRET.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Memory\FunctionGET.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\IO\FunctionIN.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\IO\FunctionPRINT.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionTypes\Memory\FunctionPOPCALL.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Memory\FunctionPOPLBL.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Memory\FunctionPOPNAME.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Memory\FunctionPOPVAL.cs" />
