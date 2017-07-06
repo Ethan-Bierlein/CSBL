@@ -7,7 +7,6 @@ namespace CSBL.Preprocessing
     /// </summary>
     public enum PreprocessorTokenType
     {
-        Define,
         Import,
     }
 }

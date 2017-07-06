@@ -61,6 +61,7 @@ namespace CSBL.Preprocessing
 
             foreach(PreprocessorToken token in this.OutputTokens)
             {
+                Console.WriteLine(token.Data[0]);
                 outputString = outputString
                     .Remove(token.CharacterPosition, token.Data[0].Length)
                     .Insert(token.CharacterPosition, new string(' ', token.Data[0].Length));
@@ -70,32 +71,17 @@ namespace CSBL.Preprocessing
             {
                 switch(token.Type)
                 {
-                    case PreprocessorTokenType.Define:
-                        List<string> splitDefineToken = splitRegex.Split(token.Data[0], 3).ToList();
-                        splitDefineToken.RemoveAll(str => str == string.Empty);
-                        if(!definedNames.Contains(splitDefineToken[1]))
-                        {
-                            outputString = outputString.Replace(splitDefineToken[1], splitDefineToken[2]);
-                            definedNames.Add(splitDefineToken[1]);
-                        }
-                        else
-                        {
-                            Errors.RedefinedPreprocessorName.Report(splitDefineToken[1]);
-                            errorEncountered = true;
-                        }
-                        break;
-
                     case PreprocessorTokenType.Import:
                         List<string> splitImportToken = splitRegex.Split(token.Data[0], 2).ToList();
                         splitImportToken.RemoveAll(str => str == string.Empty);
                         if(!includedFiles.Contains(splitImportToken[1]))
                         {
-                            string path = splitImportToken[1].Trim('"');
+                            string path = string.Format("{0}/{1}", this.BaseIncludePath, splitImportToken[1].Trim('"'));
                             try
                             {
                                 string text = File.ReadAllText(path);
                                 outputString = outputString.Insert(token.CharacterPosition + numberOfInsertedChars, text);
-                                includedFiles.Add(splitImportToken[1]);
+                                includedFiles.Add(path);
                                 numberOfInsertedChars += text.Length;
                             }
                             catch(Exception)

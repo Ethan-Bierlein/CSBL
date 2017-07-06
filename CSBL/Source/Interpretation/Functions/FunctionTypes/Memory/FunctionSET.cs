@@ -39,7 +39,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
                 }
                 else
                 {
-                    interpreterEnvironment.DefinedValues[name.Data[0]] = nameValue.Data[0];
+                    interpreterEnvironment.DefinedValues[name.Data[0]] = nameValue;
                 }
                 return true;
             }

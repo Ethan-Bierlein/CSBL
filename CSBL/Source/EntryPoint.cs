@@ -32,7 +32,9 @@ namespace CSBL
                 List<string> includedFiles = new List<string>() { };
                 int outputTokensCount = 1;
                 int numberOfInsertedChars = 0;
-                string outputString = File.ReadAllText(args[0]);
+
+                string filePath = args[0];
+                string outputString = File.ReadAllText(filePath);
 
                 while(outputTokensCount > 0)
                 {
@@ -42,9 +44,8 @@ namespace CSBL
                     }
 
                     Preprocessor preprocessor = new Preprocessor(
-                        Path.GetFullPath(args[0]),
+                        Path.GetDirectoryName(Path.GetFullPath(filePath)),
                         outputString,
-                        new PreprocessorTokenDefinition(PreprocessorTokenType.Define, new Regex("#def\\s+[a-zA-Z0-9_\\-]+\\s+[^\n]+")),
                         new PreprocessorTokenDefinition(PreprocessorTokenType.Import, new Regex("#use\\s+(\'|\")[^\n]+(\'|\")"))
                     );
 
@@ -54,6 +55,11 @@ namespace CSBL
                         ref outputTokensCount, 
                         ref numberOfInsertedChars
                     );
+
+                    Console.WriteLine("\n\n\n");
+                    Console.WriteLine(outputString);
+                    Console.WriteLine("\n\n\n");
+                    Console.ReadLine();
                 }
 
                 if(outputString != null)
