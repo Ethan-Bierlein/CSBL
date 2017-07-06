@@ -27,7 +27,7 @@ namespace CSBL
                 @"
                 1 (increment) [call] [print]
                 2 (increment) [call] [print]
-                16 (generate-batman) [call] [print]              
+                16 (generate-batman) [call] [print]
 
                 [exit]
 
@@ -35,6 +35,12 @@ namespace CSBL
                     @<value-to-increment> [set]
                     @<value-to-increment> [get] 1 [+]
                     @<value-to-increment> [del]
+                    [ret]
+
+                {decrement}
+                    @<value-to-decrement> [set]
+                    @<value-to-decrement> [get] 1 [-]
+                    @<value-to-decrement> [del]
                     [ret]
 
                 {generate-batman}

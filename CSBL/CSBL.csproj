@@ -75,6 +75,10 @@
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Math\FunctionMUL.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Comparison\FunctionNEQ.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Math\FunctionSUB.cs" />
+    <Compile Include="Source\Preprocessing\Preprocessor.cs" />
+    <Compile Include="Source\Preprocessing\PreprocessorToken.cs" />
+    <Compile Include="Source\Preprocessing\PreprocessorTokenDefinition.cs" />
+    <Compile Include="Source\Preprocessing\PreprocessorTokenType.cs" />
     <Compile Include="Source\Reporting\Error.cs" />
     <Compile Include="Source\Reporting\Errors.cs" />
     <Compile Include="Source\Reporting\ErrorStage.cs" />
