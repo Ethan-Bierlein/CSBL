@@ -8,6 +8,7 @@ namespace CSBL.Reporting
     /// </summary>
     public enum ErrorStage
     {
+        Initialization,
         Preprocessor,
         Tokenization,
         Transformation,

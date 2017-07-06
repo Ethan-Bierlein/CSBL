@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -12,19 +13,22 @@ namespace CSBL.Preprocessing
     /// </summary>
     public class Preprocessor
     {
-        public string InputString { get; set; }
-        public string OutputString { get; set; }
-        public PreprocessorTokenDefinition[] InputTokens { get; set; }
-        public List<PreprocessorToken> OutputTokens { get; set; }
+        public string BaseIncludePath { get; private set; }
+        public string InputString { get; private set; }
+        public string OutputString { get; private set; }
+        public PreprocessorTokenDefinition[] InputTokens { get; private set; }
+        public List<PreprocessorToken> OutputTokens { get; private set; }
 
         /// <summary>
         /// Constructor for the Preprocessor class.
         /// </summary>
+        /// <param name="baseIncludePath">The base include path for all #use tokens.</param>
         /// <param name="inputString">The input string provided.</param>
         /// <param name="inputTokens">The list of preprocessor token definitions.</param>
-        public Preprocessor(string inputString, params PreprocessorTokenDefinition[] inputTokens)
+        public Preprocessor(string baseIncludePath, string inputString, params PreprocessorTokenDefinition[] inputTokens)
         {
-            this.InputString = inputString;
+            this.BaseIncludePath = baseIncludePath;
+            this.InputString = inputString + " \n";
             this.OutputString = "";
             this.InputTokens = inputTokens;
             this.OutputTokens = new List<PreprocessorToken>() { };
@@ -48,7 +52,7 @@ namespace CSBL.Preprocessing
             }
         }
 
-        public string GenerateOutput(ref List<string> definedNames, ref List<string> includedFiles, ref int numberOfOutputTokens)
+        public string GenerateOutput(ref List<string> definedNames, ref List<string> includedFiles, ref int numberOfOutputTokens, ref int numberOfInsertedChars)
         {
             Regex splitRegex = new Regex("\\s+");
             string outputString = this.InputString;
@@ -86,7 +90,19 @@ namespace CSBL.Preprocessing
                         splitImportToken.RemoveAll(str => str == string.Empty);
                         if(!includedFiles.Contains(splitImportToken[1]))
                         {
-                            includedFiles.Add(splitImportToken[1]);
+                            string path = splitImportToken[1].Trim('"');
+                            try
+                            {
+                                string text = File.ReadAllText(path);
+                                outputString = outputString.Insert(token.CharacterPosition + numberOfInsertedChars, text);
+                                includedFiles.Add(splitImportToken[1]);
+                                numberOfInsertedChars += text.Length;
+                            }
+                            catch(Exception)
+                            {
+                                Errors.ErrorOpeningFile.Report(path);
+                                errorEncountered = true;
+                            }
                         }
                         else
                         {
