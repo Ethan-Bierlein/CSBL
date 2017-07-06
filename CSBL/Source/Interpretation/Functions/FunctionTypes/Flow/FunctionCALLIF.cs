@@ -24,8 +24,23 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Flow
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            TransformedToken callIf = interpreterEnvironment.ValueStack.Pop();
-            TransformedToken label = interpreterEnvironment.LabelStack.Pop();
+            TransformedToken callIf;
+            TransformedToken label;
+
+            if(interpreterEnvironment.ValueStack.Count > 0 && interpreterEnvironment.LabelStack.Count > 0)
+            {
+                callIf = interpreterEnvironment.ValueStack.Pop();
+                label = interpreterEnvironment.LabelStack.Pop();
+            }
+            else
+            {
+                Errors.EmptyStack.Report(
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0],
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                );
+                return false;
+            }
 
             if(label.Type == TransformedTokenType.LabelUsage)
             {

@@ -25,6 +25,21 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
             TransformedToken nameValueToGet = interpreterEnvironment.NameStack.Pop();
+
+            if(interpreterEnvironment.NameStack.Count > 0)
+            {
+                nameValueToGet = interpreterEnvironment.NameStack.Pop();
+            }
+            else
+            {
+                Errors.EmptyStack.Report(
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0],
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                );
+                return false;
+            }
+
             if(interpreterEnvironment.DefinedValues.ContainsKey(nameValueToGet.Data[0]))
             {
                 interpreterEnvironment.ValueStack.Push(interpreterEnvironment.DefinedValues[nameValueToGet.Data[0]]);

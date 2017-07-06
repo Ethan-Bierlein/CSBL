@@ -27,6 +27,21 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
             TransformedToken nameValue = interpreterEnvironment.ValueStack.Pop();
             TransformedToken name = interpreterEnvironment.NameStack.Pop();
 
+            if(interpreterEnvironment.ValueStack.Count > 0 && interpreterEnvironment.NameStack.Count > 0)
+            {
+                nameValue = interpreterEnvironment.ValueStack.Pop();
+                name = interpreterEnvironment.NameStack.Pop();
+            }
+            else
+            {
+                Errors.EmptyStack.Report(
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0],
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                );
+                return false;
+            }
+
             if(
                 nameValue.Type == TransformedTokenType.Bool ||
                 nameValue.Type == TransformedTokenType.String ||

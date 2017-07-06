@@ -25,8 +25,23 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Math
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            TransformedToken b = interpreterEnvironment.ValueStack.Pop();
-            TransformedToken a = interpreterEnvironment.ValueStack.Pop();
+            TransformedToken b;
+            TransformedToken a;
+
+            if(interpreterEnvironment.ValueStack.Count >= 2)
+            {
+                b = interpreterEnvironment.ValueStack.Pop();
+                a = interpreterEnvironment.ValueStack.Pop();
+            }
+            else
+            {
+                Errors.EmptyStack.Report(
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0],
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                );
+                return false;
+            }
 
             if(a.Type == TransformedTokenType.Number && b.Type == TransformedTokenType.Number)
             {

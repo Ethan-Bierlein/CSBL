@@ -22,10 +22,10 @@ namespace CSBL.Reporting
         UnknownLabel,
         UnknownFunction,
         IncompatibleOperatorTypes,
-        EmptyCallStack,
         InvalidValue,
         RedefinedName,
         UndefinedName,
+        EmptyCallStack,
         EmptyStack
     }
 }

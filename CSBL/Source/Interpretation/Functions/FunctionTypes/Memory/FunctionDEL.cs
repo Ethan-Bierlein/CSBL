@@ -24,7 +24,22 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            TransformedToken nameToDelete = interpreterEnvironment.NameStack.Pop();
+            TransformedToken nameToDelete;
+
+            if(interpreterEnvironment.NameStack.Count > 0)
+            {
+                nameToDelete = interpreterEnvironment.NameStack.Pop();
+            }
+            else
+            {
+                Errors.EmptyStack.Report(
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0],
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                );
+                return false;
+            }
+
             if(interpreterEnvironment.DefinedValues.ContainsKey(nameToDelete.Data[0]))
             {
                 interpreterEnvironment.DefinedValues.Remove(nameToDelete.Data[0]);

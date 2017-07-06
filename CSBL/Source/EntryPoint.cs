@@ -26,7 +26,7 @@ namespace CSBL
         [STAThread]
         public static void Main(string[] args)
         {
-            if(args.Length > 0)
+            if(args.Length >= 0)
             {
                 List<string> definedNames = new List<string>() { };
                 List<string> includedFiles = new List<string>() { };

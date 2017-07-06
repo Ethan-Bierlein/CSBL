@@ -24,7 +24,22 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.IO
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            TransformedToken tokenToWrite = interpreterEnvironment.ValueStack.Pop();
+            TransformedToken tokenToWrite;
+
+            if(interpreterEnvironment.ValueStack.Count > 0)
+            {
+                tokenToWrite = interpreterEnvironment.ValueStack.Pop();
+            }
+            else
+            {
+                Errors.EmptyStack.Report(
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0],
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                );
+                return false;
+            }
+
             Console.WriteLine(string.Join("", tokenToWrite.Data));
             return true;
         }
