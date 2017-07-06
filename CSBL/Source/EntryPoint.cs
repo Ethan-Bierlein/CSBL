@@ -55,11 +55,6 @@ namespace CSBL
                         ref outputTokensCount, 
                         ref numberOfInsertedChars
                     );
-
-                    Console.WriteLine("\n\n\n");
-                    Console.WriteLine(outputString);
-                    Console.WriteLine("\n\n\n");
-                    Console.ReadLine();
                 }
 
                 if(outputString != null)
