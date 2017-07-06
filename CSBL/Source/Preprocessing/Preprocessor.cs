@@ -61,7 +61,6 @@ namespace CSBL.Preprocessing
 
             foreach(PreprocessorToken token in this.OutputTokens)
             {
-                Console.WriteLine(token.Data[0]);
                 outputString = outputString
                     .Remove(token.CharacterPosition, token.Data[0].Length)
                     .Insert(token.CharacterPosition, new string(' ', token.Data[0].Length));
