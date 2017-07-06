@@ -48,9 +48,9 @@ namespace CSBL.Preprocessing
             }
         }
 
-        public string GenerateOutput()
+        public string GenerateOutput(ref List<string> definedNames, ref List<string> includedFiles, ref int numberOfOutputTokens)
         {
-            List<string> includedFiles = new List<string>() { };
+            Regex splitRegex = new Regex("\\s+");
             string outputString = this.InputString;
             bool errorEncountered = false;
             this.GenerateTokens();
@@ -67,13 +67,32 @@ namespace CSBL.Preprocessing
                 switch(token.Type)
                 {
                     case PreprocessorTokenType.Define:
-                        Regex splitRegex = new Regex("\\s+");
                         List<string> splitDefineToken = splitRegex.Split(token.Data[0], 3).ToList();
                         splitDefineToken.RemoveAll(str => str == string.Empty);
-                        outputString = outputString.Replace(splitDefineToken[1], splitDefineToken[2]);
+                        if(!definedNames.Contains(splitDefineToken[1]))
+                        {
+                            outputString = outputString.Replace(splitDefineToken[1], splitDefineToken[2]);
+                            definedNames.Add(splitDefineToken[1]);
+                        }
+                        else
+                        {
+                            Errors.RedefinedPreprocessorName.Report(splitDefineToken[1]);
+                            errorEncountered = true;
+                        }
                         break;
 
                     case PreprocessorTokenType.Import:
+                        List<string> splitImportToken = splitRegex.Split(token.Data[0], 2).ToList();
+                        splitImportToken.RemoveAll(str => str == string.Empty);
+                        if(!includedFiles.Contains(splitImportToken[1]))
+                        {
+                            includedFiles.Add(splitImportToken[1]);
+                        }
+                        else
+                        {
+                            Errors.RedefinedPreprocessorImport.Report(splitImportToken[1]);
+                            errorEncountered = true;
+                        }
                         break;
 
                     default:
@@ -86,8 +105,9 @@ namespace CSBL.Preprocessing
                 }
             }
 
+            numberOfOutputTokens = this.OutputTokens.Count;
             this.OutputString = errorEncountered ? null : outputString;
-            return outputString;
+            return this.OutputString;
         }
     }
 }

@@ -26,9 +26,11 @@ namespace CSBL
         {
             string inputString = @"
                 #def VAL-TO-INC-1 8
-                #def VAL-TO-INC-2 9
+                #def VAL-TO-INC-1 9
                 #def BATMAN-NA-COUNT 16
+                #def BATMAN-NA-COUNT 17
                 #def EXIT-STRING 'Exiting the program!'
+                #def EXIT-STRING 'Exiting the program?'
 
                 VAL-TO-INC-1 (increment) [call] [print]
                 VAL-TO-INC-2 (increment) [call] [print]
@@ -56,12 +58,26 @@ namespace CSBL
                     [ret]
                 ";
 
-            Preprocessor preprocessor = new Preprocessor(
-                inputString,
-                new PreprocessorTokenDefinition(PreprocessorTokenType.Define, new Regex("#def\\s+[a-zA-Z0-9_\\-]+\\s+[^\n]+\\s*\n")),
-                new PreprocessorTokenDefinition(PreprocessorTokenType.Import, new Regex("#use\\s+\"[^\n]+\"\\s*\n"))
-            );
-            string outputString = preprocessor.GenerateOutput();
+            List<string> definedNames = new List<string>() { };
+            List<string> includedFiles = new List<string>() { };
+            int outputTokensCount = 1;
+            string outputString = inputString;
+
+            while(outputTokensCount > 0)
+            {
+                if(outputString == null)
+                {
+                    break;
+                }
+
+                Preprocessor preprocessor = new Preprocessor(
+                    outputString,
+                    new PreprocessorTokenDefinition(PreprocessorTokenType.Define, new Regex("#def\\s+[a-zA-Z0-9_\\-]+\\s+[^\n]+\\s*\n")),
+                    new PreprocessorTokenDefinition(PreprocessorTokenType.Import, new Regex("#use\\s+\"[^\n]+\"\\s*\n"))
+                );
+                outputString = preprocessor.GenerateOutput(ref definedNames, ref includedFiles, ref outputTokensCount);
+            }
+
             if(outputString != null)
             {
                 Tokenizer tokenizer = new Tokenizer(

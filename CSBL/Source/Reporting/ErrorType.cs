@@ -13,6 +13,8 @@ namespace CSBL.Reporting
         ExitTransformer,
         ExitInterpreter,
         InvalidPreprocessorToken,
+        RedefinedPreprocessorName,
+        RedefinedPreprocessorImport,
         InvalidToken,
         UnknownToken,
         UnknownLabel,
