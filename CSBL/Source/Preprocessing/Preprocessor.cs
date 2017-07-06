@@ -30,7 +30,7 @@ namespace CSBL.Preprocessing
             this.OutputTokens = new List<PreprocessorToken>() { };
         }
 
-        public void GenerateTokens()
+        private void GenerateTokens()
         {
             foreach(PreprocessorTokenDefinition tokenRegex in this.InputTokens)
             {
@@ -38,6 +38,7 @@ namespace CSBL.Preprocessing
                 List<PreprocessorToken> generatedTokens = tokenMatchCollection
                     .Cast<Match>()
                     .Select(match => new PreprocessorToken(tokenRegex.Type, match.Index, match.Value))
+                    .OrderBy(token => token.CharacterPosition)
                     .ToList();
                 
                 foreach(PreprocessorToken token in generatedTokens)
@@ -49,7 +50,44 @@ namespace CSBL.Preprocessing
 
         public string GenerateOutput()
         {
+            List<string> includedFiles = new List<string>() { };
+            string outputString = this.InputString;
+            bool errorEncountered = false;
+            this.GenerateTokens();
 
+            foreach(PreprocessorToken token in this.OutputTokens)
+            {
+                outputString = outputString
+                    .Remove(token.CharacterPosition, token.Data[0].Length)
+                    .Insert(token.CharacterPosition, new string(' ', token.Data[0].Length));
+            }
+
+            foreach(PreprocessorToken token in this.OutputTokens)
+            {
+                switch(token.Type)
+                {
+                    case PreprocessorTokenType.Define:
+                        Regex splitRegex = new Regex("\\s+");
+                        List<string> splitDefineToken = splitRegex.Split(token.Data[0], 3).ToList();
+                        splitDefineToken.RemoveAll(str => str == string.Empty);
+                        outputString = outputString.Replace(splitDefineToken[1], splitDefineToken[2]);
+                        break;
+
+                    case PreprocessorTokenType.Import:
+                        break;
+
+                    default:
+                        Errors.InvalidPreprocessorToken.Report(
+                            token.Data[0],
+                            token.CharacterPosition
+                        );
+                        errorEncountered = true;
+                        break;
+                }
+            }
+
+            this.OutputString = errorEncountered ? null : outputString;
+            return outputString;
         }
     }
 }

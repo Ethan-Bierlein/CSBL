@@ -8,9 +8,11 @@ namespace CSBL.Reporting
     /// </summary>
     public enum ErrorType
     {
+        ExitPreprocessor,
         ExitTokenizer,
         ExitTransformer,
         ExitInterpreter,
+        InvalidPreprocessorToken,
         InvalidToken,
         UnknownToken,
         UnknownLabel,
