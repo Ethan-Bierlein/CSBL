@@ -13,6 +13,7 @@ namespace CSBL.Reporting
         ExitTransformer,
         ExitInterpreter,
         NoFileProvided,
+        FileOpeningFailed,
         InvalidPreprocessorToken,
         RedefinedPreprocessorName,
         RedefinedPreprocessorImport,
