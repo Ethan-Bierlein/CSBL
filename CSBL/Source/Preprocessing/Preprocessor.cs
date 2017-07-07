@@ -16,6 +16,7 @@ namespace CSBL.Preprocessing
         public string BaseIncludePath { get; private set; }
         public string InputString { get; private set; }
         public string OutputString { get; private set; }
+        public Regex CommentRegex { get; private set; }
         public PreprocessorTokenDefinition[] InputTokens { get; private set; }
         public List<PreprocessorToken> OutputTokens { get; private set; }
 
@@ -24,16 +25,29 @@ namespace CSBL.Preprocessing
         /// </summary>
         /// <param name="baseIncludePath">The base include path for all #use tokens.</param>
         /// <param name="inputString">The input string provided.</param>
+        /// <param name="commentRegex">The regex for matching comments.</param>
         /// <param name="inputTokens">The list of preprocessor token definitions.</param>
-        public Preprocessor(string baseIncludePath, string inputString, params PreprocessorTokenDefinition[] inputTokens)
+        public Preprocessor(string baseIncludePath, string inputString, Regex commentRegex, params PreprocessorTokenDefinition[] inputTokens)
         {
             this.BaseIncludePath = baseIncludePath;
             this.InputString = inputString + " \n";
             this.OutputString = "";
+            this.CommentRegex = commentRegex;
             this.InputTokens = inputTokens;
             this.OutputTokens = new List<PreprocessorToken>() { };
         }
 
+        /// <summary>
+        /// Replace all the comments within the input string with newline characters.
+        /// </summary>
+        private void ReplaceComments()
+        {
+            this.InputString = this.CommentRegex.Replace(this.InputString, "\n");
+        }
+
+        /// <summary>
+        /// Generate a list of preprocessor tokens.
+        /// </summary>
         private void GenerateTokens()
         {
             foreach(PreprocessorTokenDefinition tokenRegex in this.InputTokens)
@@ -52,12 +66,21 @@ namespace CSBL.Preprocessing
             }
         }
 
+        /// <summary>
+        /// Generate an output string for the current set of preprocessor tokens.
+        /// </summary>
+        /// <param name="definedNames">The </param>
+        /// <param name="includedFiles"></param>
+        /// <param name="numberOfOutputTokens"></param>
+        /// <param name="numberOfInsertedChars"></param>
+        /// <returns></returns>
         public string GenerateOutput(ref List<string> definedNames, ref List<string> includedFiles, ref int numberOfOutputTokens, ref int numberOfInsertedChars)
         {
+            this.ReplaceComments();
+            this.GenerateTokens();
             Regex splitRegex = new Regex("\\s+");
             string outputString = this.InputString;
             bool errorEncountered = false;
-            this.GenerateTokens();
 
             foreach(PreprocessorToken token in this.OutputTokens)
             {

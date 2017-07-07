@@ -80,6 +80,7 @@ namespace CSBL
                 Preprocessor preprocessor = new Preprocessor(
                     Path.GetDirectoryName(Path.GetFullPath(inputFileDirectory)),
                     outputString,
+                    new Regex("//.*"),
                     new PreprocessorTokenDefinition(PreprocessorTokenType.Import, new Regex("#use\\s+(\'|\")[^\n]+(\'|\")"))
                 );
 
@@ -105,7 +106,6 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 inputString,
-                new Regex("(\\-\\-(.|\n)*\\-\\-)(?=(?:[^'\"]*('|\")[^'\"]*('|\"))*[^'\"]*\\Z)"),
                 new TokenDefinition(TokenType.BoolLiteral, new Regex("(true|false)(?=(?:[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\))[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\)))*[^'\"{}\\(\\)]*\\Z)")),
                 new TokenDefinition(TokenType.StringLiteral, new Regex("(\"[^\"]*\")|('[^']*')")),
                 new TokenDefinition(TokenType.NumberLiteral, new Regex("((-|\\+?)((\\d+\\.\\d+)|(\\.\\d+)|(\\d+\\.)|(\\d+)))(?=(?:[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\))[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\)))*[^'\"{}\\(\\)]*\\Z)")),
