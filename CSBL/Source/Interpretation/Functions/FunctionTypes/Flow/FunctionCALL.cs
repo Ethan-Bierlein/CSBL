@@ -25,6 +25,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Flow
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
             TransformedToken label;
+
             if(interpreterEnvironment.LabelStack.Count > 0)
             {
                 label = interpreterEnvironment.LabelStack.Pop();
@@ -43,9 +44,20 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Flow
             {
                 if(interpreterEnvironment.DefinedLabels.ContainsKey(label.Data[0]))
                 {
-                    interpreterEnvironment.CallStack.Push(interpreterEnvironment.CurrentTokenIndex);
-                    interpreterEnvironment.CurrentTokenIndex = interpreterEnvironment.DefinedLabels[label.Data[0]];
-                    return true;
+                    if(interpreter.InputTokens[interpreterEnvironment.DefinedLabels[label.Data[0]]].Type == TransformedTokenType.LabelDefinition)
+                    {
+                        interpreterEnvironment.CallStack.Push(interpreterEnvironment.CurrentTokenIndex);
+                        interpreterEnvironment.CurrentTokenIndex = interpreterEnvironment.DefinedLabels[label.Data[0]];
+                        return true;
+                    }
+                    else
+                    {
+                        Errors.InvalidLabelType.Report(
+                            interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
+                            interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                        );
+                        return false;
+                    }
                 }
                 else
                 {
@@ -53,6 +65,34 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Flow
                         label.Data[0],
                         label.Position.Line,
                         label.Position.Column    
+                    );
+                    return false;
+                }
+            }
+            else if(label.Type == TransformedTokenType.StacklessLabelUsage)
+            {
+                if(interpreterEnvironment.DefinedLabels.ContainsKey(label.Data[0]))
+                {
+                    if(interpreter.InputTokens[interpreterEnvironment.DefinedLabels[label.Data[0]]].Type == TransformedTokenType.StacklessLabelDefinition)
+                    {
+                        interpreterEnvironment.CurrentTokenIndex = interpreterEnvironment.DefinedLabels[label.Data[0]];
+                        return true;
+                    }
+                    else
+                    {
+                        Errors.InvalidLabelType.Report(
+                            interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
+                            interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                        );
+                        return false;
+                    }
+                }
+                else
+                {
+                    Errors.UnknownLabel.Report(
+                        label.Data[0],
+                        label.Position.Line,
+                        label.Position.Column
                     );
                     return false;
                 }

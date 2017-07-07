@@ -39,7 +39,10 @@ namespace CSBL.Interpretation
             for(int i = 0; i < this.InputTokens.Count; i++)
             {
                 TransformedToken currentToken = this.InputTokens[i];
-                if(currentToken.Type == TransformedTokenType.LabelDefinition)
+                if(
+                    currentToken.Type == TransformedTokenType.LabelDefinition || 
+                    currentToken.Type == TransformedTokenType.StacklessLabelDefinition
+                )
                 {
                     if(!definedLabels.ContainsKey(currentToken.Data[0]))
                     {
@@ -89,6 +92,15 @@ namespace CSBL.Interpretation
                         break;
 
                     case TransformedTokenType.LabelUsage:
+                        this.Environment.LabelStack.Push(currentToken);
+                        this.Environment.CurrentTokenIndex++;
+                        break;
+
+                    case TransformedTokenType.StacklessLabelDefinition:
+                        this.Environment.CurrentTokenIndex++;
+                        break;
+
+                    case TransformedTokenType.StacklessLabelUsage:
                         this.Environment.LabelStack.Push(currentToken);
                         this.Environment.CurrentTokenIndex++;
                         break;

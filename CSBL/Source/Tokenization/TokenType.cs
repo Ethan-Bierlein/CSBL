@@ -13,6 +13,8 @@ namespace CSBL.Tokenization
         CallFunction,
         LabelDefinition,
         LabelUsage,
+        StacklessLabelDefinition,
+        StacklessLabelUsage,
         Name,
     }
 }

@@ -24,7 +24,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            TransformedToken nameValueToGet = interpreterEnvironment.NameStack.Pop();
+            TransformedToken nameValueToGet;
 
             if(interpreterEnvironment.NameStack.Count > 0)
             {

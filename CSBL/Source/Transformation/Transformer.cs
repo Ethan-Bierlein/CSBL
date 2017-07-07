@@ -148,6 +148,26 @@ namespace CSBL.Transformation
                         );
                         break;
 
+                    case TokenType.StacklessLabelDefinition:
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens,
+                            ref currentTokenIndex,
+                            this.InputTokens[currentTokenIndex].Position,
+                            TransformedTokenType.StacklessLabelDefinition,
+                            this.InputTokens[currentTokenIndex].Value.Trim('^').Trim('{').Trim('}')
+                        );
+                        break;
+
+                    case TokenType.StacklessLabelUsage:
+                        this.AddTokenAndIncrement(
+                            ref transformedTokens,
+                            ref currentTokenIndex,
+                            this.InputTokens[currentTokenIndex].Position,
+                            TransformedTokenType.StacklessLabelUsage,
+                            this.InputTokens[currentTokenIndex].Value.Trim('^').Trim('(').Trim(')')
+                        );
+                        break;
+
                     case TokenType.Name:
                         this.AddTokenAndIncrement(
                             ref transformedTokens,

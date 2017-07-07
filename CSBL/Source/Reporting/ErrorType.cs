@@ -26,6 +26,7 @@ namespace CSBL.Reporting
         RedefinedName,
         UndefinedName,
         EmptyCallStack,
-        EmptyStack
+        EmptyStack,
+        InvalidLabelType
     }
 }

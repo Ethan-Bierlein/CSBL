@@ -13,6 +13,8 @@ namespace CSBL.Transformation
         CallFunction,
         LabelDefinition,
         LabelUsage,
+        StacklessLabelDefinition,
+        StacklessLabelUsage,
         Name
     }
 }

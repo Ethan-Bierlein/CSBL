@@ -48,12 +48,71 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Flow
                 {
                     if(interpreterEnvironment.DefinedLabels.ContainsKey(label.Data[0]))
                     {
-                        if(callIf.Data[0])
+                        if(interpreter.InputTokens[interpreterEnvironment.DefinedLabels[label.Data[0]]].Type == TransformedTokenType.LabelDefinition)
                         {
-                            interpreterEnvironment.CallStack.Push(interpreterEnvironment.CurrentTokenIndex);
-                            interpreterEnvironment.CurrentTokenIndex = interpreterEnvironment.DefinedLabels[label.Data[0]];
+                            if(callIf.Data[0])
+                            {
+                                interpreterEnvironment.CallStack.Push(interpreterEnvironment.CurrentTokenIndex);
+                                interpreterEnvironment.CurrentTokenIndex = interpreterEnvironment.DefinedLabels[label.Data[0]];
+                            }
+                            return true;
                         }
-                        return true;
+                        else
+                        {
+                            Errors.InvalidLabelType.Report(
+                                interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
+                                interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                            );
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        Errors.UnknownLabel.Report(
+                            label.Data[0],
+                            label.Position.Line,
+                            label.Position.Column
+                        );
+                        return false;
+                    }
+                }
+                else
+                {
+                    Errors.InvalidValue.Report(
+                        callIf.Data[0],
+                        callIf.Position.Line,
+                        callIf.Position.Column
+                    );
+                    return false;
+                }
+            }
+            else if(label.Type == TransformedTokenType.StacklessLabelUsage)
+            {
+                if(callIf.Type == TransformedTokenType.Bool)
+                {
+                    if(interpreterEnvironment.DefinedLabels.ContainsKey(label.Data[0]))
+                    {
+                        if(interpreter.InputTokens[interpreterEnvironment.DefinedLabels[label.Data[0]]].Type == TransformedTokenType.StacklessLabelDefinition)
+                        {
+                            if(callIf.Data[0])
+                            {
+                                interpreterEnvironment.CurrentTokenIndex = interpreterEnvironment.DefinedLabels[label.Data[0]];
+                            }
+                            return true;
+                        }
+                        else
+                        {
+                            foreach(System.Collections.Generic.KeyValuePair<string, int> lbl in interpreterEnvironment.DefinedLabels)
+                            {
+                                Console.WriteLine(lbl.Key);
+                            }
+
+                            Errors.InvalidLabelType.Report(
+                                interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
+                                interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                            );
+                            return false;
+                        }
                     }
                     else
                     {
