@@ -95,10 +95,10 @@ namespace CSBL.Preprocessing
                 {
                     case PreprocessorTokenType.Import:
                         List<string> splitImportToken = splitRegex.Split(token.Data[0], 2).ToList();
+                        string path = string.Format("{0}/{1}", this.BaseIncludePath, splitImportToken[1].Trim('"'));
                         splitImportToken.RemoveAll(str => str == string.Empty);
-                        if(!includedFiles.Contains(splitImportToken[1]))
+                        if(!includedFiles.Contains(path))
                         {
-                            string path = string.Format("{0}/{1}", this.BaseIncludePath, splitImportToken[1].Trim('"'));
                             try
                             {
                                 string text = File.ReadAllText(path);
@@ -106,7 +106,7 @@ namespace CSBL.Preprocessing
                                 includedFiles.Add(path);
                                 numberOfInsertedChars += text.Length;
                             }
-                            catch(Exception)
+                            catch(Exception e)
                             {
                                 Errors.ErrorOpeningFile.Report(path);
                                 errorEncountered = true;
