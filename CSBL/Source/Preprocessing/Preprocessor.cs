@@ -17,8 +17,10 @@ namespace CSBL.Preprocessing
         public string InputString { get; private set; }
         public string OutputString { get; private set; }
         public Regex CommentRegex { get; private set; }
+        public List<string> Options { get; private set; }
         public PreprocessorTokenDefinition[] InputTokens { get; private set; }
         public List<PreprocessorToken> OutputTokens { get; private set; }
+        public List<string> OutputOptions { get; private set; }
 
         /// <summary>
         /// Constructor for the Preprocessor class.
@@ -27,14 +29,16 @@ namespace CSBL.Preprocessing
         /// <param name="inputString">The input string provided.</param>
         /// <param name="commentRegex">The regex for matching comments.</param>
         /// <param name="inputTokens">The list of preprocessor token definitions.</param>
-        public Preprocessor(string baseIncludePath, string inputString, Regex commentRegex, params PreprocessorTokenDefinition[] inputTokens)
+        public Preprocessor(string baseIncludePath, string inputString, Regex commentRegex, List<string> options, params PreprocessorTokenDefinition[] inputTokens)
         {
             this.BaseIncludePath = baseIncludePath;
             this.InputString = inputString + " \n";
             this.OutputString = "";
             this.CommentRegex = commentRegex;
+            this.Options = options;
             this.InputTokens = inputTokens;
             this.OutputTokens = new List<PreprocessorToken>() { };
+            this.OutputOptions = new List<string>() { };
         }
 
         /// <summary>
@@ -91,6 +95,28 @@ namespace CSBL.Preprocessing
 
             foreach(PreprocessorToken token in this.OutputTokens)
             {
+                if(token.Type == PreprocessorTokenType.Option)
+                {
+                    List<string> splitOptionToken = splitRegex.Split(token.Data[0], 2).ToList();
+                    splitOptionToken.RemoveAll(str => str == string.Empty);
+
+                    if(this.Options.Contains(splitOptionToken[1]))
+                    {
+                        this.OutputOptions.Add(splitOptionToken[1]);
+                        outputString = outputString
+                            .Remove(token.CharacterPosition, token.Data[0].Length)
+                            .Insert(token.CharacterPosition, new string(' ', token.Data[0].Length));
+                    }
+                    else
+                    {
+                        Errors.InvalidPreprocessorOption.Report(splitOptionToken[1]);
+                        errorEncountered = true;
+                    }
+                }
+            }
+
+            foreach(PreprocessorToken token in this.OutputTokens)
+            {
                 switch(token.Type)
                 {
                     case PreprocessorTokenType.Import:
@@ -106,7 +132,7 @@ namespace CSBL.Preprocessing
                                 includedFiles.Add(path);
                                 numberOfInsertedChars += text.Length;
                             }
-                            catch(Exception e)
+                            catch(Exception)
                             {
                                 Errors.ErrorOpeningFile.Report(path);
                                 errorEncountered = true;
@@ -114,9 +140,15 @@ namespace CSBL.Preprocessing
                         }
                         else
                         {
-                            Errors.RedefinedPreprocessorImport.Report(splitImportToken[1]);
-                            errorEncountered = true;
+                            if(this.OutputOptions.Contains("ENABLE_REIMPORT_ERROR"))
+                            {
+                                Errors.RedefinedPreprocessorImport.Report(splitImportToken[1]);
+                                errorEncountered = true;
+                            }
                         }
+                        break;
+
+                    case PreprocessorTokenType.Option:
                         break;
 
                     default:

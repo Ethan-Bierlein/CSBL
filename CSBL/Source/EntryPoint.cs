@@ -81,7 +81,12 @@ namespace CSBL
                     Path.GetDirectoryName(Path.GetFullPath(inputFileDirectory)),
                     outputString,
                     new Regex("//.*"),
-                    new PreprocessorTokenDefinition(PreprocessorTokenType.Import, new Regex("#use\\s+(\'|\")[^\n]+(\'|\")"))
+                    new List<string>()
+                    {
+                        "ENABLE_REIMPORT_ERROR"
+                    },
+                    new PreprocessorTokenDefinition(PreprocessorTokenType.Import, new Regex("#import\\s+(\'|\")[^\n]+(\'|\")")),
+                    new PreprocessorTokenDefinition(PreprocessorTokenType.Option, new Regex("#option\\s+[a-zA-Z0-9_\\-]+"))
                 );
 
                 outputString = preprocessor.GenerateOutput(

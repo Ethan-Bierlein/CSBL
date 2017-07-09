@@ -8,5 +8,6 @@ namespace CSBL.Preprocessing
     public enum PreprocessorTokenType
     {
         Import,
+        Option,
     }
 }

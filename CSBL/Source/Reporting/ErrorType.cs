@@ -15,7 +15,7 @@ namespace CSBL.Reporting
         NoFileProvided,
         FileOpeningFailed,
         InvalidPreprocessorToken,
-        RedefinedPreprocessorName,
+        InvalidPreprocessorOption,
         RedefinedPreprocessorImport,
         ErrorOpeningFile,
         InvalidToken,
