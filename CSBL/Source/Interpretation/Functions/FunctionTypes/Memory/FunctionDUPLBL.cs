@@ -28,7 +28,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
 
             if(interpreterEnvironment.LabelStack.Count > 0)
             {
-                labelToDuplicate = interpreterEnvironment.NameStack.Peek();
+                labelToDuplicate = interpreterEnvironment.LabelStack.Peek();
                 interpreterEnvironment.LabelStack.Push(labelToDuplicate);
                 return true;
             }
