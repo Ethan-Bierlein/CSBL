@@ -6,15 +6,15 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [del] function.
+    /// the [dup-val] function.
     /// </summary>
-    public class FunctionDEL : FunctionBase
+    public class FunctionDUPVAL : FunctionBase
     {
         /// <summary>
-        /// Constructor for the FunctionDUP class.
+        /// Constructor for the FunctionDUPVAL class.
         /// </summary>
-        public FunctionDEL()
-            : base("del")
+        public FunctionDUPVAL()
+            : base("dup-val")
         { }
 
         /// <summary>
@@ -24,11 +24,13 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            TransformedToken nameToDelete;
+            TransformedToken valueToDuplicate;
 
-            if(interpreterEnvironment.NameStack.Count > 0)
+            if(interpreterEnvironment.ValueStack.Count > 0)
             {
-                nameToDelete = interpreterEnvironment.NameStack.Pop();
+                valueToDuplicate = interpreterEnvironment.ValueStack.Peek();
+                interpreterEnvironment.ValueStack.Push(valueToDuplicate);
+                return true;
             }
             else
             {
@@ -36,21 +38,6 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0],
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
-                );
-                return false;
-            }
-
-            if(interpreterEnvironment.DefinedValues.ContainsKey(nameToDelete.Data[0]))
-            {
-                interpreterEnvironment.DefinedValues.Remove(nameToDelete.Data[0]);
-                return true;
-            }
-            else
-            {
-                Errors.UndefinedName.Report(
-                    nameToDelete.Data[0],
-                    nameToDelete.Position.Line,
-                    nameToDelete.Position.Column
                 );
                 return false;
             }

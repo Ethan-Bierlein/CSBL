@@ -51,6 +51,10 @@
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Flow\FunctionCALL.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Flow\FunctionRET.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Memory\FunctionDEL.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionTypes\Memory\FunctionDUPCALL.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionTypes\Memory\FunctionDUPLBL.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionTypes\Memory\FunctionDUPNAME.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionTypes\Memory\FunctionDUPVAL.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Memory\FunctionGET.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\IO\FunctionIN.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\IO\FunctionPRINT.cs" />

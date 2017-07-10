@@ -6,15 +6,15 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [del] function.
+    /// the [dup-call] function.
     /// </summary>
-    public class FunctionDEL : FunctionBase
+    public class FunctionDUPCALL : FunctionBase
     {
         /// <summary>
-        /// Constructor for the FunctionDUP class.
+        /// Constructor for the FunctionDUPCALL class.
         /// </summary>
-        public FunctionDEL()
-            : base("del")
+        public FunctionDUPCALL()
+            : base("dup-call")
         { }
 
         /// <summary>
@@ -24,33 +24,20 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            TransformedToken nameToDelete;
+            int callToDuplicate;
 
-            if(interpreterEnvironment.NameStack.Count > 0)
+            if(interpreterEnvironment.CallStack.Count > 0)
             {
-                nameToDelete = interpreterEnvironment.NameStack.Pop();
-            }
-            else
-            {
-                Errors.EmptyStack.Report(
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0],
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
-                );
-                return false;
-            }
-
-            if(interpreterEnvironment.DefinedValues.ContainsKey(nameToDelete.Data[0]))
-            {
-                interpreterEnvironment.DefinedValues.Remove(nameToDelete.Data[0]);
+                callToDuplicate = interpreterEnvironment.CallStack.Peek();
+                interpreterEnvironment.CallStack.Push(callToDuplicate);
                 return true;
             }
             else
             {
-                Errors.UndefinedName.Report(
-                    nameToDelete.Data[0],
-                    nameToDelete.Position.Line,
-                    nameToDelete.Position.Column
+                Errors.EmptyCallStack.Report(
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0],
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
                 );
                 return false;
             }
