@@ -68,6 +68,7 @@ namespace CSBL
             List<string> outputOptions = new List<string>() { };
             List<string> definedNames = new List<string>() { };
             List<string> includedFiles = new List<string>() { };
+
             int outputTokensCount = 1;
             int numberOfInsertedChars = 0;
             string outputString = inputString;
