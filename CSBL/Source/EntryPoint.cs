@@ -183,6 +183,10 @@ namespace CSBL
                     { "pop-lbl", new FunctionPOPLBL() },
                     { "pop-name", new FunctionPOPNAME() },
                     { "pop-call", new FunctionPOPCALL() },
+                    { "dup-val", new FunctionDUPVAL() },
+                    { "dup-lbl", new FunctionDUPLBL() },
+                    { "dup-name", new FunctionDUPNAME() },
+                    { "dup-call", new FunctionDUPCALL() },
 
                     { "call-if", new FunctionCALLIF() },
                     { "call", new FunctionCALL() },
