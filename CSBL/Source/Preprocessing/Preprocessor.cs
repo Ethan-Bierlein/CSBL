@@ -20,7 +20,6 @@ namespace CSBL.Preprocessing
         public List<string> Options { get; private set; }
         public PreprocessorTokenDefinition[] InputTokens { get; private set; }
         public List<PreprocessorToken> OutputTokens { get; private set; }
-        public List<string> OutputOptions { get; private set; }
 
         /// <summary>
         /// Constructor for the Preprocessor class.
@@ -38,7 +37,6 @@ namespace CSBL.Preprocessing
             this.Options = options;
             this.InputTokens = inputTokens;
             this.OutputTokens = new List<PreprocessorToken>() { };
-            this.OutputOptions = new List<string>() { };
         }
 
         /// <summary>
@@ -73,12 +71,17 @@ namespace CSBL.Preprocessing
         /// <summary>
         /// Generate an output string for the current set of preprocessor tokens.
         /// </summary>
-        /// <param name="definedNames">The </param>
-        /// <param name="includedFiles"></param>
-        /// <param name="numberOfOutputTokens"></param>
-        /// <param name="numberOfInsertedChars"></param>
+        /// <param name="outputOptions">The options generated and detected by the preprocessor.</param>
+        /// <param name="includedFiles">All of the files that have been included by the preprocessor.</param>
+        /// <param name="numberOfOutputTokens">The number of output tokens generated.</param>
+        /// <param name="numberOfInsertedChars">The total number of characters inserted by the preprocessor.</param>
         /// <returns></returns>
-        public string GenerateOutput(ref List<string> definedNames, ref List<string> includedFiles, ref int numberOfOutputTokens, ref int numberOfInsertedChars)
+        public string GenerateOutput(
+            ref List<string> outputOptions, 
+            ref List<string> includedFiles, 
+            ref int numberOfOutputTokens, 
+            ref int numberOfInsertedChars
+        )
         {
             this.ReplaceComments();
             this.GenerateTokens();
@@ -102,7 +105,7 @@ namespace CSBL.Preprocessing
 
                     if(this.Options.Contains(splitOptionToken[1]))
                     {
-                        this.OutputOptions.Add(splitOptionToken[1]);
+                        outputOptions.Add(splitOptionToken[1]);
                         outputString = outputString
                             .Remove(token.CharacterPosition, token.Data[0].Length)
                             .Insert(token.CharacterPosition, new string(' ', token.Data[0].Length));
@@ -140,7 +143,7 @@ namespace CSBL.Preprocessing
                         }
                         else
                         {
-                            if(this.OutputOptions.Contains("ENABLE_REIMPORT_ERROR"))
+                            if(outputOptions.Contains("ENABLE_REIMPORT_ERROR"))
                             {
                                 Errors.RedefinedPreprocessorImport.Report(splitImportToken[1]);
                                 errorEncountered = true;
