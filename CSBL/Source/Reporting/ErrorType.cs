@@ -14,6 +14,7 @@ namespace CSBL.Reporting
         ExitInterpreter,
         NoFileProvided,
         FileOpeningFailed,
+        InvalidFileType,
         InvalidPreprocessorToken,
         InvalidPreprocessorOption,
         RedefinedPreprocessorImport,

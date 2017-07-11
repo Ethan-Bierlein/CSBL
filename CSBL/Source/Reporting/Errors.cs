@@ -13,6 +13,7 @@ namespace CSBL.Reporting
         public static Error ExitInterpreter = new Error(ErrorStage.Interpretation, ErrorType.ExitInterpreter, "");
         public static Error NoFileProvided = new Error(ErrorStage.Initialization, ErrorType.NoFileProvided, "No input file provided to CSBL.");
         public static Error FileOpeningFailed = new Error(ErrorStage.Initialization, ErrorType.ErrorOpeningFile, "Error opening file provided to CSBL.");
+        public static Error InvalidFileType = new Error(ErrorStage.Initialization, ErrorType.InvalidFileType, "The type '{0}' of the provided file is invalid.");
         public static Error InvalidPreprocessorToken = new Error(ErrorStage.Preprocessor, ErrorType.InvalidPreprocessorToken, "Invalid preprocessor token '{0}'.");
         public static Error InvalidPreprocessorOption = new Error(ErrorStage.Preprocessor, ErrorType.InvalidPreprocessorOption, "Invalid preprocessor option '{0}'.");
         public static Error RedefinedPreprocessorImport = new Error(ErrorStage.Preprocessor, ErrorType.RedefinedPreprocessorImport, "Redefined preprocessor import '{0}'.");

@@ -34,15 +34,26 @@ namespace CSBL
             if(args.Length >= 0)
             {
                 string filePath = args[0];
-                try
+                string fileExtension = Path.GetExtension(filePath);
+
+                if(fileExtension == ".csbl")
                 {
-                    string outputString = File.ReadAllText(filePath);
-                    success = true;
-                    return outputString;
+                    try
+                    {
+                        string outputString = File.ReadAllText(filePath);
+                        success = true;
+                        return outputString;
+                    }
+                    catch(Exception)
+                    {
+                        Errors.FileOpeningFailed.Report();
+                        success = false;
+                        return null;
+                    }
                 }
-                catch(Exception)
+                else
                 {
-                    Errors.FileOpeningFailed.Report();
+                    Errors.InvalidFileType.Report(fileExtension);
                     success = false;
                     return null;
                 }
