@@ -140,7 +140,7 @@ namespace CSBL.Tokenization
 
             bool invalidTokenEncountered = false;
             Stack<string> currentLineFileStack = new Stack<string>() { };
-            int currentNonRawLine = 1;
+            Stack<int> currentNonRawLinesStack = new Stack<int>() { };
             List<string> lineSplitInputString = this.InputString.Split('\n').ToList();
             for(int lineIndex = 0; lineIndex < lineSplitInputString.Count; lineIndex++)
             {
@@ -149,7 +149,6 @@ namespace CSBL.Tokenization
                 {
                     if(outputToken.Position.RawLine - 1 == lineIndex)
                     {
-                        currentNonRawLine = outputToken.Position.Line;
                         lineCopy = lineCopy
                             .Remove(outputToken.Position.Column - 1, outputToken.Value.Length)
                             .Insert(outputToken.Position.Column - 1, new string(' ', outputToken.Value.Length));
@@ -157,10 +156,12 @@ namespace CSBL.Tokenization
                         if(outputToken.Type == TokenType.IncludedFileStartMarker)
                         {
                             currentLineFileStack.Push(outputToken.Value.Trim('=').Trim('='));
+                            currentNonRawLinesStack.Push(1);
                         }
                         else if(outputToken.Type == TokenType.IncludedFileEndMarker)
                         {
                             currentLineFileStack.Pop();
+                            currentNonRawLinesStack.Pop();
                         }
                     }
                 }
@@ -181,12 +182,15 @@ namespace CSBL.Tokenization
                             lineCopyIndexIncrements++;
                         }
 
-                        Errors.InvalidToken.Report(currentLineFileStack.Peek(), currentNonRawLine, lineCopyIndex - lineCopyIndexIncrements, invalidToken);
+                        Errors.InvalidToken.Report(currentLineFileStack.Peek(), currentNonRawLinesStack.Peek(), lineCopyIndex - lineCopyIndexIncrements, invalidToken);
                         continue;
                     }
 
                     lineCopyIndex++;
                 }
+
+                int newNonRawLinesTop = currentNonRawLinesStack.Pop() + 1;
+                currentNonRawLinesStack.Push(newNonRawLinesTop);
             }
 
             if(invalidTokenEncountered)
