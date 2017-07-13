@@ -36,9 +36,10 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Math
             else
             {
                 Errors.EmptyStack.Report(
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0],
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.File,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column,
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0]
                 );
                 return false;
             }
@@ -70,11 +71,12 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Math
             else
             {
                 Errors.IncompatibleOperatorTypes.Report(
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.File,
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column,
                     a.Type,
                     b.Type,
-                    "*",
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                    this.Name
                 );
                 return false;
             }

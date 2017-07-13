@@ -88,6 +88,10 @@ namespace CSBL.Transformation
             {
                 switch(this.InputTokens[currentTokenIndex].Type)
                 {
+                    case TokenType.IncludedFileStartMarker:
+                        currentTokenIndex++;
+                        break;
+
                     case TokenType.BoolLiteral:
                         this.AddTokenAndIncrement(
                             ref transformedTokens,
@@ -181,9 +185,10 @@ namespace CSBL.Transformation
                     default:
                         errorEncountered = true;
                         Errors.UnknownToken.Report(
-                            this.InputTokens[currentTokenIndex].Value,
+                            this.InputTokens[currentTokenIndex].Position.File,
                             this.InputTokens[currentTokenIndex].Position.Line,
-                            this.InputTokens[currentTokenIndex].Position.Column
+                            this.InputTokens[currentTokenIndex].Position.Column,
+                            this.InputTokens[currentTokenIndex].Value
                         );
                         currentTokenIndex++;
                         break;
@@ -195,7 +200,7 @@ namespace CSBL.Transformation
                 return null;
             }
 
-            transformedTokens.Add(new TransformedToken(new TokenPosition(0, 0), TransformedTokenType.LabelDefinition, "FILE-END"));
+            transformedTokens.Add(new TransformedToken(new TokenPosition("FILE-END", 0, 0, 0), TransformedTokenType.LabelDefinition, "FILE-END"));
             this.OutputTokens = transformedTokens;
             return transformedTokens;
         }

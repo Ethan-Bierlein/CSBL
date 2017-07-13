@@ -78,9 +78,10 @@ namespace CSBL.Interpretation
                         else
                         {
                             Errors.UnknownFunction.Report(
-                                currentToken.Data[0],
+                                currentToken.Position.File,
                                 currentToken.Position.Line,
-                                currentToken.Position.Column
+                                currentToken.Position.Column,
+                                currentToken.Data[0]
                             );
                             return;
                         }

@@ -24,7 +24,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Flow
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            Errors.ExitInterpreter.Report();
+            Errors.ExitInterpreter.Report("", 0, 0);
             return false;
         }
     }

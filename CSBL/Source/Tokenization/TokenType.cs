@@ -7,6 +7,7 @@ namespace CSBL.Tokenization
     /// </summary>
     public enum TokenType
     {
+        IncludedFileStartMarker,
         BoolLiteral,
         NumberLiteral,
         StringLiteral,

@@ -33,9 +33,10 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.IO
             else
             {
                 Errors.EmptyStack.Report(
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0],
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.File,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column,
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0]
                 );
                 return false;
             }

@@ -35,9 +35,10 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Flow
             else
             {
                 Errors.EmptyStack.Report(
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0],
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.File,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column,
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0]
                 );
                 return false;
             }
@@ -60,6 +61,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Flow
                         else
                         {
                             Errors.InvalidLabelType.Report(
+                                interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.File,
                                 interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                                 interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
                             );
@@ -108,6 +110,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Flow
                             }
 
                             Errors.InvalidLabelType.Report(
+                                interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.File,
                                 interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                                 interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
                             );
@@ -117,9 +120,10 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Flow
                     else
                     {
                         Errors.UnknownLabel.Report(
-                            label.Data[0],
+                            label.Position.File,
                             label.Position.Line,
-                            label.Position.Column
+                            label.Position.Column,
+                            label.Data[0]
                         );
                         return false;
                     }
@@ -127,9 +131,10 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Flow
                 else
                 {
                     Errors.InvalidValue.Report(
-                        callIf.Data[0],
+                        callIf.Position.File,
                         callIf.Position.Line,
-                        callIf.Position.Column
+                        callIf.Position.Column,
+                        callIf.Data[0]
                     );
                     return false;
                 }
@@ -137,9 +142,10 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Flow
             else
             {
                 Errors.InvalidToken.Report(
-                    label.Data[0],
+                    label.Position.File,
                     label.Position.Line,
-                    label.Position.Column
+                    label.Position.Column,
+                    label.Data[0]
                 );
                 return false;
             }

@@ -33,9 +33,10 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
             else
             {
                 Errors.EmptyStack.Report(
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0],
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.File,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
-                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column,
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Data[0]
                 );
                 return false;
             }
@@ -48,9 +49,10 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
             else
             {
                 Errors.UndefinedName.Report(
-                    nameToDelete.Data[0],
+                    nameToDelete.Position.File,
                     nameToDelete.Position.Line,
-                    nameToDelete.Position.Column
+                    nameToDelete.Position.Column,
+                    nameToDelete.Data[0]
                 );
                 return false;
             }

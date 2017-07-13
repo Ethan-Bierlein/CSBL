@@ -33,6 +33,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Flow
             else
             {
                 Errors.EmptyCallStack.Report(
+                    interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.File,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column
                 );

@@ -112,7 +112,7 @@ namespace CSBL.Preprocessing
                     }
                     else
                     {
-                        Errors.InvalidPreprocessorOption.Report(splitOptionToken[1]);
+                        Errors.InvalidPreprocessorOption.Report("", 0, 0, splitOptionToken[1]);
                         errorEncountered = true;
                     }
                 }
@@ -130,14 +130,14 @@ namespace CSBL.Preprocessing
                         {
                             try
                             {
-                                string text = File.ReadAllText(path);
+                                string text = string.Format("\n=={0}==\n{1}\n", Path.GetFileName(path), File.ReadAllText(path));
                                 outputString = outputString.Insert(token.CharacterPosition + numberOfInsertedChars, text);
                                 includedFiles.Add(path);
                                 numberOfInsertedChars += text.Length;
                             }
                             catch(Exception)
                             {
-                                Errors.ErrorOpeningFile.Report(path);
+                                Errors.ErrorOpeningFile.Report("", 0, 0, path);
                                 errorEncountered = true;
                             }
                         }
@@ -145,7 +145,7 @@ namespace CSBL.Preprocessing
                         {
                             if(outputOptions.Contains("ENABLE_REIMPORT_ERROR"))
                             {
-                                Errors.RedefinedPreprocessorImport.Report(splitImportToken[1]);
+                                Errors.RedefinedPreprocessorImport.Report("", 0, 0, splitImportToken[1]);
                                 errorEncountered = true;
                             }
                         }
@@ -155,10 +155,7 @@ namespace CSBL.Preprocessing
                         break;
 
                     default:
-                        Errors.InvalidPreprocessorToken.Report(
-                            token.Data[0],
-                            token.CharacterPosition
-                        );
+                        Errors.InvalidPreprocessorToken.Report("", 0, 0, token.Data[0]);
                         errorEncountered = true;
                         break;
                 }

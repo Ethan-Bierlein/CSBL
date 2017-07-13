@@ -69,29 +69,63 @@ namespace CSBL.Tokenization
                             }
                         }
 
-                        indexedTokens.Add(match.Index, new Token(new TokenPosition(tokenLine, tokenColumn), tokenDefinition.Type, match.Value));
+                        indexedTokens.Add(match.Index, new Token(new TokenPosition("", tokenLine, tokenLine, tokenColumn), tokenDefinition.Type, match.Value));
                     }
                 }
             }
 
             indexedTokens.OrderBy(value => value.Key);
+            int totalLineCount = 1;
+            int lineCountDecrement = 0;
             foreach(KeyValuePair<int, Token> keyValuePair in indexedTokens)
             {
-                outputTokens.Add(keyValuePair.Value);
+                Token token = keyValuePair.Value;
+                if(token.Type == TokenType.IncludedFileStartMarker)
+                {
+                    lineCountDecrement += totalLineCount;
+                    totalLineCount = 1;
+                }
+                else
+                {
+                    indexedTokens[keyValuePair.Key].Position.Line -= lineCountDecrement;
+                }
+            }
+
+            string currentFile = "";
+            foreach(KeyValuePair<int, Token> keyValuePair in indexedTokens)
+            {
+                if(keyValuePair.Value.Type == TokenType.IncludedFileStartMarker)
+                {
+                    currentFile = keyValuePair.Value.Value.Trim('=').Trim('=');
+                    outputTokens.Add(keyValuePair.Value);
+                    continue;
+                }
+                else
+                {
+                    Token tokenToAdd = keyValuePair.Value;
+                    tokenToAdd.Position.File = currentFile;
+                    outputTokens.Add(tokenToAdd);
+                }
             }
 
             bool invalidTokenEncountered = false;
+            string currentLineFile = "";
             List<string> lineSplitInputString = this.InputString.Split('\n').ToList();
             for(int lineIndex = 0; lineIndex < lineSplitInputString.Count; lineIndex++)
             {
                 string lineCopy = lineSplitInputString[lineIndex] + "  ";
                 foreach(Token outputToken in outputTokens)
                 {
-                    if(outputToken.Position.Line - 1 == lineIndex)
+                    if(outputToken.Position.RawLine - 1 == lineIndex)
                     {
                         lineCopy = lineCopy
                             .Remove(outputToken.Position.Column - 1, outputToken.Value.Length)
                             .Insert(outputToken.Position.Column - 1, new string(' ', outputToken.Value.Length));
+
+                        if(outputToken.Type == TokenType.IncludedFileStartMarker)
+                        {
+                            currentLineFile = outputToken.Value.Trim('=').Trim('=');
+                        }
                     }
                 }
 
@@ -111,7 +145,7 @@ namespace CSBL.Tokenization
                             lineCopyIndexIncrements++;
                         }
 
-                        Errors.InvalidToken.Report(invalidToken, lineIndex, lineCopyIndex - lineCopyIndexIncrements);
+                        Errors.InvalidToken.Report(currentLineFile, lineIndex, lineCopyIndex - lineCopyIndexIncrements, invalidToken);
                         continue;
                     }
 
