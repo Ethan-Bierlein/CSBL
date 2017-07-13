@@ -31,7 +31,7 @@ namespace CSBL.Preprocessing
         public Preprocessor(string baseIncludePath, string inputString, Regex commentRegex, List<string> options, params PreprocessorTokenDefinition[] inputTokens)
         {
             this.BaseIncludePath = baseIncludePath;
-            this.InputString = inputString + " \n";
+            this.InputString = inputString;
             this.OutputString = "";
             this.CommentRegex = commentRegex;
             this.Options = options;
@@ -44,7 +44,17 @@ namespace CSBL.Preprocessing
         /// </summary>
         private void ReplaceComments()
         {
-            this.InputString = this.CommentRegex.Replace(this.InputString, "\n");
+            List<Match> commentMatches = this.CommentRegex.Matches(this.InputString)
+                .Cast<Match>()
+                .Select(match => match)
+                .ToList();
+
+            foreach(Match match in commentMatches)
+            {
+                this.InputString = this.InputString
+                    .Remove(match.Index, match.Length)
+                    .Insert(match.Index, new string(' ', match.Length));
+            }
         }
 
         /// <summary>
@@ -130,7 +140,7 @@ namespace CSBL.Preprocessing
                         {
                             try
                             {
-                                string text = string.Format("\n=={0}==\n{1}\n", Path.GetFileName(path), File.ReadAllText(path));
+                                string text = string.Format(" =={0}== {1} <<FILE-END>> ", Path.GetFileName(path), File.ReadAllText(path));
                                 outputString = outputString.Insert(token.CharacterPosition + numberOfInsertedChars, text);
                                 includedFiles.Add(path);
                                 numberOfInsertedChars += text.Length;

@@ -8,6 +8,7 @@ namespace CSBL.Tokenization
     public enum TokenType
     {
         IncludedFileStartMarker,
+        IncludedFileEndMarker,
         BoolLiteral,
         NumberLiteral,
         StringLiteral,

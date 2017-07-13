@@ -92,6 +92,10 @@ namespace CSBL.Transformation
                         currentTokenIndex++;
                         break;
 
+                    case TokenType.IncludedFileEndMarker:
+                        currentTokenIndex++;
+                        break;
+
                     case TokenType.BoolLiteral:
                         this.AddTokenAndIncrement(
                             ref transformedTokens,

@@ -23,7 +23,7 @@ namespace CSBL.Tokenization
         /// <param name="tokenDefinitions">The array of all token definitions.</param>
         public Tokenizer(string inputString, params TokenDefinition[] tokenDefinitions)
         {
-            this.InputString = inputString + "\n ";
+            this.InputString = inputString;
             this.OutputTokens = new List<Token>() { };
             this.TokenDefinitions = tokenDefinitions.ToList();
         }
@@ -69,47 +69,78 @@ namespace CSBL.Tokenization
                             }
                         }
 
-                        indexedTokens.Add(match.Index, new Token(new TokenPosition("", tokenLine, tokenLine, tokenColumn), tokenDefinition.Type, match.Value));
+                        indexedTokens.Add(
+                            match.Index, 
+                            new Token(
+                                new TokenPosition("", 0, tokenLine, tokenColumn), 
+                                tokenDefinition.Type, 
+                                match.Value
+                            )
+                        );
                     }
                 }
             }
 
             indexedTokens.OrderBy(value => value.Key);
-            int totalLineCount = 1;
-            int lineCountDecrement = 0;
+            Stack<int> currentLineCountStack = new Stack<int>() { };
+            Stack<int> totalLineDriftStack = new Stack<int>() { };
+            int currentLineValue = 1;
+            int previousLineValue = 1;
             foreach(KeyValuePair<int, Token> keyValuePair in indexedTokens)
             {
                 Token token = keyValuePair.Value;
+                previousLineValue = currentLineValue;
+                currentLineValue = indexedTokens[keyValuePair.Key].Position.RawLine;
+
+                if(currentLineCountStack.Count > 0 && totalLineDriftStack.Count > 0)
+                {
+                    if(currentLineValue != previousLineValue)
+                    {
+                        int newTopLineCount = currentLineCountStack.Pop() + 1;
+                        currentLineCountStack.Push(newTopLineCount);
+                        int newTopTotalLineDrift = totalLineDriftStack.Pop() + (currentLineValue - previousLineValue - 1);
+                        totalLineDriftStack.Push(newTopTotalLineDrift);
+                    }
+
+                    indexedTokens[keyValuePair.Key].Position.Line = currentLineCountStack.Peek() + totalLineDriftStack.Peek();
+                }
+
                 if(token.Type == TokenType.IncludedFileStartMarker)
                 {
-                    lineCountDecrement += totalLineCount;
-                    totalLineCount = 1;
+                    currentLineCountStack.Push(1);
+                    totalLineDriftStack.Push(0);
                 }
-                else
+                else if(token.Type == TokenType.IncludedFileEndMarker)
                 {
-                    indexedTokens[keyValuePair.Key].Position.Line -= lineCountDecrement;
+                    currentLineCountStack.Pop();
+                    totalLineDriftStack.Pop();
                 }
             }
 
-            string currentFile = "";
+            Stack<string> currentFileStack = new Stack<string>() { };
             foreach(KeyValuePair<int, Token> keyValuePair in indexedTokens)
             {
                 if(keyValuePair.Value.Type == TokenType.IncludedFileStartMarker)
                 {
-                    currentFile = keyValuePair.Value.Value.Trim('=').Trim('=');
+                    currentFileStack.Push(keyValuePair.Value.Value.Trim('=').Trim('='));
                     outputTokens.Add(keyValuePair.Value);
-                    continue;
+                }
+                else if(keyValuePair.Value.Type == TokenType.IncludedFileEndMarker)
+                {
+                    currentFileStack.Pop();
+                    outputTokens.Add(keyValuePair.Value);
                 }
                 else
                 {
                     Token tokenToAdd = keyValuePair.Value;
-                    tokenToAdd.Position.File = currentFile;
+                    tokenToAdd.Position.File = currentFileStack.Peek();
                     outputTokens.Add(tokenToAdd);
                 }
             }
 
             bool invalidTokenEncountered = false;
-            string currentLineFile = "";
+            Stack<string> currentLineFileStack = new Stack<string>() { };
+            int currentNonRawLine = 1;
             List<string> lineSplitInputString = this.InputString.Split('\n').ToList();
             for(int lineIndex = 0; lineIndex < lineSplitInputString.Count; lineIndex++)
             {
@@ -118,13 +149,18 @@ namespace CSBL.Tokenization
                 {
                     if(outputToken.Position.RawLine - 1 == lineIndex)
                     {
+                        currentNonRawLine = outputToken.Position.Line;
                         lineCopy = lineCopy
                             .Remove(outputToken.Position.Column - 1, outputToken.Value.Length)
                             .Insert(outputToken.Position.Column - 1, new string(' ', outputToken.Value.Length));
 
                         if(outputToken.Type == TokenType.IncludedFileStartMarker)
                         {
-                            currentLineFile = outputToken.Value.Trim('=').Trim('=');
+                            currentLineFileStack.Push(outputToken.Value.Trim('=').Trim('='));
+                        }
+                        else if(outputToken.Type == TokenType.IncludedFileEndMarker)
+                        {
+                            currentLineFileStack.Pop();
                         }
                     }
                 }
@@ -145,7 +181,7 @@ namespace CSBL.Tokenization
                             lineCopyIndexIncrements++;
                         }
 
-                        Errors.InvalidToken.Report(currentLineFile, lineIndex, lineCopyIndex - lineCopyIndexIncrements, invalidToken);
+                        Errors.InvalidToken.Report(currentLineFileStack.Peek(), currentNonRawLine, lineCopyIndex - lineCopyIndexIncrements, invalidToken);
                         continue;
                     }
 

@@ -40,7 +40,7 @@ namespace CSBL
                 {
                     try
                     {
-                        string outputString = string.Format("\n=={0}==\n{1}\n", Path.GetFileName(filePath), File.ReadAllText(filePath));
+                        string outputString = string.Format(" =={0}== {1} \n", Path.GetFileName(filePath), File.ReadAllText(filePath));
                         success = true;
                         return outputString;
                     }
@@ -132,6 +132,7 @@ namespace CSBL
             Tokenizer tokenizer = new Tokenizer(
                 inputString,
                 new TokenDefinition(TokenType.IncludedFileStartMarker, new Regex("==[^=]+==(?=(?:[^'\"\\^]*('|\"|\\^)[^'\"\\^]*('|\"|\\^))*[^'\"\\^]*\\Z)")),
+                new TokenDefinition(TokenType.IncludedFileEndMarker, new Regex("<<FILE\\-END>>(?=(?:[^'\"\\^]*('|\"|\\^)[^'\"\\^]*('|\"|\\^))*[^'\"\\^]*\\Z)")),
                 new TokenDefinition(TokenType.BoolLiteral, new Regex("(true|false)(?=(?:[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\))[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\)))*[^'\"{}\\(\\)]*\\Z)")),
                 new TokenDefinition(TokenType.StringLiteral, new Regex("(\"[^\"]*\")|('[^']*')")),
                 new TokenDefinition(TokenType.NumberLiteral, new Regex("((-|\\+?)((\\d+\\.\\d+)|(\\.\\d+)|(\\d+\\.)|(\\d+)))(?=(?:[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\))[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\)))*[^'\"{}\\(\\)]*\\Z)")),
