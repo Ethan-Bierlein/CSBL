@@ -40,7 +40,7 @@ namespace CSBL
                 {
                     try
                     {
-                        string outputString = string.Format(" =={0}== {1} \n", Path.GetFileName(filePath), File.ReadAllText(filePath));
+                        string outputString = string.Format(" =={0}== {1} \n", Path.GetFullPath(filePath), File.ReadAllText(filePath));
                         success = true;
                         return outputString;
                     }

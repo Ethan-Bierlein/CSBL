@@ -28,8 +28,9 @@ namespace CSBL.Reporting
         public void Report(string file, int line, int column, params dynamic[] errorFormattingArguments)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("[STAGE::{0}] [TYPE::{1}]\n  [IN::file='{2}',line={3},column={4}] ", this.Stage, this.Type, file, line, column);
-            Console.Write(this.Message + "\n\n", errorFormattingArguments);
+            Console.WriteLine("[STAGE::{0}] [TYPE::{1}]", this.Stage, this.Type);
+            Console.WriteLine("  WHERE -> {0}:{1},{2}", file, line, column);
+            Console.WriteLine("  INFO  -> " + this.Message + "\n", errorFormattingArguments);
             Console.ResetColor();
         }
     }

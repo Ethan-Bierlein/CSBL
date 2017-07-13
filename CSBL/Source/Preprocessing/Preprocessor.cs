@@ -140,7 +140,7 @@ namespace CSBL.Preprocessing
                         {
                             try
                             {
-                                string text = string.Format(" =={0}== {1} <<FILE-END>> ", Path.GetFileName(path), File.ReadAllText(path));
+                                string text = string.Format(" =={0}== {1} <<FILE-END>> ", Path.GetFullPath(path), File.ReadAllText(path));
                                 outputString = outputString.Insert(token.CharacterPosition + numberOfInsertedChars, text);
                                 includedFiles.Add(path);
                                 numberOfInsertedChars += text.Length;
