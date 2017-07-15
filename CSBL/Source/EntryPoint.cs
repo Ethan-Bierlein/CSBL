@@ -210,9 +210,13 @@ namespace CSBL
                     { "pop-call-if", new FunctionPOPCALLIF() },
 
                     { "dup-val", new FunctionDUPVAL() },
+                    { "dup-val-if", new FunctionDUPVALIF() },
                     { "dup-lbl", new FunctionDUPLBL() },
+                    { "dup-lbl-if", new FunctionDUPLBLIF() },
                     { "dup-name", new FunctionDUPNAME() },
+                    { "dup-name-if", new FunctionDUPNAMEIF() },
                     { "dup-call", new FunctionDUPCALL() },
+                    { "dup-call-if", new FunctionDUPCALLIF() },
 
                     { "call-if", new FunctionCALLIF() },
                     { "call", new FunctionCALL() },
