@@ -2,19 +2,19 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
+namespace CSBL.Interpretation.Functions.FunctionTypes.Pop
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [pop-call] function.
+    /// the [pop-val] function.
     /// </summary>
-    public class FunctionPOPCALL : FunctionBase
+    public class FunctionPOPVAL : FunctionBase
     {
         /// <summary>
         /// Constructor for the FunctionPOPVAL class.
         /// </summary>
-        public FunctionPOPCALL()
-            : base("pop-call")
+        public FunctionPOPVAL()
+            : base("pop-val")
         { }
 
         /// <summary>
@@ -24,14 +24,14 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            if(interpreterEnvironment.CallStack.Count > 0)
+            if(interpreterEnvironment.ValueStack.Count > 0)
             {
-                interpreterEnvironment.CallStack.Pop();
+                interpreterEnvironment.ValueStack.Pop();
                 return true;
             }
             else
             {
-                Errors.EmptyCallStack.Report(
+                Errors.EmptyStack.Report(
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.File,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column,

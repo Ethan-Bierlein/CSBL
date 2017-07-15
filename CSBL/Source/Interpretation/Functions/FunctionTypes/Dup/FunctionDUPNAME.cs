@@ -2,19 +2,19 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
+namespace CSBL.Interpretation.Functions.FunctionTypes.Dup
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [dup-call] function.
+    /// the [dup-name] function.
     /// </summary>
-    public class FunctionDUPCALL : FunctionBase
+    public class FunctionDUPNAME : FunctionBase
     {
         /// <summary>
-        /// Constructor for the FunctionDUPCALL class.
+        /// Constructor for the FunctionDUPNAME class.
         /// </summary>
-        public FunctionDUPCALL()
-            : base("dup-call")
+        public FunctionDUPNAME()
+            : base("dup-name")
         { }
 
         /// <summary>
@@ -24,17 +24,17 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            int callToDuplicate;
+            TransformedToken nameToDuplicate;
 
-            if(interpreterEnvironment.CallStack.Count > 0)
+            if(interpreterEnvironment.NameStack.Count > 0)
             {
-                callToDuplicate = interpreterEnvironment.CallStack.Peek();
-                interpreterEnvironment.CallStack.Push(callToDuplicate);
+                nameToDuplicate = interpreterEnvironment.NameStack.Peek();
+                interpreterEnvironment.NameStack.Push(nameToDuplicate);
                 return true;
             }
             else
             {
-                Errors.EmptyCallStack.Report(
+                Errors.EmptyStack.Report(
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.File,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column,

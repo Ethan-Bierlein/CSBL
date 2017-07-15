@@ -2,19 +2,19 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
+namespace CSBL.Interpretation.Functions.FunctionTypes.Dup
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [pop-name] function.
+    /// the [dup-call] function.
     /// </summary>
-    public class FunctionPOPNAME : FunctionBase
+    public class FunctionDUPCALL : FunctionBase
     {
         /// <summary>
-        /// Constructor for the FunctionPOPNAME class.
+        /// Constructor for the FunctionDUPCALL class.
         /// </summary>
-        public FunctionPOPNAME()
-            : base("pop-name")
+        public FunctionDUPCALL()
+            : base("dup-call")
         { }
 
         /// <summary>
@@ -24,14 +24,17 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            if(interpreterEnvironment.NameStack.Count > 0)
+            int callToDuplicate;
+
+            if(interpreterEnvironment.CallStack.Count > 0)
             {
-                interpreterEnvironment.NameStack.Pop();
+                callToDuplicate = interpreterEnvironment.CallStack.Peek();
+                interpreterEnvironment.CallStack.Push(callToDuplicate);
                 return true;
             }
             else
             {
-                Errors.EmptyStack.Report(
+                Errors.EmptyCallStack.Report(
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.File,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column,

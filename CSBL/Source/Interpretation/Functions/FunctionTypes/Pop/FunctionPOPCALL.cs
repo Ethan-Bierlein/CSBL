@@ -2,19 +2,19 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
+namespace CSBL.Interpretation.Functions.FunctionTypes.Pop
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [dup-val] function.
+    /// the [pop-call] function.
     /// </summary>
-    public class FunctionDUPVAL : FunctionBase
+    public class FunctionPOPCALL : FunctionBase
     {
         /// <summary>
-        /// Constructor for the FunctionDUPVAL class.
+        /// Constructor for the FunctionPOPVAL class.
         /// </summary>
-        public FunctionDUPVAL()
-            : base("dup-val")
+        public FunctionPOPCALL()
+            : base("pop-call")
         { }
 
         /// <summary>
@@ -24,17 +24,14 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            TransformedToken valueToDuplicate;
-
-            if(interpreterEnvironment.ValueStack.Count > 0)
+            if(interpreterEnvironment.CallStack.Count > 0)
             {
-                valueToDuplicate = interpreterEnvironment.ValueStack.Peek();
-                interpreterEnvironment.ValueStack.Push(valueToDuplicate);
+                interpreterEnvironment.CallStack.Pop();
                 return true;
             }
             else
             {
-                Errors.EmptyStack.Report(
+                Errors.EmptyCallStack.Report(
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.File,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Line,
                     interpreter.InputTokens[interpreterEnvironment.CurrentTokenIndex].Position.Column,

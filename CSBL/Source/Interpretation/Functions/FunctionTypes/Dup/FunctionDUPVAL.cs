@@ -2,19 +2,19 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
+namespace CSBL.Interpretation.Functions.FunctionTypes.Dup
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [dup-lbl] function.
+    /// the [dup-val] function.
     /// </summary>
-    public class FunctionDUPLBL : FunctionBase
+    public class FunctionDUPVAL : FunctionBase
     {
         /// <summary>
-        /// Constructor for the FunctionDUPLBL class.
+        /// Constructor for the FunctionDUPVAL class.
         /// </summary>
-        public FunctionDUPLBL()
-            : base("dup-lbl")
+        public FunctionDUPVAL()
+            : base("dup-val")
         { }
 
         /// <summary>
@@ -24,12 +24,12 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            TransformedToken labelToDuplicate;
+            TransformedToken valueToDuplicate;
 
-            if(interpreterEnvironment.LabelStack.Count > 0)
+            if(interpreterEnvironment.ValueStack.Count > 0)
             {
-                labelToDuplicate = interpreterEnvironment.LabelStack.Peek();
-                interpreterEnvironment.LabelStack.Push(labelToDuplicate);
+                valueToDuplicate = interpreterEnvironment.ValueStack.Peek();
+                interpreterEnvironment.ValueStack.Push(valueToDuplicate);
                 return true;
             }
             else

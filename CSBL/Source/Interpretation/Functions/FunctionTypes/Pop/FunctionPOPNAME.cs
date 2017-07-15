@@ -2,19 +2,19 @@
 using CSBL.Reporting;
 using CSBL.Transformation;
 
-namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
+namespace CSBL.Interpretation.Functions.FunctionTypes.Pop
 {
     /// <summary>
     /// This class is a subclass of the FunctionBase class and represents
-    /// the [pop-lbl] function.
+    /// the [pop-name] function.
     /// </summary>
-    public class FunctionPOPLBL : FunctionBase
+    public class FunctionPOPNAME : FunctionBase
     {
         /// <summary>
-        /// Constructor for the FunctionPOPLBL class.
+        /// Constructor for the FunctionPOPNAME class.
         /// </summary>
-        public FunctionPOPLBL()
-            : base("pop-lbl")
+        public FunctionPOPNAME()
+            : base("pop-name")
         { }
 
         /// <summary>
@@ -24,9 +24,9 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Memory
         /// <param name="interpreterEnvironment">A reference to the current interpreter environment.</param>
         public override bool Execute(Interpreter interpreter, InterpreterEnvironment interpreterEnvironment)
         {
-            if(interpreterEnvironment.LabelStack.Count > 0)
+            if(interpreterEnvironment.NameStack.Count > 0)
             {
-                interpreterEnvironment.LabelStack.Pop();
+                interpreterEnvironment.NameStack.Pop();
                 return true;
             }
             else

@@ -10,6 +10,8 @@ using CSBL.Transformation;
 using CSBL.Interpretation;
 using CSBL.Interpretation.Functions;
 using CSBL.Interpretation.Functions.FunctionTypes.IO;
+using CSBL.Interpretation.Functions.FunctionTypes.Dup;
+using CSBL.Interpretation.Functions.FunctionTypes.Pop;
 using CSBL.Interpretation.Functions.FunctionTypes.Flow;
 using CSBL.Interpretation.Functions.FunctionTypes.Math;
 using CSBL.Interpretation.Functions.FunctionTypes.Memory;
