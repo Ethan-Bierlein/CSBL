@@ -11,7 +11,7 @@ namespace CSBL.Interpretation.Functions.FunctionTypes.Pop
     public class FunctionPOPCALL : FunctionBase
     {
         /// <summary>
-        /// Constructor for the FunctionPOPVAL class.
+        /// Constructor for the FunctionPOPCALL class.
         /// </summary>
         public FunctionPOPCALL()
             : base("pop-call")

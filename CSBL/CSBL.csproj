@@ -58,9 +58,13 @@
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Memory\FunctionGET.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\IO\FunctionIN.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\IO\FunctionPRINT.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionTypes\Pop\FunctionPOPCALLIF.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Pop\FunctionPOPCALL.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionTypes\Pop\FunctionPOPLBLIF.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Pop\FunctionPOPLBL.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionTypes\Pop\FunctionPOPNAMEIF.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Pop\FunctionPOPNAME.cs" />
+    <Compile Include="Source\Interpretation\Functions\FunctionTypes\Pop\FunctionPOPVALIF.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Pop\FunctionPOPVAL.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Memory\FunctionSET.cs" />
     <Compile Include="Source\Interpretation\Functions\FunctionTypes\Math\FunctionPOW.cs" />
@@ -99,9 +103,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Source\Interpretation\Functions\FunctionTypes\Push\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

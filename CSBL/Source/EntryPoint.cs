@@ -187,7 +187,7 @@ namespace CSBL
                     { "<=", new FunctionLTE() },
                     { ">", new FunctionGT() },
                     { ">=", new FunctionGTE() },
-                    { "==", new FunctionEQ() },
+                    { "=", new FunctionEQ() },
                     { "!=", new FunctionNEQ() },
 
                     { "&&", new FunctionAND() },
@@ -199,10 +199,16 @@ namespace CSBL
                     { "set", new FunctionSET() },
                     { "get", new FunctionGET() },
                     { "del", new FunctionDEL() },
+
                     { "pop-val", new FunctionPOPVAL() },
+                    { "pop-val-if", new FunctionPOPVALIF() },
                     { "pop-lbl", new FunctionPOPLBL() },
+                    { "pop-lbl-if", new FunctionPOPLBLIF() },
                     { "pop-name", new FunctionPOPNAME() },
+                    { "pop-name-if", new FunctionPOPNAMEIF() },
                     { "pop-call", new FunctionPOPCALL() },
+                    { "pop-call-if", new FunctionPOPCALLIF() },
+
                     { "dup-val", new FunctionDUPVAL() },
                     { "dup-lbl", new FunctionDUPLBL() },
                     { "dup-name", new FunctionDUPNAME() },
