@@ -100,10 +100,8 @@ namespace CSBL
                     new List<string>()
                     {
                         "ENABLE_REIMPORT_ERROR",
-                        "ENABLE_EXIT_PREPROCESS_STAGE_ERROR",
-                        "ENABLE_EXIT_TOKENIZE_STAGE_ERROR",
-                        "ENABLE_EXIT_TRANSFORM_STAGE_ERROR",
-                        "ENABLE_EXIT_INTERPRET_STAGE_ERROR"
+                        "ENABLE_STAGE_TIMING_OUTPUT",
+                        "ENABLE_STAGE_EXIT_ERROR",
                     },
                     new PreprocessorTokenDefinition(PreprocessorTokenType.Import, new Regex("#import\\s+(\'|\")[^\n]+(\'|\")")),
                     new PreprocessorTokenDefinition(PreprocessorTokenType.Option, new Regex("#option\\s+[a-zA-Z0-9_\\-]+"))
@@ -133,6 +131,7 @@ namespace CSBL
         {
             Tokenizer tokenizer = new Tokenizer(
                 inputString,
+                options,
                 new TokenDefinition(TokenType.IncludedFileStartMarker, new Regex("==[^=]+==(?=(?:[^'\"\\^]*('|\"|\\^)[^'\"\\^]*('|\"|\\^))*[^'\"\\^]*\\Z)")),
                 new TokenDefinition(TokenType.IncludedFileEndMarker, new Regex("<<FILE\\-END>>(?=(?:[^'\"\\^]*('|\"|\\^)[^'\"\\^]*('|\"|\\^))*[^'\"\\^]*\\Z)")),
                 new TokenDefinition(TokenType.BoolLiteral, new Regex("(true|false)(?=(?:[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\))[^'\"{}\\(\\)]*('|\"|{|}|\\(|\\)))*[^'\"{}\\(\\)]*\\Z)")),
@@ -160,7 +159,7 @@ namespace CSBL
         /// <returns>A list of transformed tokens.</returns>
         public static List<TransformedToken> StageTransform(List<Token> inputTokens, List<string> options, ref bool success)
         {
-            Transformer transformer = new Transformer(inputTokens);
+            Transformer transformer = new Transformer(inputTokens, options);
             List<TransformedToken> transformedTokens = transformer.Transform();
             success = transformedTokens == null ? false : true;
             return transformedTokens;
@@ -222,7 +221,8 @@ namespace CSBL
                     { "call", new FunctionCALL() },
                     { "ret", new FunctionRET() },
                     { "exit", new FunctionEXIT() }
-                }
+                },
+                options
             );
 
             if(interpreter.PreInterpret())

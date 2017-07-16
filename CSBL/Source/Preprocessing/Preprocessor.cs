@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CSBL.Reporting;
@@ -93,6 +94,9 @@ namespace CSBL.Preprocessing
             ref int numberOfInsertedChars
         )
         {
+            Stopwatch preprocessorStopwatch = new Stopwatch();
+            preprocessorStopwatch.Start();
+
             this.ReplaceComments();
             this.GenerateTokens();
             Regex splitRegex = new Regex("\\s+");
@@ -169,6 +173,23 @@ namespace CSBL.Preprocessing
                         errorEncountered = true;
                         break;
                 }
+            }
+
+            if(outputOptions.Contains("ENABLE_STAGE_TIMING_OUTPUT"))
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(
+                    "[TIMING::Preprocessor] Stage took {0}s / {1}ms / {2}t.",
+                    preprocessorStopwatch.Elapsed,
+                    preprocessorStopwatch.ElapsedMilliseconds,
+                    preprocessorStopwatch.ElapsedTicks
+                );
+                Console.ResetColor();
+            }
+
+            if(outputOptions.Contains("ENABLE_STAGE_EXIT_ERROR"))
+            {
+                Errors.ExitPreprocessor.Report("", 0, 0);
             }
 
             numberOfOutputTokens = this.OutputTokens.Count;
